@@ -1,0 +1,41 @@
+.contenedor{
+  margin: 10em auto;
+  width: 70%;
+  text-align: center;
+}
+.contenedor-restaurante{
+  display: flex;
+  flex-wrap:wrap;
+  margin: auto;
+}
+.restaurantes{
+  display: flex;
+  margin: 1em;
+  /* height: 12em; */
+  text-align: center;
+  background-color: #E4DCCF;
+  padding: 2em;
+  border-radius: 1em;
+  flex-wrap:wrap;
+  flex-direction: column;
+}
+.imagen-producto img{
+  width: 10rem;
+  margin: 1rem auto;
+  border-radius: 0.5rem;
+}
+.button{
+  border-bottom: none;
+  margin: 1em;
+  text-decoration: none;
+  background-color: #497174;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  color: #fff;
+  font-weight: 700;
+}
+.button:hover{
+  background-color: #EB6440;
+  color: #BFDB38;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}

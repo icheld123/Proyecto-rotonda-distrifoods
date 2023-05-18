@@ -1,0 +1,18 @@
+footer{
+  background-color: #497174;
+  bottom: 0;
+  position:fixed;
+  width: 100%;
+  z-index: 99;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  line-height: 1.5rem;
+}
+footer p{
+  color:#000;
+  font-size: 0.8rem;
+}
+footer img{
+  width: 35%;
+}

@@ -1,0 +1,20 @@
+<div class="contenedor">
+  <h2>Restaurantes disponibles:</h2>
+  <div class="contenedor-restaurante">
+    <article class="restaurantes" *ngFor="let restaurante of restaurantes">
+      <img src="{{restaurante.imagen}}" alt="" class="logo-restaurante">
+      <a class="titulo-restaurante" href="">{{restaurante.nom_restaurante}}</a>
+      <p><strong>Sucursales:</strong></p>
+      <div class="direccion">
+        <div *ngFor="let sucursal of sucursales" >
+          <p *ngIf="restaurante.id_restaurante == sucursal.id_restaurante"><i style='font-size:15px' class='fas'>&#xf3c5;</i> {{sucursal.direccion}}</p>
+        </div>
+      </div>
+      <div class="botones">
+        <a class="button" [routerLink]="'menu'">Ver menú</a>
+        <a class="button" href="">Pedir</a>
+      </div>
+    </article>
+  </div>
+
+</div>

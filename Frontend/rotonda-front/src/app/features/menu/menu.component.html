@@ -1,0 +1,19 @@
+<div class="contenedor">
+  <h2>Productos disponibles:</h2>
+  <div class="contenedor-restaurante">
+    <article class="restaurantes" *ngFor="let producto of productos">
+      <div class="imagen-producto">
+        <img src="{{producto.imagen}}" alt="" >
+      </div>
+      <h4>{{producto.nom_producto}}</h4>
+      <p>{{producto.tipo}}</p>
+      <p>Sucursal: {{producto.sucursal}}</p>
+      <p><strong>Descripción:</strong> <br>{{producto.descripcion}}</p>
+      <p><strong>Precio:</strong><br> ${{producto.precio}}</p>
+      <div class="botones">
+        <a class="button" href="">Comprar</a>
+      </div>
+    </article>
+  </div>
+
+</div>

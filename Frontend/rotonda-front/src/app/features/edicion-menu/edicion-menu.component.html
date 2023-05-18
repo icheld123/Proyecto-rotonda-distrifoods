@@ -1,0 +1,64 @@
+<div class="contenedor">
+  <!-- <p>Seleccione el producto que quiere editar:</p> -->
+  <p>Llene los campos para crear un nuevo producto:</p>
+  <form>
+    <!-- <select name="" #selectProducto (change)="seleccionado(selectProducto.value)">
+      <option value="{{producto.id_producto}}" *ngFor="let producto of productos">{{producto.nom_producto}}</option>
+    </select> -->
+
+    <div class="row">
+      <div class="col-sm-6 offset-md-3">
+        <div class="card card-body">
+          <form (submit)="submitProducto()">
+            <div class="form-group">
+              <label for="nombre">Nombre de producto:</label>
+              <input type="text" name="nombre" [(ngModel)]=" prodNuevo.nom_producto" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="nombre">Sucursal: </label><br>
+              <select name="" id="">
+                <option *ngFor="let sucursal of sucursales" value="{{sucursal.id_sucursal}}" [(ngModel)]="prodNuevo.sucursal">{{sucursal.id_sucursal}} - {{sucursal.direccion}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="nombre">Tipo de producto:</label>
+              <input type="number" name="tipo" [(ngModel)]=" prodNuevo.tipo" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="nombre">Cantidad:</label>
+              <input type="number" name="cantidad" [(ngModel)]=" prodNuevo.cantidad" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="nombre">Descripción de producto:</label>
+              <input type="text" name="descripcion" [(ngModel)]=" prodNuevo.descripcion" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="nombre">Precio:</label>
+              <input type="number" name="precio" [(ngModel)]=" prodNuevo.precio" class="form-control" class="form-control">
+            </div>
+            <button class="btn btn-primary btn-block">Crear</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- <form *ngFor="let item of productos" >
+    <div *ngIf="item.id_producto == this.prodSelecconado">
+      <label for="">ID del producto:</label>
+      <input type="text" placeholder="{{item.id_producto}}" disabled><br>
+      <label for="">Sucursal: </label>
+      <input type="text" placeholder="{{item.id_sucursal}}"><br>
+      <label for="">Nombre de producto: </label>
+      <input type="text" placeholder="{{item.nom_producto}}"><br>
+      <label for="">Tipo: </label>
+      <input type="text" placeholder="{{item.tipo}}"><br>
+      <label for="">Cantidad: </label>
+      <input type="text" placeholder="{{item.cantidad}}"><br>
+      <label for="">Descripción: </label>
+      <input type="text" placeholder="{{item.descripcion}}"><br>
+      <label for="">Precio: </label>
+      <input type="text" placeholder="{{item.precio}}"><br>
+    </div>
+
+  </form> -->
+</div>

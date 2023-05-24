@@ -1,7 +1,7 @@
 <div class="contenedor">
   <p>Llene los campos para crear una nueva adición:</p>
   <form>
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-sm-6 offset-md-3">
         <div class="card card-body">
           <form (submit)="submitAdicion()">
@@ -12,7 +12,7 @@
             <div class="form-group">
               <label for="nombre">Producto al que pertence: </label><br>
               <select name="" id="" [(ngModel)]="adicionNueva.id_producto">
-                <option *ngFor="let producto of productos" value="{{producto.id_producto}}" >ID({{producto.id_producto}}) - S({{producto.sucursal}}) - {{producto.nom_producto}}</option>
+                <option *ngFor="let producto of productos" value="{{producto.id}}" >ID({{producto.id}}) - S({{producto.nombreRestaurante}}) - {{producto.nombreProducto}}</option>
               </select>
             </div>
             <div class="form-group">
@@ -27,6 +27,6 @@
           </form>
         </div>
       </div>
-    </div>
+    </div> -->
   </form>
 </div>

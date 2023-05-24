@@ -12,7 +12,7 @@ import { FooterComponent } from './modulos/footer/footer.component';
 import { EdicionAdicionComponent } from './features/edicion-adicion/edicion-adicion.component';
 import { EdicionMenuComponent } from './features/edicion-menu/edicion-menu.component';
 import { MenuComponent } from './features/menu/menu.component';
-import {FormsModule} from '@angular/forms'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -31,7 +31,7 @@ import {FormsModule} from '@angular/forms'
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -3,20 +3,19 @@ import { Injectable } from '@angular/core';
 import { Restaurante } from '../../models/restaurante';
 import { Sucursal } from '../../models/sucursal';
 import { Producto } from 'src/app/models/producto';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MenuServicioService {
 
+  public endpoint_productos: string = "producto/all/byrestaurant/";
+
   constructor(private httpClient: HttpClient) { }
-  getProductos(){
-    return this.httpClient.get<Producto[]>('http://localhost:3000/restaurante/sucursal/producto');
+
+  getProductos(id: string){
+    return this.httpClient.get<Producto[]>(environment.endpoint + this.endpoint_productos + id);
   }
-  getSucursales(){
-    return this.httpClient.get<Sucursal[]>('http://localhost:3000/restaurante/sucursal/producto');
-  }
-  getRestaurantes(){
-    return this.httpClient.get<Restaurante[]>('http://localhost:3000/restaurante');
-  }
+
 }

@@ -1,64 +1,96 @@
 <div class="contenedor">
   <!-- <p>Seleccione el producto que quiere editar:</p> -->
-  <p>Llene los campos para crear un nuevo producto:</p>
-  <form>
-    <!-- <select name="" #selectProducto (change)="seleccionado(selectProducto.value)">
-      <option value="{{producto.id_producto}}" *ngFor="let producto of productos">{{producto.nom_producto}}</option>
-    </select> -->
 
+  <div>
+    <button class="btn btn-primary btn-block" (click)="mostrarProductos()">Ver productos</button>
+    <button class="btn btn-primary btn-block" (click)="ocultarProductos()">Crear producto</button>
+  </div>
+
+
+  <div *ngIf="listarProductos">
+
+    <label for="restauranteFiltro">Restaurante: </label>
+    <select name="restauranteFiltro" id="restauranteFiltro">
+      <option value="">--Seleccione</option>
+      <option *ngFor="let restaurante of restaurantes" value="{{restaurante.nombre}}">{{restaurante.nombre}}</option>
+    </select>
+    <button class="btn btn-primary btn-block" (click)="filtrar()">Filtrar</button>
+
+    <table class="styled-table">
+      <tr>
+        <th *ngFor="let title of cabecera">{{title}}</th>
+      </tr>
+      <tr *ngFor="let producto of productosFiltrados">
+        <td>{{producto.id}}</td>
+        <td>{{producto.nombreRestaurante}}</td>
+        <td>{{producto.nombreProducto}}</td>
+        <td>{{producto.tipoProducto}}</td>
+        <td>{{producto.cantidad}}</td>
+        <td>{{producto.descripcion}}</td>
+        <td>{{producto.imagen}}</td>
+        <td>{{producto.precio}}</td>
+        <td>
+          <button class="btn btn-primary btn-block">Actualizar</button>
+          <button class="btn btn-primary btn-block" (click)="llamarServicioDeleteProducto(producto.id)">Eliminar</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+
+  <div *ngIf="!listarProductos">
+    <p>Llene los campos para crear un nuevo producto:</p>
     <div class="row">
       <div class="col-sm-6 offset-md-3">
         <div class="card card-body">
-          <form (submit)="submitProducto()">
+          <form [formGroup]="formProducto" #myForm="ngForm" (ngSubmit)="llamarServicioPostProducto()">
             <div class="form-group">
-              <label for="nombre">Nombre de producto:</label>
-              <input type="text" name="nombre" [(ngModel)]=" prodNuevo.nom_producto" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="nombre">Sucursal: </label><br>
-              <select name="" id="">
-                <option *ngFor="let sucursal of sucursales" value="{{sucursal.id_sucursal}}" [(ngModel)]="prodNuevo.sucursal">{{sucursal.id_sucursal}} - {{sucursal.direccion}}</option>
+              <label for="idRestaurante">Restaurante: </label><br>
+              <select name="idRestaurante" id="idRestaurante" formControlName="idRestaurante">
+                <option value="">--Seleccione</option>
+                <option *ngFor="let restaurante of restaurantes" value="{{restaurante.id}}">{{restaurante.nombre}}</option>
               </select>
             </div>
+
             <div class="form-group">
-              <label for="nombre">Tipo de producto:</label>
-              <input type="number" name="tipo" [(ngModel)]=" prodNuevo.tipo" class="form-control">
+              <label for="nombre">Nombre de producto:</label>
+              <input type="text" name="nombre" class="form-control" formControlName="nombre">
             </div>
+
             <div class="form-group">
-              <label for="nombre">Cantidad:</label>
-              <input type="number" name="cantidad" [(ngModel)]=" prodNuevo.cantidad" class="form-control">
+              <label for="idTipoProducto">Tipo de producto:</label>
+              <select name="idTipoProducto" id="idTipoProducto" formControlName="idTipoProducto">
+                <option value="">--Seleccione</option>
+                <option *ngFor="let tipoproducto of tipoproductos" value="{{tipoproducto.id}}">{{tipoproducto.nombre}}</option>
+              </select>
             </div>
+
             <div class="form-group">
-              <label for="nombre">Descripción de producto:</label>
-              <input type="text" name="descripcion" [(ngModel)]=" prodNuevo.descripcion" class="form-control">
+              <label for="cantidad">Cantidad:</label>
+              <input type="number" name="cantidad" formControlName="cantidad" class="form-control">
             </div>
+
             <div class="form-group">
-              <label for="nombre">Precio:</label>
-              <input type="number" name="precio" [(ngModel)]=" prodNuevo.precio" class="form-control" class="form-control">
+              <label for="descripcion">Descripción de producto:</label>
+              <input type="text" name="descripcion" formControlName="descripcion" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="imagen">Url imagen:</label>
+              <input type="text" name="imagen" formControlName="imagen" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="precio">Precio:</label>
+              <input type="number" name="precio" formControlName="precio" class="form-control">
             </div>
             <button class="btn btn-primary btn-block">Crear</button>
           </form>
         </div>
       </div>
     </div>
-  </form>
-  <!-- <form *ngFor="let item of productos" >
-    <div *ngIf="item.id_producto == this.prodSelecconado">
-      <label for="">ID del producto:</label>
-      <input type="text" placeholder="{{item.id_producto}}" disabled><br>
-      <label for="">Sucursal: </label>
-      <input type="text" placeholder="{{item.id_sucursal}}"><br>
-      <label for="">Nombre de producto: </label>
-      <input type="text" placeholder="{{item.nom_producto}}"><br>
-      <label for="">Tipo: </label>
-      <input type="text" placeholder="{{item.tipo}}"><br>
-      <label for="">Cantidad: </label>
-      <input type="text" placeholder="{{item.cantidad}}"><br>
-      <label for="">Descripción: </label>
-      <input type="text" placeholder="{{item.descripcion}}"><br>
-      <label for="">Precio: </label>
-      <input type="text" placeholder="{{item.precio}}"><br>
-    </div>
+  </div>
 
-  </form> -->
+
 </div>

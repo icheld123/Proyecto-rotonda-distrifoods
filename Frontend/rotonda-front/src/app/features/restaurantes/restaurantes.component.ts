@@ -17,13 +17,16 @@ export class RestaurantesComponent {
   }
 
   async llamarServicioGetRestaurantes(){
-    this.restService.getRestaurantes().subscribe(
-      respuesta => {this.restaurantes = respuesta;})
+    this.restService.getRestaurantes().subscribe(respuesta => {
+        this.restaurantes = respuesta;
+        console.log(this.restaurantes);
+      })
   }
 
   async llamarServicioGetSucursales(){
     this.restService.getSucursales().subscribe(respuesta => {
       this.sucursales = respuesta;
+      console.log(this.sucursales);
     })
   }
 

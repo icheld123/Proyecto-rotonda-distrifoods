@@ -1,10 +1,10 @@
 export interface Producto {
-  id_producto: number;
-  sucursal: number;
-  nom_producto: string;
-  tipo: number;
+  id: number;
+  nombreRestaurante: string;
+  nombreProducto: string;
+  tipoProducto: string;
   cantidad: number;
   descripcion: string;
-  precio: number;
   imagen: string;
+  precio: number;
 }

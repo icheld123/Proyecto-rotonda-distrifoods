@@ -1,0 +1,271 @@
+@startuml
+class com.distrital.cinedistrito.CinedistritoApplication {
++ {static} void main(String[])
+}
+class com.distrital.cinedistrito.Entity.Silla {
+- Integer id
+- Integer idSala
+- Integer numSilla
+- String tipoSilla
+- Boolean estadoSilla
+- Integer idSede
+}
+class com.distrital.cinedistrito.Services.PeliculaService {
+- PeliculaRepository peliculaRepository
++ List<Pelicula> getAll()
++ Optional<Pelicula> getPelicula(int)
+}
+class com.distrital.cinedistrito.Entity.Usuario {
+- Integer id
+- Long cedula
+- String nombre
+- String apellido
+- String correo
+- Long telefono
+}
+interface com.distrital.cinedistrito.Repository.CRUDRepository.SillaCrudRepository {
++ List<Silla> findAllByIdSalaAndIdSede(int,int)
+}
+class com.distrital.cinedistrito.Repository.SalaRepository {
+- SalaCrudRepository salaCrudRepository
++ List<Sala> getAll()
++ Optional<Sala> getSala(int)
++ void save(Sala)
++ List<Sala> getSalaBySede(int)
+}
+class com.distrital.cinedistrito.Repository.UsuarioRepository {
+- UsuarioCrudRepository usuarioCrudRepository
++ List<Usuario> getAll()
++ Usuario save(Usuario)
++ Optional<Usuario> findAllByCedula(Long)
++ Optional<Usuario> getUsuario(int)
++ void delete(Usuario)
+}
+class com.distrital.cinedistrito.Entity.Horario {
+- Integer id
+- String horario
+- Integer idPelicula
+}
+class com.distrital.cinedistrito.Services.SillaService {
+~ int CANTIDAD_SILLAS
+~ String[] TIPO_SILLA
+- SillaRepository sillaRepository
++ List<Silla> getAll()
++ Optional<Silla> getSilla(int)
++ List<Silla> getSillaBySalaAndSede(int,int)
++ void crearSilla(int,int)
++ void save(Silla)
++ Silla update(Silla)
+}
+class com.distrital.cinedistrito.Repository.SillaRepository {
+- SillaCrudRepository sillaCrudRepository
++ List<Silla> getAll()
++ Optional<Silla> getSilla(int)
++ Silla save(Silla)
++ List<Silla> getSillaBySalaAndSede(int,int)
+}
+class com.distrital.cinedistrito.Repository.EmpleadoRepository {
+- EmpleadoCrudRepository empleadoCrudRepository
++ List<Empleado> getAll()
++ Empleado save(Empleado)
++ Optional<Empleado> findAllByCedula(Long)
++ Optional<Empleado> getEmpleado(int)
++ void delete(Empleado)
+}
+class com.distrital.cinedistrito.Controlador.HorarioControlador {
+- HorarioService horarioService
++ List<Horario> getHorarios()
++ void crearHorarios()
+}
+class com.distrital.cinedistrito.Entity.Pelicula {
+- Integer id
+- String nombrePelicula
+}
+interface com.distrital.cinedistrito.Repository.CRUDRepository.SalaCrudRepository {
++ List<Sala> findAllByIdSede(int)
+}
+class com.distrital.cinedistrito.Services.EmpleadoService {
+- EmpleadoRepository empleadoRepository
++ List<Empleado> getAll()
++ int getUserByCedula(Long)
++ Optional<Empleado> getEmpleado(int)
++ Empleado save(Empleado)
++ boolean deleteEmpleado(int)
+}
+class com.distrital.cinedistrito.Controlador.ReservaControlador {
+- ReservaService reservaService
++ List<ReservaResponse> getReservas()
++ Reserva save(Reserva)
+}
+interface com.distrital.cinedistrito.Repository.CRUDRepository.ReservaCrudRepository {
++ List<Reserva> findAllByIdUsuario(int)
+}
+class com.distrital.cinedistrito.Services.ReservaService {
+- ReservaRepository reservaRepository
+- UsuarioRepository usuarioRepository
+- PeliculaRepository peliculaRepository
+- SedeRepository sedeRepository
+- SillaRepository sillaRepository
+- SillaService sillaService
+- SalaRepository salaRepository
++ List<ReservaResponse> getAll()
++ List<ReservaResponse> buildReservaResponse(List<Reserva>)
++ List<Reserva> getReservaByUser(int)
++ Optional<Reserva> getUsuario(int)
++ Reserva save(Reserva)
+}
+interface com.distrital.cinedistrito.Repository.CRUDRepository.SedeCrudRepository {
+}
+class com.distrital.cinedistrito.Controlador.EmpleadoControlador {
+- EmpleadoService empleadoService
++ List<Empleado> getRecords()
++ int getEmpleado(Long)
++ Empleado save(Empleado)
++ boolean delete(int)
+}
+class com.distrital.cinedistrito.Controlador.PeliculaControlador {
+- PeliculaService peliculaService
++ List<Pelicula> getRecords()
+}
+interface com.distrital.cinedistrito.Repository.CRUDRepository.HorarioCrudRepository {
+}
+interface com.distrital.cinedistrito.Repository.CRUDRepository.UsuarioCrudRepository {
++ Optional<Usuario> findAllByCedula(Long)
+}
+class com.distrital.cinedistrito.Entity.Empleado {
+- Integer id
+- Long cedula
+- String cargo
+- Double salario
+- String fechaContrato
+- Integer idSede
+}
+class com.distrital.cinedistrito.Controlador.SedeControlador {
+- SedeService sedeService
++ List<Sede> getRecords()
+}
+class com.distrital.cinedistrito.Services.SedeService {
+~ {static} String[] nombreSedes
+- SedeRepository sedeRepository
++ List<Sede> getAll()
++ Optional<Sede> getSede(int)
++ void crearSede(int,int)
++ void save(Sede)
+}
+class com.distrital.cinedistrito.Entity.Sede {
+- Integer id
+- String nombreSede
+- Integer numeroSalas
+}
+class com.distrital.cinedistrito.Modelos.ReservaResponse {
+- Integer id
+- Integer numeroSilla
+- String nombrePelicula
+- Integer numeroSala
+- Long cedula
+- String Nombre
+- String nombreSede
+}
+class com.distrital.cinedistrito.Repository.HorarioRepository {
+- HorarioCrudRepository horarioCrudRepository
++ List<Horario> getAll()
++ void save(Horario)
+}
+class com.distrital.cinedistrito.Services.SalaService {
+~ int CANTIDAD_SEDES
+~ int CANTIDAD_SILLAS
+- SalaRepository salaRepository
+- SillaService sillaService
+- SedeService sedeService
++ void crearSala()
++ void save(Sala)
++ List<Sala> getAll()
++ Optional<Sala> getSala(int)
++ List<Sala> getSalaBySede(int)
+}
+class com.distrital.cinedistrito.Repository.PeliculaRepository {
+- PeliculaCrudRepository peliculaCrudRepository
++ List<Pelicula> getAll()
++ Optional<Pelicula> getPelicula(int)
+}
+class com.distrital.cinedistrito.Entity.Sala {
+- Integer id
+- Integer cantidadSilla
+- Integer idSede
+- Integer numeroSala
+}
+interface com.distrital.cinedistrito.Repository.CRUDRepository.EmpleadoCrudRepository {
++ Optional<Empleado> findAllByCedula(Long)
+}
+class com.distrital.cinedistrito.Controlador.SalaControlador {
+- SalaService salaService
++ List<Sala> getRecords()
++ List<Sala> getById(int)
++ void crearSala()
+}
+class com.distrital.cinedistrito.Controlador.UsuarioControlador {
+- UsuarioService usuarioService
++ List<Usuario> getRecords()
++ int getUser(Long)
++ Usuario save(Usuario)
++ Usuario update(Usuario)
++ boolean delete(int)
+}
+class com.distrital.cinedistrito.Services.HorarioService {
+~ int CANTIDAD_SEDES
+~ int CANTIDAD_SALAS
+- HorarioRepository horarioRepository
++ List<Horario> getAll()
++ void crearHorarios()
++ void save(Horario)
+}
+interface com.distrital.cinedistrito.Repository.CRUDRepository.PeliculaCrudRepository {
+}
+class com.distrital.cinedistrito.Services.UsuarioService {
+- UsuarioRepository usuarioRepository
++ List<Usuario> getAll()
++ int getUserByCedula(Long)
++ Optional<Usuario> getUsuario(int)
++ Usuario save(Usuario)
++ Usuario update(Usuario)
++ boolean deleteClient(int)
+}
+class com.distrital.cinedistrito.Controlador.SillaControlador {
+- SillaService sillaService
++ List<Silla> getRecords()
++ List<Silla> getById(int,int)
+}
+class com.distrital.cinedistrito.Repository.SedeRepository {
+- SedeCrudRepository sedeCrudRepository
++ List<Sede> getAll()
++ Optional<Sede> getSede(int)
++ void save(Sede)
+}
+class com.distrital.cinedistrito.Entity.Reserva {
+- Integer id
+- Integer idSilla
+- Integer idPelicula
+- Integer idSala
+- Integer idUsuario
+- Integer idSede
++ String toString()
+}
+class com.distrital.cinedistrito.Repository.ReservaRepository {
+- ReservaCrudRepository reservaCrudRepository
++ List<Reserva> getAll()
++ Reserva save(Reserva)
++ List<Reserva> getReservaByUser(int)
++ Optional<Reserva> getReserva(int)
++ void delete(Reserva)
+}
+
+
+org.springframework.data.repository.CrudRepository <|-- com.distrital.cinedistrito.Repository.CRUDRepository.SillaCrudRepository
+org.springframework.data.repository.CrudRepository <|-- com.distrital.cinedistrito.Repository.CRUDRepository.SalaCrudRepository
+org.springframework.data.repository.CrudRepository <|-- com.distrital.cinedistrito.Repository.CRUDRepository.ReservaCrudRepository
+org.springframework.data.repository.CrudRepository <|-- com.distrital.cinedistrito.Repository.CRUDRepository.SedeCrudRepository
+org.springframework.data.repository.CrudRepository <|-- com.distrital.cinedistrito.Repository.CRUDRepository.HorarioCrudRepository
+org.springframework.data.repository.CrudRepository <|-- com.distrital.cinedistrito.Repository.CRUDRepository.UsuarioCrudRepository
+org.springframework.data.repository.CrudRepository <|-- com.distrital.cinedistrito.Repository.CRUDRepository.EmpleadoCrudRepository
+org.springframework.data.repository.CrudRepository <|-- com.distrital.cinedistrito.Repository.CRUDRepository.PeliculaCrudRepository
+@enduml

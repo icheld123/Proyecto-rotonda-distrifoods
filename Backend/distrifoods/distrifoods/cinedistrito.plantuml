@@ -1,0 +1,396 @@
+@startuml
+
+title __CINEDISTRITO's Class Diagram__\n
+
+  namespace com.distrital.cinedistrito {
+    class com.distrital.cinedistrito.CinedistritoApplication {
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Controlador {
+      class com.distrital.cinedistrito.Controlador.EmpleadoControlador {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Controlador {
+      class com.distrital.cinedistrito.Controlador.HorarioControlador {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Controlador {
+      class com.distrital.cinedistrito.Controlador.PeliculaControlador {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Controlador {
+      class com.distrital.cinedistrito.Controlador.ReservaControlador {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Controlador {
+      class com.distrital.cinedistrito.Controlador.SalaControlador {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Controlador {
+      class com.distrital.cinedistrito.Controlador.SedeControlador {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Controlador {
+      class com.distrital.cinedistrito.Controlador.SillaControlador {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Controlador {
+      class com.distrital.cinedistrito.Controlador.UsuarioControlador {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Entity {
+      class com.distrital.cinedistrito.Entity.Empleado {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Entity {
+      class com.distrital.cinedistrito.Entity.Horario {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Entity {
+      class com.distrital.cinedistrito.Entity.Pelicula {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Entity {
+      class com.distrital.cinedistrito.Entity.Reserva {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Entity {
+      class com.distrital.cinedistrito.Entity.Sala {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Entity {
+      class com.distrital.cinedistrito.Entity.Sede {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Entity {
+      class com.distrital.cinedistrito.Entity.Silla {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Entity {
+      class com.distrital.cinedistrito.Entity.Usuario {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Modelos {
+      class com.distrital.cinedistrito.Modelos.ReservaResponse {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      namespace CRUDRepository {
+        interface com.distrital.cinedistrito.Repository.CRUDRepository.EmpleadoCrudRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      namespace CRUDRepository {
+        interface com.distrital.cinedistrito.Repository.CRUDRepository.HorarioCrudRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      namespace CRUDRepository {
+        interface com.distrital.cinedistrito.Repository.CRUDRepository.PeliculaCrudRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      namespace CRUDRepository {
+        interface com.distrital.cinedistrito.Repository.CRUDRepository.ReservaCrudRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      namespace CRUDRepository {
+        interface com.distrital.cinedistrito.Repository.CRUDRepository.SalaCrudRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      namespace CRUDRepository {
+        interface com.distrital.cinedistrito.Repository.CRUDRepository.SedeCrudRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      namespace CRUDRepository {
+        interface com.distrital.cinedistrito.Repository.CRUDRepository.SillaCrudRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      namespace CRUDRepository {
+        interface com.distrital.cinedistrito.Repository.CRUDRepository.UsuarioCrudRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      class com.distrital.cinedistrito.Repository.EmpleadoRepository {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      class com.distrital.cinedistrito.Repository.HorarioRepository {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      class com.distrital.cinedistrito.Repository.PeliculaRepository {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      class com.distrital.cinedistrito.Repository.ReservaRepository {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      class com.distrital.cinedistrito.Repository.SalaRepository {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      class com.distrital.cinedistrito.Repository.SedeRepository {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      class com.distrital.cinedistrito.Repository.SillaRepository {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Repository {
+      class com.distrital.cinedistrito.Repository.UsuarioRepository {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Services {
+      class com.distrital.cinedistrito.Services.EmpleadoService {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Services {
+      class com.distrital.cinedistrito.Services.HorarioService {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Services {
+      class com.distrital.cinedistrito.Services.PeliculaService {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Services {
+      class com.distrital.cinedistrito.Services.ReservaService {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Services {
+      class com.distrital.cinedistrito.Services.SalaService {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Services {
+      class com.distrital.cinedistrito.Services.SedeService {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Services {
+      class com.distrital.cinedistrito.Services.SillaService {
+      }
+    }
+  }
+  
+
+  namespace com.distrital.cinedistrito {
+    namespace Services {
+      class com.distrital.cinedistrito.Services.UsuarioService {
+      }
+    }
+  }
+  
+
+  com.distrital.cinedistrito.Controlador.EmpleadoControlador o-- com.distrital.cinedistrito.Services.EmpleadoService : empleadoService
+  com.distrital.cinedistrito.Controlador.HorarioControlador o-- com.distrital.cinedistrito.Services.HorarioService : horarioService
+  com.distrital.cinedistrito.Controlador.PeliculaControlador o-- com.distrital.cinedistrito.Services.PeliculaService : peliculaService
+  com.distrital.cinedistrito.Controlador.ReservaControlador o-- com.distrital.cinedistrito.Services.ReservaService : reservaService
+  com.distrital.cinedistrito.Controlador.SalaControlador o-- com.distrital.cinedistrito.Services.SalaService : salaService
+  com.distrital.cinedistrito.Controlador.SedeControlador o-- com.distrital.cinedistrito.Services.SedeService : sedeService
+  com.distrital.cinedistrito.Controlador.SillaControlador o-- com.distrital.cinedistrito.Services.SillaService : sillaService
+  com.distrital.cinedistrito.Controlador.UsuarioControlador o-- com.distrital.cinedistrito.Services.UsuarioService : usuarioService
+  com.distrital.cinedistrito.Repository.EmpleadoRepository o-- com.distrital.cinedistrito.Repository.CRUDRepository.EmpleadoCrudRepository : empleadoCrudRepository
+  com.distrital.cinedistrito.Repository.HorarioRepository o-- com.distrital.cinedistrito.Repository.CRUDRepository.HorarioCrudRepository : horarioCrudRepository
+  com.distrital.cinedistrito.Repository.PeliculaRepository o-- com.distrital.cinedistrito.Repository.CRUDRepository.PeliculaCrudRepository : peliculaCrudRepository
+  com.distrital.cinedistrito.Repository.ReservaRepository o-- com.distrital.cinedistrito.Repository.CRUDRepository.ReservaCrudRepository : reservaCrudRepository
+  com.distrital.cinedistrito.Repository.SalaRepository o-- com.distrital.cinedistrito.Repository.CRUDRepository.SalaCrudRepository : salaCrudRepository
+  com.distrital.cinedistrito.Repository.SedeRepository o-- com.distrital.cinedistrito.Repository.CRUDRepository.SedeCrudRepository : sedeCrudRepository
+  com.distrital.cinedistrito.Repository.SillaRepository o-- com.distrital.cinedistrito.Repository.CRUDRepository.SillaCrudRepository : sillaCrudRepository
+  com.distrital.cinedistrito.Repository.UsuarioRepository o-- com.distrital.cinedistrito.Repository.CRUDRepository.UsuarioCrudRepository : usuarioCrudRepository
+  com.distrital.cinedistrito.Services.EmpleadoService o-- com.distrital.cinedistrito.Repository.EmpleadoRepository : empleadoRepository
+  com.distrital.cinedistrito.Services.HorarioService o-- com.distrital.cinedistrito.Repository.HorarioRepository : horarioRepository
+  com.distrital.cinedistrito.Services.PeliculaService o-- com.distrital.cinedistrito.Repository.PeliculaRepository : peliculaRepository
+  com.distrital.cinedistrito.Services.ReservaService o-- com.distrital.cinedistrito.Repository.PeliculaRepository : peliculaRepository
+  com.distrital.cinedistrito.Services.ReservaService o-- com.distrital.cinedistrito.Repository.ReservaRepository : reservaRepository
+  com.distrital.cinedistrito.Services.ReservaService o-- com.distrital.cinedistrito.Repository.SalaRepository : salaRepository
+  com.distrital.cinedistrito.Services.ReservaService o-- com.distrital.cinedistrito.Repository.SedeRepository : sedeRepository
+  com.distrital.cinedistrito.Services.ReservaService o-- com.distrital.cinedistrito.Repository.SillaRepository : sillaRepository
+  com.distrital.cinedistrito.Services.ReservaService o-- com.distrital.cinedistrito.Services.SillaService : sillaService
+  com.distrital.cinedistrito.Services.ReservaService o-- com.distrital.cinedistrito.Repository.UsuarioRepository : usuarioRepository
+  com.distrital.cinedistrito.Services.SalaService o-- com.distrital.cinedistrito.Repository.SalaRepository : salaRepository
+  com.distrital.cinedistrito.Services.SalaService o-- com.distrital.cinedistrito.Services.SedeService : sedeService
+  com.distrital.cinedistrito.Services.SalaService o-- com.distrital.cinedistrito.Services.SillaService : sillaService
+  com.distrital.cinedistrito.Services.SedeService o-- com.distrital.cinedistrito.Repository.SedeRepository : sedeRepository
+  com.distrital.cinedistrito.Services.SillaService o-- com.distrital.cinedistrito.Repository.SillaRepository : sillaRepository
+  com.distrital.cinedistrito.Services.UsuarioService o-- com.distrital.cinedistrito.Repository.UsuarioRepository : usuarioRepository
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

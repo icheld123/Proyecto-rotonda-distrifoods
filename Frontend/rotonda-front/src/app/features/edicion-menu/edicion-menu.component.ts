@@ -6,7 +6,7 @@ import { RestauranteService } from '../restaurantes/restaurante.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TipoProducto } from 'src/app/models/tipoProducto';
 import { HttpHeaders } from '@angular/common/http';
-import { Producto } from 'src/app/models/producto';
+import { Producto, ProductoType2 } from 'src/app/models/producto';
 
 const CABECERA = ["ID", "RESTAURANTE", "PRODUCTO", "TIPO PRODUCTO", "CANTIDAD", "DESCRIPCIÓN", "IMÁGEN", "PRECIO", "ACCION"];
 
@@ -17,12 +17,16 @@ const CABECERA = ["ID", "RESTAURANTE", "PRODUCTO", "TIPO PRODUCTO", "CANTIDAD", 
 })
 export class EdicionMenuComponent {
   public formProducto: FormGroup;
+  public formProductoAct: FormGroup;
   public listarProductos: boolean = true;
+  public crearProductos: boolean = false;
+  public actualizarProductos: boolean = false;
   public cabecera: string[] = CABECERA;
   tipoproductos: TipoProducto[] = [];
   restaurantes: Restaurante[] = [];
   sucursales: Sucursal[] = [];
   productos: Producto[] = [];
+  productoActual: ProductoType2;
   productosFiltrados: Producto[] = [];
   prodSelecconado: number = 0;
 
@@ -31,11 +35,21 @@ export class EdicionMenuComponent {
 
   public mostrarProductos(){
     this.listarProductos = true;
+    this.crearProductos = false;
+    this.actualizarProductos = false;
     this.llamarServicioGetProductos();
   }
 
-  public ocultarProductos(){
+  public mostrarCrearProductos(){
     this.listarProductos = false;
+    this.crearProductos = true;
+    this.actualizarProductos = false;
+  }
+
+  public mostrarActProductos(){
+    this.listarProductos = false;
+    this.crearProductos = false;
+    this.actualizarProductos = true;
   }
 
 
@@ -45,13 +59,10 @@ export class EdicionMenuComponent {
     if (this.productos.length > 0 && valueSelect["value"] != ""){
       this.productosFiltrados = [];
       this.productos.forEach(producto => {
-        console.log(producto.nombreRestaurante.toLowerCase());
-        console.log(valueSelect["value"].toLowerCase());
         if (producto.nombreRestaurante.toLowerCase() == valueSelect["value"].toLowerCase()){
           this.productosFiltrados.push(producto);
         }
       });
-      console.log(this.productosFiltrados);
     }
 
   }
@@ -67,7 +78,15 @@ export class EdicionMenuComponent {
     this.edicionMenuService.getProductos().subscribe(respuesta => {
       this.productos = respuesta;
       this.productosFiltrados = this.productos;
-      console.log(this.productosFiltrados);
+      // console.log(this.productosFiltrados);
+    })
+  }
+
+  async llamarServicioGetProductoById(id: number){
+    this.edicionMenuService.getProductosById(id).subscribe(respuesta => {
+      this.productoActual = respuesta;
+      // console.log(this.productoActual);
+      this.setearFormProducto();
     })
   }
 
@@ -113,10 +132,50 @@ export class EdicionMenuComponent {
     }
   }
 
-  public construirFormulario(){
+  public llamarServicioUpdateProducto(){
+    if (this.formProductoAct.valid) {
+      console.log(this.formProductoAct.value);
+      let options = {
+        headers: new HttpHeaders().set(
+          'Content-Type',
+          'application/json'
+        )
+      };
+      try {
+        this.edicionMenuService.actualizarProducto(this.formProductoAct.value, options).subscribe({
+          next: data => {
+            console.log(data);
+            this.llamarServicioGetProductos();
+          },
+          error: error =>{
+            console.log(error);
+          }
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
 
+  public async IniciarUpdateProducto(id: number){
+    this.mostrarActProductos();
+    await this.llamarServicioGetProductoById(id);
+
+  }
+
+  public setearFormProducto(){
+    this.formProductoAct.controls['id'].setValue(this.productoActual.id);
+    this.formProductoAct.controls['idRestaurante'].setValue(this.productoActual.idRestaurante);
+    this.formProductoAct.controls['nombre'].setValue(this.productoActual.nombre);
+    this.formProductoAct.controls['idTipoProducto'].setValue(this.productoActual.idTipoProducto);
+    this.formProductoAct.controls['cantidad'].setValue(this.productoActual.cantidad);
+    this.formProductoAct.controls['descripcion'].setValue(this.productoActual.descripcion);
+    this.formProductoAct.controls['imagen'].setValue(this.productoActual.imagen);
+    this.formProductoAct.controls['precio'].setValue(this.productoActual.precio);
+  }
+
+  public construirFormulario(){
     this.formProducto = new FormGroup({
-      // id: new FormControl("", Validators.required),
       idRestaurante: new FormControl("", [Validators.required]),
       nombre: new FormControl("", [Validators.required]),
       idTipoProducto: new FormControl("", [Validators.required]),
@@ -125,7 +184,22 @@ export class EdicionMenuComponent {
       imagen: new FormControl("", [Validators.required]),
       precio: new FormControl("", [Validators.required])
     });
+
+    this.formProductoAct = new FormGroup({
+      id: new FormControl("", Validators.required),
+      idRestaurante: new FormControl("", [Validators.required]),
+      nombre: new FormControl("", [Validators.required]),
+      idTipoProducto: new FormControl("", [Validators.required]),
+      cantidad: new FormControl("", [Validators.required]),
+      descripcion: new FormControl("", [Validators.required]),
+      imagen: new FormControl("", [Validators.required]),
+      precio: new FormControl("", [Validators.required])
+    });
+
+
   }
+
+
 
   ngOnInit(): void {
     this.construirFormulario();

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Producto } from '../../models/producto';
+import { Producto, ProductoType2 } from '../../models/producto';
 import { Sucursal } from 'src/app/models/sucursal';
 import { Restaurante } from 'src/app/models/restaurante';
 import { environment } from 'src/environments/environment';
@@ -11,10 +11,11 @@ import { TipoProducto } from 'src/app/models/tipoProducto';
 })
 export class EdicionMenuService {
 
-  public endpoint_tipoproducto_listar: string = "tipoproducto/all";
-  public endpoint_producto_listar: string = "producto/all";
+  public endpoint_tipoproducto_listar: string = "tipoproducto/all/";
+  public endpoint_producto_listar: string = "producto/all/";
   public endpoint_producto_guardar: string = "producto/save";
-  public endpoint_producto_eliminar: string = "producto/";
+  public endpoint_producto: string = "producto/";
+  public endpoint_producto_actualizar: string = "producto/update/";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -26,17 +27,21 @@ export class EdicionMenuService {
     return this.httpClient.get<Producto[]>(environment.endpoint + this.endpoint_producto_listar);
   }
 
+  getProductosById(id: number){
+    return this.httpClient.get<ProductoType2>(environment.endpoint + this.endpoint_producto + id);
+  }
+
   crearProducto(producto: Producto, options?: any){
     return this.httpClient.post<Producto>(environment.endpoint + this.endpoint_producto_guardar,
                                           producto, options);
   }
 
   deleteProducto(id: number){
-    return this.httpClient.delete<boolean>(environment.endpoint + this.endpoint_producto_eliminar + id);
+    return this.httpClient.delete<boolean>(environment.endpoint + this.endpoint_producto + id);
   }
 
-  // actualizarProducto(id: number, producto: Producto){
-  //   return this.httpClient.put<Producto>('http://localhost:3000/restaurante/sucursal/producto/?id_producto=${id}', producto);
-  // }
+  actualizarProducto(producto: Producto, options?: any){
+    return this.httpClient.put<Producto>(environment.endpoint + this.endpoint_producto_actualizar, producto, options);
+  }
 
 }

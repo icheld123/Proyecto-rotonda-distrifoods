@@ -3,7 +3,7 @@
 
   <div>
     <button class="btn btn-primary btn-block" (click)="mostrarProductos()">Ver productos</button>
-    <button class="btn btn-primary btn-block" (click)="ocultarProductos()">Crear producto</button>
+    <button class="btn btn-primary btn-block" (click)="mostrarCrearProductos()">Crear producto</button>
   </div>
 
 
@@ -30,7 +30,7 @@
         <td>{{producto.imagen}}</td>
         <td>{{producto.precio}}</td>
         <td>
-          <button class="btn btn-primary btn-block">Actualizar</button>
+          <button class="btn btn-primary btn-block" (click)="IniciarUpdateProducto(producto.id)">Actualizar</button>
           <button class="btn btn-primary btn-block" (click)="llamarServicioDeleteProducto(producto.id)">Eliminar</button>
         </td>
       </tr>
@@ -39,7 +39,7 @@
 
 
 
-  <div *ngIf="!listarProductos">
+  <div *ngIf="crearProductos">
     <p>Llene los campos para crear un nuevo producto:</p>
     <div class="row">
       <div class="col-sm-6 offset-md-3">
@@ -86,6 +86,68 @@
               <input type="number" name="precio" formControlName="precio" class="form-control">
             </div>
             <button class="btn btn-primary btn-block">Crear</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="actualizarProductos">
+    <p>Cambie el contenido de los campos que desea actualizar:</p>
+    <div class="row">
+      <div class="col-sm-6 offset-md-3">
+        <div class="card card-body">
+          <form [formGroup]="formProductoAct" #myForm="ngForm" (ngSubmit)="llamarServicioUpdateProducto()">
+            <div class="form-group" style="display: none;">
+              <label for="id">id: </label><br>
+              <select name="id" id="id" formControlName="id">
+                <option value="">--Seleccione</option>
+                <option *ngFor="let restaurante of restaurantes" value="{{restaurante.id}}">{{restaurante.nombre}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="idRestaurante">Restaurante: </label><br>
+              <select name="idRestaurante" id="idRestaurante" formControlName="idRestaurante">
+                <option value="">--Seleccione</option>
+                <option *ngFor="let restaurante of restaurantes" value="{{restaurante.id}}">{{restaurante.nombre}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="nombre">Nombre de producto:</label>
+              <input type="text" name="nombre" class="form-control" formControlName="nombre">
+            </div>
+
+            <div class="form-group">
+              <label for="idTipoProducto">Tipo de producto:</label>
+              <select name="idTipoProducto" id="idTipoProducto" formControlName="idTipoProducto">
+                <option value="">--Seleccione</option>
+                <option *ngFor="let tipoproducto of tipoproductos" value="{{tipoproducto.id}}">{{tipoproducto.nombre}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="cantidad">Cantidad:</label>
+              <input type="number" name="cantidad" formControlName="cantidad" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="descripcion">Descripción de producto:</label>
+              <input type="text" name="descripcion" formControlName="descripcion" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="imagen">Url imagen:</label>
+              <input type="text" name="imagen" formControlName="imagen" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="precio">Precio:</label>
+              <input type="number" name="precio" formControlName="precio" class="form-control">
+            </div>
+            <button class="btn btn-primary btn-block">Actualizar</button>
           </form>
         </div>
       </div>

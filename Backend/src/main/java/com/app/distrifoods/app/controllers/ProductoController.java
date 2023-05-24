@@ -31,6 +31,11 @@ public class ProductoController {
 //        return service.getAll();
 //    }
     
+    @GetMapping("/{id}")
+    public Optional<Producto> getById(@PathVariable("id")int id){
+        return service.getProducto(id);
+    }
+    
     @GetMapping("/all")
     public List<ProductoDto> getAll(){
         return service.getAllMapeado();

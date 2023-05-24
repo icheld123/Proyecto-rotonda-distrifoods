@@ -31,8 +31,12 @@ public class ProductoService {
     
     public List<ProductoDto> getAllMapeado() {
         List<Producto> respuesta = repository.getAll();
+        return mapearProducto(respuesta);
+    }
+    
+    public List<ProductoDto> mapearProducto(List<Producto> listaProductos){
         List<ProductoDto> respuestaMapeada = new ArrayList<>();
-        for (Producto producto : respuesta) {
+        for (Producto producto : listaProductos) {
             Optional<Restaurante> restaurante = restauranteService.getRestaurante(producto.getIdRestaurante());
             Optional<TipoProducto> tipoProducto = tipoProductoService.getTipoProducto(producto.getIdTipoProducto());
             ProductoDto productoDto = new ProductoDto(producto.getId(), 
@@ -54,21 +58,7 @@ public class ProductoService {
     
     public List<ProductoDto> getAllByRestaurant(int id){
         List<Producto> respuesta = repository.getByRestaurant(id);
-        List<ProductoDto> respuestaMapeada = new ArrayList<>();
-        for (Producto producto : respuesta) {
-            Optional<Restaurante> restaurante = restauranteService.getRestaurante(producto.getIdRestaurante());
-            Optional<TipoProducto> tipoProducto = tipoProductoService.getTipoProducto(producto.getIdTipoProducto());
-            ProductoDto productoDto = new ProductoDto(producto.getId(), 
-                                                      restaurante.get().getNombre(),
-                                                      producto.getNombre(),
-                                                      tipoProducto.get().getNombre(),
-                                                      producto.getCantidad(),
-                                                      producto.getDescripcion(),
-                                                      producto.getImagen(),
-                                                      producto.getPrecio());
-            respuestaMapeada.add(productoDto);
-        }
-        return respuestaMapeada;
+        return mapearProducto(respuesta);
     }
     
     public Producto save(Producto producto) {

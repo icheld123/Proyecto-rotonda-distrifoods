@@ -56,6 +56,10 @@ public class ProductoService {
         return repository.getProducto(id);
     }
     
+     public boolean existId(int id){
+        return repository.existId(id);
+    }
+    
     public List<ProductoDto> getAllByRestaurant(int id){
         List<Producto> respuesta = repository.getByRestaurant(id);
         return mapearProducto(respuesta);

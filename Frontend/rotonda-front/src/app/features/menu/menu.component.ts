@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Producto } from '../../models/producto';
-import { MenuServicioService } from './menu.servicio.service';
-import { Sucursal } from 'src/app/models/sucursal';
-import { Restaurante } from 'src/app/models/restaurante';
+import { MenuServicioService } from './service/menu.servicio.service';
 import { ActivatedRoute } from '@angular/router';
+import { CartService } from '../shared/service/cart.service';
 
 @Component({
   selector: 'app-menu',
@@ -13,8 +12,9 @@ import { ActivatedRoute } from '@angular/router';
 export class MenuComponent {
   productos: Producto[] = [];
   idRestaurante: string = "";
+  items: Producto[] = [];
 
-  constructor(private menuService: MenuServicioService, private route: ActivatedRoute){
+  constructor(private menuService: MenuServicioService, private route: ActivatedRoute, public cartService: CartService){
 
   }
 
@@ -25,10 +25,16 @@ export class MenuComponent {
     })
   }
 
+  public addToCart(item:Producto) {
+    // if (!this.cartService.itemInCart(item)) {
+      // item.qtyTotal = 1;
+      this.cartService.addToCart(item); //add items in cart
+      this.items = [...this.cartService.getItems()];
+    // }
+  }
+
 
   ngOnInit(): void {
-
-
     this.route.queryParams.subscribe(params =>{
       this.idRestaurante = params["id"];
       console.log(this.idRestaurante);

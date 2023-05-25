@@ -1,5 +1,15 @@
 export interface Adicion {
-  id_producto: number;
-  nom_adicion: string;
+  id: number
+  idProducto: number;
+  nombre: string;
+  precio: number;
+}
+
+
+export interface AdicionType2 {
+  id: number;
+  nombreProducto: string;
+  nombreRestaurante: string;
+  nombre: string;
   precio: number;
 }

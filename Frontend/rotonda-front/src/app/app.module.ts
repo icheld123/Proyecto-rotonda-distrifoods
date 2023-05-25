@@ -13,6 +13,7 @@ import { EdicionAdicionComponent } from './features/edicion-adicion/edicion-adic
 import { EdicionMenuComponent } from './features/edicion-menu/edicion-menu.component';
 import { MenuComponent } from './features/menu/menu.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms'
+import { CurrencyPipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms'
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [CurrencyPipe],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

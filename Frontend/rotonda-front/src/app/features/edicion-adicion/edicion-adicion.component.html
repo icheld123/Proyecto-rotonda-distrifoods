@@ -1,32 +1,126 @@
 <div class="contenedor">
-  <p>Llene los campos para crear una nueva adición:</p>
-  <form>
-    <!-- <div class="row">
+  <!-- <p>Seleccione el producto que quiere editar:</p> -->
+
+  <div>
+    <button (click)="mostrarProductos()">Ver productos</button>
+    <button (click)="mostrarCrearProductos()">Crear producto</button>
+  </div>
+
+
+  <div *ngIf="listarProductos">
+
+    <label for="restauranteFiltro">Restaurante: </label>
+    <select name="restauranteFiltro" id="restauranteFiltro" (change)="iniciarServicioGetAdicion(true)">
+      <option value="">--Seleccione</option>
+      <option *ngFor="let restaurante of restaurantes" value="{{restaurante.id}}">{{restaurante.nombre}}</option>
+    </select>
+    <select name="productoFiltro" id="productoFiltro">
+      <option value="">--Seleccione</option>
+      <option *ngFor="let producto of productosPorRestaurante" value="{{producto.id}}">{{producto.nombreProducto}}</option>
+    </select>
+    <button (click)="filtrar()">Filtrar</button>
+
+    <table class="styled-table">
+      <tr>
+        <th *ngFor="let title of cabecera">{{title}}</th>
+      </tr>
+      <tr *ngFor="let adicion of adicionesFiltrados">
+        <td>{{adicion.id}}</td>
+        <td>{{adicion.nombreProducto}}</td>
+        <td>{{adicion.nombreRestaurante}}</td>
+        <td>{{adicion.nombre}}</td>
+        <!-- <td>{{producto.imagen}}</td> -->
+        <td>{{adicion.precio}}</td>
+        <td>
+          <button class="btn btn-primary btn-block" (click)="IniciarUpdateAdicion(adicion.id)">Actualizar</button>
+          <button class="btn btn-primary btn-block" (click)="llamarServicioDeleteAdicion(adicion.id)">Eliminar</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+
+  <div *ngIf="crearProductos">
+    <p>Indique el restaurante y luego llene los campos para crear una adición</p>
+    <label for="restauranteSave">Restaurante: </label>
+    <select name="restauranteSave" id="restauranteSave" (change)="iniciarServicioGetAdicion(false)">
+      <option value="">--Seleccione</option>
+      <option *ngFor="let restaurante of restaurantes" value="{{restaurante.id}}">{{restaurante.nombre}}</option>
+    </select>
+
+    <div class="row">
       <div class="col-sm-6 offset-md-3">
         <div class="card card-body">
-          <form (submit)="submitAdicion()">
+          <form [formGroup]="formAdicion" #myForm="ngForm" (ngSubmit)="llamarServicioPostAdicion()">
             <div class="form-group">
-              <label for="nombre">Nombre de producto:</label>
-              <input type="text" name="nombre" [(ngModel)]=" adicionNueva.id_producto" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="nombre">Producto al que pertence: </label><br>
-              <select name="" id="" [(ngModel)]="adicionNueva.id_producto">
-                <option *ngFor="let producto of productos" value="{{producto.id}}" >ID({{producto.id}}) - S({{producto.nombreRestaurante}}) - {{producto.nombreProducto}}</option>
+              <label for="idProducto">Producto de la adición: </label><br>
+              <select name="idProducto" id="idProducto" formControlName="idProducto">
+                <option value="">--Seleccione</option>
+                <option *ngFor="let producto of productosPorRestaurante" value="{{producto.id}}">{{producto.nombreProducto}}</option>
               </select>
             </div>
+
             <div class="form-group">
-              <label for="nombre">Sucursal:</label>
-              <input type="number" name="id_sucursal" [(ngModel)]=" adicionNueva.nom_adicion" class="form-control">
+              <label for="nombre">Nombre de la adición:</label>
+              <input type="text" name="nombre" class="form-control" formControlName="nombre">
             </div>
+
             <div class="form-group">
-              <label for="nombre">Tipo de producto:</label>
-              <input type="number" name="tipo" [(ngModel)]=" adicionNueva.precio" class="form-control">
+              <label for="precio">Precio:</label>
+              <input type="number" name="precio" formControlName="precio" class="form-control">
             </div>
             <button class="btn btn-primary btn-block">Crear</button>
           </form>
         </div>
       </div>
-    </div> -->
-  </form>
+    </div>
+  </div>
+
+
+  <div *ngIf="actualizarProductos">
+    <p>>Cambie el contenido de los campos que desea actualizar:</p>
+    <!-- <form [formGroup]="formSelect" #myForm="ngForm">
+      <label for="restauranteUpdate">Restaurante: </label>
+      <select name="restauranteUpdate" id="restauranteUpdate" (change)="llamarServicioGetAdicion2()">
+        <option value="">--Seleccione</option>
+        <option *ngFor="let restaurante of restaurantes" value="{{restaurante.id}}">{{restaurante.nombre}}</option>
+      </select>
+    </form> -->
+    <label for="restauranteUpdate">Restaurante: {{nombreRestauranteActual}}</label>
+
+    <div class="row">
+      <div class="col-sm-6 offset-md-3">
+        <div class="card card-body">
+          <form [formGroup]="formAdicionAct" #myForm="ngForm" (ngSubmit)="llamarServicioUpdateAdicion()">
+            <div class="form-group" style="display: none;">
+              <label for="id">id: </label><br>
+              <input type="id" name="id" formControlName="id" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="idProducto">Producto de la adición: </label><br>
+              <select name="idProducto" id="idProducto" formControlName="idProducto">
+                <option value="">--Seleccione</option>
+                <option *ngFor="let producto of productosPorRestaurante" value="{{producto.id}}">{{producto.nombreProducto}}</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="nombre">Nombre de la adición:</label>
+              <input type="text" name="nombre" class="form-control" formControlName="nombre">
+            </div>
+
+            <div class="form-group">
+              <label for="precio">Precio:</label>
+              <input type="number" name="precio" formControlName="precio" class="form-control">
+            </div>
+            <button class="btn btn-primary btn-block">Actualizar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </div>

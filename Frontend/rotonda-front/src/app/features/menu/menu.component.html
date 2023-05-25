@@ -11,7 +11,7 @@
       <p><strong>Descripción:</strong> <br>{{producto.descripcion}}</p>
       <p><strong>Precio:</strong><br> ${{producto.precio}}</p>
       <div class="botones">
-        <a class="button" href="">Comprar</a>
+        <a class="button" (click)="addToCart(producto)">Comprar</a>
       </div>
     </article>
   </div>

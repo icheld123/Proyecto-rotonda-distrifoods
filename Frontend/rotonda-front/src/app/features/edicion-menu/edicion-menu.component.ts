@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {EdicionMenuService} from './edicion-menu.service';
 import { Sucursal } from 'src/app/models/sucursal';
 import { Restaurante } from 'src/app/models/restaurante';
 import { RestauranteService } from '../restaurantes/restaurante.service';
@@ -7,6 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TipoProducto } from 'src/app/models/tipoProducto';
 import { HttpHeaders } from '@angular/common/http';
 import { Producto, ProductoType2 } from 'src/app/models/producto';
+import { EdicionMenuService } from './service/edicion-menu.service';
 
 const CABECERA = ["ID", "RESTAURANTE", "PRODUCTO", "TIPO PRODUCTO", "CANTIDAD", "DESCRIPCIÓN", "PRECIO", "ACCION"];
 

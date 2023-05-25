@@ -3,7 +3,7 @@
   <div class="contenedor-restaurante">
     <article class="restaurantes" *ngFor="let restaurante of restaurantes">
       <img src="{{restaurante.urlLogo}}" alt="" class="logo-restaurante">
-      <a class="titulo-restaurante" href="">{{restaurante.nombre}}</a>
+      <h5>{{restaurante.nombre}}</h5>
       <p><strong>Sucursales:</strong></p>
       <div class="direccion">
         <div *ngFor="let sucursal of sucursales" >

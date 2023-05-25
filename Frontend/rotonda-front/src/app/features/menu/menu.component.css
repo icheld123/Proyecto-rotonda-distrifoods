@@ -18,9 +18,11 @@
   border-radius: 1em;
   flex-wrap:wrap;
   flex-direction: column;
+  width: 20rem;
 }
 .imagen-producto img{
-  width: 10rem;
+  max-width: 10rem;
+  max-height: 8rem;
   margin: 1rem auto;
   border-radius: 0.5rem;
 }
@@ -35,7 +37,6 @@
   font-weight: 700;
 }
 .button:hover{
-  background-color: #EB6440;
-  color: #BFDB38;
+  background-color: #1F8A70;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }

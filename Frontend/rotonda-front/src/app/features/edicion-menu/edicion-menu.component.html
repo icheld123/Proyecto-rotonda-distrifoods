@@ -2,8 +2,8 @@
   <!-- <p>Seleccione el producto que quiere editar:</p> -->
 
   <div>
-    <button class="btn btn-primary btn-block" (click)="mostrarProductos()">Ver productos</button>
-    <button class="btn btn-primary btn-block" (click)="mostrarCrearProductos()">Crear producto</button>
+    <button (click)="mostrarProductos()">Ver productos</button>
+    <button (click)="mostrarCrearProductos()">Crear producto</button>
   </div>
 
 
@@ -14,7 +14,7 @@
       <option value="">--Seleccione</option>
       <option *ngFor="let restaurante of restaurantes" value="{{restaurante.nombre}}">{{restaurante.nombre}}</option>
     </select>
-    <button class="btn btn-primary btn-block" (click)="filtrar()">Filtrar</button>
+    <button (click)="filtrar()">Filtrar</button>
 
     <table class="styled-table">
       <tr>
@@ -27,7 +27,7 @@
         <td>{{producto.tipoProducto}}</td>
         <td>{{producto.cantidad}}</td>
         <td>{{producto.descripcion}}</td>
-        <td>{{producto.imagen}}</td>
+        <!-- <td>{{producto.imagen}}</td> -->
         <td>{{producto.precio}}</td>
         <td>
           <button class="btn btn-primary btn-block" (click)="IniciarUpdateProducto(producto.id)">Actualizar</button>

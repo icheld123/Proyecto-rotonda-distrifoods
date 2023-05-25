@@ -1,12 +1,13 @@
 .contenedor{
   margin: 10em auto;
-  width: 70%;
+  width: 80%;
   text-align: center;
 }
 .contenedor-restaurante{
   display: flex;
   flex-wrap:wrap;
   margin: auto;
+
 }
 .restaurantes{
   display: flex;
@@ -19,6 +20,9 @@
   flex-wrap:wrap;
   flex-direction: column;
 }
+h4{
+  margin: 1rem;
+}
 .logo-restaurante{
   width: 5rem;
   margin: auto;
@@ -26,6 +30,7 @@
 }
 .restaurantes:hover{
   box-shadow: 5px 5px;
+  background-color: #BFDB38;
 }
 .titulo-restaurante{
   padding: 0.5em;
@@ -53,7 +58,6 @@
   font-weight: 700;
 }
 .button:hover{
-  background-color: #EB6440;
-  color: #BFDB38;
+  background-color: #1F8A70;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }

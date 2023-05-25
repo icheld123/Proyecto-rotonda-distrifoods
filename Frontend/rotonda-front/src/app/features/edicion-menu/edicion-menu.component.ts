@@ -8,7 +8,7 @@ import { TipoProducto } from 'src/app/models/tipoProducto';
 import { HttpHeaders } from '@angular/common/http';
 import { Producto, ProductoType2 } from 'src/app/models/producto';
 
-const CABECERA = ["ID", "RESTAURANTE", "PRODUCTO", "TIPO PRODUCTO", "CANTIDAD", "DESCRIPCIÓN", "IMÁGEN", "PRECIO", "ACCION"];
+const CABECERA = ["ID", "RESTAURANTE", "PRODUCTO", "TIPO PRODUCTO", "CANTIDAD", "DESCRIPCIÓN", "PRECIO", "ACCION"];
 
 @Component({
   selector: 'app-edicion-menu',

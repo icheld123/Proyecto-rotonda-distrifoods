@@ -34,6 +34,10 @@ public class ClienteRepository {
         return clienteCrudRepository.findById(id);
     }
     
+    public Optional<Cliente> getClienteByIdUsuario(int id){
+        return clienteCrudRepository.findByIdUsuario(id);
+    }
+    
     public void delete(Cliente cliente) {
         clienteCrudRepository.delete(cliente);
     }

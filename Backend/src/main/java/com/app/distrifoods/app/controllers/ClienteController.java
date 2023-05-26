@@ -7,6 +7,7 @@ package com.app.distrifoods.app.controllers;
 import com.app.distrifoods.app.entities.Cliente;
 import com.app.distrifoods.app.services.ClienteService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,6 +32,11 @@ public class ClienteController {
     @GetMapping("/all")
     public List<Cliente> getAll(){
         return service.getAll();
+    }
+    
+    @GetMapping("/all/byidusuario/{id}")
+    public Optional<Cliente> getClienteByIdUsuario(@PathVariable("id")int id){
+        return service.getClienteByIdUsuario(id);
     }
     
     @PostMapping("/save")

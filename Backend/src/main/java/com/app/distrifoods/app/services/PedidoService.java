@@ -5,9 +5,21 @@
 package com.app.distrifoods.app.services;
 
 import com.app.distrifoods.app.entities.Pedido;
-import com.app.distrifoods.app.entities.Sucursal;
-import com.app.distrifoods.app.repository.PedidoRepository;
-import com.app.distrifoods.app.repository.SucursalRepository;
+import com.app.distrifoods.app.entities.dto.PedidoDto;
+import com.app.distrifoods.app.repository.DetallePedidoRepository;
+import com.app.distrifoods.app.repository.PedidoRepository;;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +36,8 @@ public class PedidoService {
     private EstadoService estadoService;
     @Autowired
     private PedidoRepository repository;
+    @Autowired
+    private DetallePedidoService detallePedidoService;
     
     
     public List<Pedido> getAll() {
@@ -34,27 +48,41 @@ public class PedidoService {
         return repository.getPedido(id);
     }
     
-    public Pedido save(Pedido pedido) {
+    public Pedido save(PedidoDto pedidoDto) {
+        Pedido pedido = new Pedido();
+        System.out.println("*****************************");
+        System.out.println(pedidoDto.getFecha().toString());
+        for(int id :pedidoDto.getIdsPedidos()) {
+            System.out.println(id);
+        }
+        System.out.println("*****************************");
         
-        boolean existeCliente = clienteService.existId(pedido.getId_cliente());
-        boolean existeMetodoPago = metodoPagoService.existId(pedido.getId_metodo());
-        boolean existeEstado = estadoService.existId(pedido.getId_estado());
-        boolean entradasCorrectas = !pedido.getFecha().toString().isEmpty() && pedido.getPrecio() > 0;
-        
-        if (pedido.getId() == null && existeCliente && existeMetodoPago && existeEstado && entradasCorrectas) {
-            return repository.save(pedido);
-        } 
-        else if (pedido.getId() != null && existeCliente && existeMetodoPago && existeEstado && entradasCorrectas) {
-            if (repository.existId(pedido.getId())){
-                return pedido;
+        boolean existeCliente = clienteService.existId(pedidoDto.getIdCliente());
+        boolean existeMetodoPago = metodoPagoService.existId(pedidoDto.getIdMetodo());
+        boolean existeEstado = estadoService.existId(pedidoDto.getIdEstado());
+        boolean entradasCorrectas = !pedidoDto.getFecha().toString().isEmpty() && pedidoDto.getPrecio() > 0;
+//        
+        if (existeCliente && existeMetodoPago && existeEstado && entradasCorrectas) {
+            pedido = new Pedido(null, 
+                                        pedidoDto.getIdCliente(), 
+                                        pedidoDto.getIdMetodo(), 
+                                        pedidoDto.getFecha(), 
+                                        pedidoDto.getIdEstado(),
+                                        pedidoDto.getPrecio());
+            Pedido pedidoAlmacenado = repository.save(pedido);
+            System.out.println("*****************************");
+            System.out.println("id PedidoAlmacenado: " + pedidoAlmacenado.getId());
+            System.out.println("*****************************");
+            if(pedidoAlmacenado.getId() > 0){
+                detallePedidoService.save(pedidoDto.getIdsPedidos(), pedidoAlmacenado.getId());
             }
-            else {
-                return repository.save(pedido);
-            }
+            
+            return pedidoAlmacenado;
         } 
         else {
             return pedido;
         }
+
     }
     
     public Pedido update(Pedido pedido) {
@@ -65,19 +93,19 @@ public class PedidoService {
 //                if (pedido.getDireccion() != null && !pedido.getDireccion().isEmpty()) {
 //                    resultado.get().setDireccion(pedido.getDireccion());
 //                }
-                if (pedido.getId_cliente() != null) {
-                    if (clienteService.existId(pedido.getId_cliente())){
-                        resultado.get().setId_cliente(pedido.getId_cliente());
+                if (pedido.getIdCliente() != null) {
+                    if (clienteService.existId(pedido.getIdCliente())){
+                        resultado.get().setIdCliente(pedido.getIdCliente());
                     }
                 }
-                if (pedido.getId_metodo() != null) {
-                    if (metodoPagoService.existId(pedido.getId_metodo())){
-                        resultado.get().setId_metodo(pedido.getId_metodo());
+                if (pedido.getIdMetodo() != null) {
+                    if (metodoPagoService.existId(pedido.getIdMetodo())){
+                        resultado.get().setIdMetodo(pedido.getIdMetodo());
                     }
                 }
-                if (pedido.getId_estado() != null) {
-                    if (estadoService.existId(pedido.getId_estado())){
-                        resultado.get().setId_estado(pedido.getId_estado());
+                if (pedido.getIdEstado() != null) {
+                    if (estadoService.existId(pedido.getIdEstado())){
+                        resultado.get().setIdEstado(pedido.getIdEstado());
                     }
                 }
                 repository.save(resultado.get());

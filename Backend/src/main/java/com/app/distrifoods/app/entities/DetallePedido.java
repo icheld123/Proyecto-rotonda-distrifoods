@@ -14,16 +14,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name="clientes")
-public class Cliente implements Serializable{
+@Table(name="detalles_pedido")
+public class DetallePedido implements Serializable{
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="id_cliente")
+    @GeneratedValue(strategy= GenerationType.IDENTITY) 
+    @Column(name="id_detalle_pedido")
     private Integer id;
-    @Column(name="id_usuario", unique=true)
-    private Integer idUsuario;
-    @Column(nullable=false)
-    private String direccion;
-    @Column(nullable=false)
-    private Long telefono;
+    @Column(name="id_pedido", nullable=false)
+    private Integer idPedido;
+    @Column(name="id_producto", nullable=false)
+    private Integer idProducto;
 }

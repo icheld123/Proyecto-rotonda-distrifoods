@@ -31,6 +31,7 @@ export class MenuComponent {
       this.cartService.addToCart(item); //add items in cart
       this.items = [...this.cartService.getItems()];
     // }
+    alert("El producto fue agregado al carrito (id:"+ item.id +")")
   }
 
 

@@ -33,6 +33,10 @@ public class UsuarioRepository {
         return usuarioCrudRepository.findById(id);
     }
     
+    public Optional<Usuario> getUsuarioByIdentificacion(long identificacion){
+        return usuarioCrudRepository.getUsuarioByIdentificacion(identificacion);
+    }
+    
     public void delete(Usuario usuario) {
         usuarioCrudRepository.delete(usuario);
     }

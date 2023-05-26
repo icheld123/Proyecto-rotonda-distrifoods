@@ -5,6 +5,7 @@
 package com.app.distrifoods.app.repository.crud;
 
 import com.app.distrifoods.app.entities.Usuario;
+import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -13,4 +14,5 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface UsuarioCrudRepository extends CrudRepository<Usuario, Integer>{
     
+    public Optional<Usuario> getUsuarioByIdentificacion(long identificacion);
 }

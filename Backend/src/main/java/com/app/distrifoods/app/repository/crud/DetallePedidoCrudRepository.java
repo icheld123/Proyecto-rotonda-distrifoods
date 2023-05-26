@@ -4,17 +4,13 @@
  */
 package com.app.distrifoods.app.repository.crud;
 
-import com.app.distrifoods.app.entities.Cliente;
-import com.app.distrifoods.app.entities.Producto;
-import java.util.List;
-import java.util.Optional;
+import com.app.distrifoods.app.entities.DetallePedido;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  *
  * @author jandr
  */
-public interface ClienteCrudRepository extends CrudRepository<Cliente, Integer>{
+public interface DetallePedidoCrudRepository extends CrudRepository<DetallePedido, Integer>{
     
-    public Optional<Cliente> findByIdUsuario(int id);
 }

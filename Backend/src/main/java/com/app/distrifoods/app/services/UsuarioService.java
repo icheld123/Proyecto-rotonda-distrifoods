@@ -28,6 +28,10 @@ public class UsuarioService {
         return repository.getUsuario(id);
     }
     
+    public Optional<Usuario> getUsuarioByIdentificacion(long identificacion) {
+        return repository.getUsuarioByIdentificacion(identificacion);
+    }
+    
     public boolean existId(int id){
         return repository.existId(id);
     }

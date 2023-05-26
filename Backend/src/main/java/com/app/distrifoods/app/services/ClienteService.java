@@ -28,12 +28,16 @@ public class ClienteService {
         return repository.getCliente(id);
     }
     
+    public Optional<Cliente> getClienteByIdUsuario(int id) {
+        return repository.getClienteByIdUsuario(id);
+    }
+    
     public boolean existId(int id){
         return repository.existId(id);
     }
     
     public Cliente save(Cliente cliente) {
-        boolean existeUsuario = usuarioService.existId(cliente.getId_usuario());
+        boolean existeUsuario = usuarioService.existId(cliente.getIdUsuario());
         boolean entradasCorrectas = !cliente.getDireccion().isEmpty() && !cliente.getTelefono().toString().isEmpty()
                 && cliente.getTelefono() > 0 && cliente.getTelefono().toString().length() == TAMANO_TELEFONO;
         

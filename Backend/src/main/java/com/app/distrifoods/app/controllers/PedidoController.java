@@ -6,6 +6,7 @@ package com.app.distrifoods.app.controllers;
 
 import com.app.distrifoods.app.entities.Pedido;
 import com.app.distrifoods.app.entities.Sucursal;
+import com.app.distrifoods.app.entities.dto.PedidoDto;
 import com.app.distrifoods.app.services.PedidoService;
 import com.app.distrifoods.app.services.SucursalService;
 import java.util.List;
@@ -38,8 +39,8 @@ public class PedidoController {
     
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED) //Anotacion que retorna el status
-    public Pedido save(@RequestBody Pedido pedido){
-        return service.save(pedido);
+    public Pedido save(@RequestBody PedidoDto pedidoDto){
+         return service.save(pedidoDto);
     }
     
     @PutMapping("/update")

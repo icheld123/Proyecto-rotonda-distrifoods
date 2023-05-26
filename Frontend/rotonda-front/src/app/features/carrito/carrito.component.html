@@ -1,31 +1,50 @@
 <div class="contenedor">
   <h5>Productos en el carrito</h5>
-<div class="row">
-  <div class="col-12 " *ngFor="let item of items; let i = index ">
-    <div class="row" id="{{ item.id}}">
-      <div class="col-6">
-        <div class=" ">
-						{{ item.nombreProducto }}
-						<small>( {{ item.precio | currency }} ) </small>
+  <div class="row">
+    <div class="col-12 " *ngFor="let item of items; let i = index ">
+      <div class="row" id="{{ item.id}}">
+        <div class="col-6">
+          <div class=" ">
+              {{ item.nombreProducto }}
+              <small>( {{ item.precio | currency }} ) </small>
+          </div>
+          <small class=" ">{{ item.nombreRestaurante }}</small>
         </div>
-        <small class=" ">{{ item.nombreRestaurante }}</small>
+        <div class="col-2 pr-0">
+              <div #subTotalWrap>{{ item.precio | currency }}</div>
+        </div>
+        <div class="col-1 pl-0">
+              <button class="btn btn-secondary" (click)="removeFromCart(item)"> x</button>
+        </div>
       </div>
-      <div class="col-2 pr-0">
-						<div #subTotalWrap>{{ item.precio | currency }}</div>
-      </div>
-      <div class="col-1 pl-0">
-						<button class="btn btn-secondary" (click)="removeFromCart(item)"> x</button>
+    </div>
+    <div class="col-12 ">
+          <hr />
+      <div>
+            Total de la orden:
+            <span class="font-weight-bold">{{total | currency}}</span><hr>
+            <button class="btn btn-primary" (click)="clearCart(items)"> Vaciar carrito</button>
+
       </div>
     </div>
   </div>
 
-  <div class="col-12 ">
-				<hr />
-    <div>
-					Total de la orden:
-					<span class="font-weight-bold  ">{{total | currency}}</span><hr>
-          <button class="btn btn-primary  " (click)="clearCart(items)"> Vaciar carrito</button>
-          <button class="btn btn-primary  " > Pedir</button>
-    </div>
+  <hr>
+
+  <label for="identificacion">Identificación cliente (CC)</label>
+  <input type="text" name="identificacion" id="identificacion" value="">
+  <button class="btn btn-primary" (click)="validarCliente()"> Validar cliente</button>
+  <button *ngIf="buttonPedir" class="btn btn-primary" (click)="iniciarPedido()"> Pedir</button>
+
+  <div *ngIf="existeCliente">
+    <p>Dirección: {{cliente.direccion}} - Teléfono: {{cliente.telefono}}</p>
+    <label for="metodo">Metodo de pago: </label>
+    <select name="metodo" id="metodo">
+      <option value="">--Seleccione</option>
+      <option *ngFor="let metodo of metodosPago" value="{{metodo.id}}">{{metodo.nombre}}</option>
+    </select>
   </div>
+
+
+
 </div>

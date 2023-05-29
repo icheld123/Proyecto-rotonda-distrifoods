@@ -5,7 +5,6 @@
 package com.app.distrifoods.app.repository;
 
 import com.app.distrifoods.app.entities.DetallePedido;
-import com.app.distrifoods.app.entities.Estado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -23,6 +22,10 @@ public class DetallePedidoRepository {
     
     public List<DetallePedido> saveAll(List<DetallePedido> detallePedido) {
         return (List<DetallePedido>) detallePedidoCrudRepository.saveAll(detallePedido);
+    }
+    
+    public DetallePedido save(DetallePedido detallePedido) {
+        return detallePedidoCrudRepository.save(detallePedido);
     }
     
     public boolean existId(int id){

@@ -1,18 +1,35 @@
 <div class="contenedor">
-  <h2>Productos disponibles:</h2>
+  <h2>Productos disponibles - {{restauranteNombre}}</h2>
   <div class="contenedor-restaurante">
-    <article class="restaurantes" *ngFor="let producto of productos">
+    <article class="restaurantes" *ngFor="let producto of productos; let i = index ">
       <div class="imagen-producto">
         <img src="{{producto.imagen}}" alt="" >
       </div>
       <h4>{{producto.nombreProducto}}</h4>
-      <p>{{producto.tipoProducto}}</p>
-      <p>Restaurante: {{producto.nombreRestaurante}}</p>
-      <p><strong>Descripción:</strong> <br>{{producto.descripcion}}</p>
-      <p><strong>Precio:</strong><br> ${{producto.precio}}</p>
+      <p><strong>Tipo: </strong>{{producto.tipoProducto}}</p>
+      <p><strong>Descripción: </strong>{{producto.descripcion}}</p>
+      <p><strong>Precio: </strong>${{producto.precio}}</p>
+
+      <form [formGroup]="adicion">
+        <div *ngIf="adicionesOrganizadas[i].length > 0">
+          <label for="adiciones">Adiciones</label> <br>
+          <select name="adiciones" id="adiciones" multiple formControlName="adiciones">
+            <option *ngFor="let adicion of adicionesOrganizadas[i]" [value]="adicion">{{adicion.nombre + " - $" + adicion.precio}}</option>
+          </select>
+        </div>
+
+        <!-- <div *ngFor="let adicion of adiciones;">
+          <div *ngIf="adicion.idProducto == producto.id">
+            <input type="checkbox" name="adiciones" [value]="adicion.id">{{adicion.nombre}}
+          </div>
+        </div> -->
+
       <div class="botones">
-        <a class="button" (click)="addToCart(producto)">Comprar</a>
+        <input type="submit" class="button" (click)="addToCart(producto)" value="Comprar">
+        <!-- <a class="button" (click)="addToCart(producto)">Comprar</a> -->
       </div>
+      </form>
+
     </article>
   </div>
 

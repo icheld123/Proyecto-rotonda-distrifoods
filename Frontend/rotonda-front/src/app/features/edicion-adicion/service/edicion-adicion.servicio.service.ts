@@ -16,6 +16,10 @@ export class EdicionAdicionServicioService {
 
   constructor(private httpClient: HttpClient) { }
 
+  getAdicionesPorProducto(){
+    return this.httpClient.get<Adicion[]>(environment.endpoint + this.endpoint_adicion_listarMapeado);
+  }
+
   getAdicionesMapeadas(){
     return this.httpClient.get<AdicionType2[]>(environment.endpoint + this.endpoint_adicion_listarMapeado);
   }

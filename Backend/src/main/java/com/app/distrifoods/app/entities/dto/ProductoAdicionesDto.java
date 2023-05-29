@@ -4,8 +4,7 @@
  */
 package com.app.distrifoods.app.entities.dto;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.app.distrifoods.app.entities.Adicion;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,13 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PedidoDto implements Serializable {
-
-    private Integer idCliente;
-    private Integer idMetodo;
-    private Date fecha;
-    private Integer idEstado;
-    private Float precio;
-    private List<ProductoAdicionesDto> idsPedidos;
+public class ProductoAdicionesDto {
+    private Integer id;
+    private List<Adicion> adiciones;
 }
-

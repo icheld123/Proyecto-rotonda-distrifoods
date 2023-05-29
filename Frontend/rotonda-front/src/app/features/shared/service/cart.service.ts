@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Producto } from "src/app/models/producto";
+import { Producto, ProductoAdicion } from "src/app/models/producto";
 
 @Injectable({
   providedIn: "root"
@@ -7,9 +7,9 @@ import { Producto } from "src/app/models/producto";
 export class CartService {
   constructor() {}
 
-  items:Producto[] = [];
+  items:ProductoAdicion[] = [];
 
-  addToCart(addedItem: Producto) {
+  addToCart(addedItem: ProductoAdicion) {
     this.items.push(addedItem);
     // console.log(addedItem);
 
@@ -45,13 +45,13 @@ export class CartService {
     console.log(localStorage.getItem("cart_items"));
   }
 
-  clearCart(items: Producto[]) {
+  clearCart(items: ProductoAdicion[]) {
     this.items = [];
 
     localStorage.removeItem("cart_items")
   }
 
-  removeItem(item: Producto) {
+  removeItem(item: ProductoAdicion) {
     const index = this.items.findIndex(o => o.id === item.id);
 
     if (index > -1) {
@@ -60,7 +60,7 @@ export class CartService {
     }
   }
 
-  itemInCart(item: Producto): boolean {
+  itemInCart(item: ProductoAdicion): boolean {
     return this.items.findIndex(o => o.id === item.id) > -1;
   }
 }

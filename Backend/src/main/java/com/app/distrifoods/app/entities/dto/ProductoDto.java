@@ -4,6 +4,8 @@
  */
 package com.app.distrifoods.app.entities.dto;
 
+import com.app.distrifoods.app.entities.Adicion;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ public class ProductoDto {
     private String tipoProducto;
     private Integer cantidad;
     private String descripcion;
+//    private List<Adicion> adiciones;
     private String imagen;
     private Float precio;
 }

@@ -23,6 +23,8 @@ public class ProductoService {
     private RestauranteService restauranteService;
     @Autowired
     private ProductoRepository repository;
+//    @Autowired
+//    private AdicionService adicionService;
     
     
     public List<Producto> getAll() {
@@ -39,6 +41,7 @@ public class ProductoService {
         for (Producto producto : listaProductos) {
             Optional<Restaurante> restaurante = restauranteService.getRestaurante(producto.getIdRestaurante());
             Optional<TipoProducto> tipoProducto = tipoProductoService.getTipoProducto(producto.getIdTipoProducto());
+            
             ProductoDto productoDto = new ProductoDto(producto.getId(), 
                                                       restaurante.get().getNombre(),
                                                       producto.getNombre(),

@@ -4,9 +4,11 @@
  */
 package com.app.distrifoods.app.services;
 
+import com.app.distrifoods.app.entities.Adicion;
 import com.app.distrifoods.app.entities.Cliente;
 import com.app.distrifoods.app.entities.DetallePedido;
 import com.app.distrifoods.app.entities.Pedido;
+import com.app.distrifoods.app.entities.dto.ProductoAdicionesDto;
 import com.app.distrifoods.app.repository.DetallePedidoRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Service;
 public class DetallePedidoService {
     @Autowired
     private DetallePedidoRepository repository;
+     @Autowired
+    private DetalleProductoService detalleProductoService;
     
     public final int TAMANO_TELEFONO = 10; 
     
@@ -34,21 +38,37 @@ public class DetallePedidoService {
         return repository.existId(id);
     }
     
-    public boolean save(List<Integer> idsProductos, int IdPedido) {
-        List<DetallePedido> detallesPedido = new ArrayList<>();
-        List<DetallePedido> detallePedidoGuardado = new ArrayList<>();
-        int contador = 0;
+    public boolean save(List<ProductoAdicionesDto> idsProductos, int IdPedido) {
+        DetallePedido detallePedido;
+        DetallePedido detallePedidoGuardado;
+        int contadorProductos = 0;
+        boolean validador = true;
+        
         if(!idsProductos.isEmpty()){
-            for(int id :idsProductos) {
-                detallesPedido.add(new DetallePedido(null, IdPedido, id));
+            for(ProductoAdicionesDto producto :idsProductos) {
+                System.out.println(producto.getId());
+                detallePedido = new DetallePedido(null, IdPedido, producto.getId());
+                detallePedidoGuardado = repository.save(detallePedido);
+                if (detallePedidoGuardado.getId()> 0){
+                    contadorProductos++;
+                    if( producto.getAdiciones() != null && validador){
+                        validador = detalleProductoService.save(producto.getAdiciones(), detallePedidoGuardado.getId());
+                    }
+                }
             }
-            detallePedidoGuardado = repository.saveAll(detallesPedido);
         }
+        
+        if(!validador){
+            System.out.println("*****************************");
+            System.out.println("PROBLEMA ALMACENANDO DETALLE ADICIONES");
+            System.out.println("*****************************");
+        }
+        
         System.out.println("*****************************");
         System.out.println("cantidad productos: " + idsProductos.size());
-        System.out.println("cantidad detalles almacenados: " + detallePedidoGuardado.size());
+        System.out.println("cantidad detalles almacenados: " + contadorProductos);
         System.out.println("*****************************");
-        return (idsProductos.size() == detallePedidoGuardado.size());
+        return (idsProductos.size() == contadorProductos && validador);
     }
     
     

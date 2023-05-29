@@ -12,8 +12,8 @@ import { FooterComponent } from './modulos/footer/footer.component';
 import { EdicionAdicionComponent } from './features/edicion-adicion/edicion-adicion.component';
 import { EdicionMenuComponent } from './features/edicion-menu/edicion-menu.component';
 import { MenuComponent } from './features/menu/menu.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms'
-import { CurrencyPipe } from '@angular/common';
+import { ReactiveFormsModule} from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import { CurrencyPipe } from '@angular/common';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [CurrencyPipe],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -4,14 +4,30 @@
     <div class="col-12 " *ngFor="let item of items; let i = index ">
       <div class="row" id="{{ item.id}}">
         <div class="col-6">
+          <small class=" ">{{ item.nombreRestaurante }}</small>
           <div class=" ">
               {{ item.nombreProducto }}
               <small>( {{ item.precio | currency }} ) </small>
           </div>
-          <small class=" ">{{ item.nombreRestaurante }}</small>
+          <div *ngIf="item.adiciones != null">
+            <small>Adiciones: </small>
+            <small *ngFor="let adicion of item.adiciones;">
+              <small>{{adicion.nombre}} ( {{ adicion.precio | currency }} ) </small>
+            </small>
+          </div>
+
+          <!-- <small>
+            <ul>
+              <li *ngFor="let adicion of item.adiciones; let j = index ">
+                {{adicion.nombre}}
+                <small>( {{ adicion.precio | currency }} ) </small>
+              </li>
+            </ul>
+          </small> -->
+
         </div>
         <div class="col-2 pr-0">
-              <div #subTotalWrap>{{ item.precio | currency }}</div>
+              <div #subTotalWrap>{{ calcularProductoConAdiciones(item.precio, (item.adiciones != null ? item.adiciones : [])) | currency}}</div>
         </div>
         <div class="col-1 pl-0">
               <button class="btn btn-secondary" (click)="removeFromCart(item)"> x</button>

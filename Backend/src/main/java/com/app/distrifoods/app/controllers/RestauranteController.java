@@ -7,6 +7,7 @@ package com.app.distrifoods.app.controllers;
 import com.app.distrifoods.app.entities.Restaurante;
 import com.app.distrifoods.app.services.RestauranteService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,6 +35,11 @@ public class RestauranteController {
     @GetMapping("/all")
     public List<Restaurante> getAll(){
         return service.getAll();
+    }
+    
+    @GetMapping("/{id}")
+    public Optional<Restaurante> getRestaurante(@PathVariable("id")int id){
+        return service.getRestaurante(id);
     }
     
     @PostMapping("/save")

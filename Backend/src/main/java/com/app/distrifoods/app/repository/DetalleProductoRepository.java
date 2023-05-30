@@ -20,6 +20,10 @@ public class DetalleProductoRepository {
         return (List<DetalleProducto>) detalleProductoCrudRepository.findAll();
     }
     
+    public List<DetalleProducto> getAllByIdPedido(int id) {
+        return (List<DetalleProducto>) detalleProductoCrudRepository.findAllByIdPedido(id);
+    }
+    
     public List<DetalleProducto> saveAll(List<DetalleProducto> detalleProducto) {
         return (List<DetalleProducto>) detalleProductoCrudRepository.saveAll(detalleProducto);
     }
@@ -31,6 +35,10 @@ public class DetalleProductoRepository {
     public boolean existId(int id){
         return detalleProductoCrudRepository.existsById(id);
     }
+    
+//    public boolean existByIdPedido(int id){
+//        return detalleProductoCrudRepository.existByIdPedido(id);
+//    }
     
     public Optional<DetalleProducto> getDetalleProducto(int id){
         return detalleProductoCrudRepository.findById(id);

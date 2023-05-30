@@ -13,6 +13,7 @@ import { EdicionAdicionComponent } from './features/edicion-adicion/edicion-adic
 import { EdicionMenuComponent } from './features/edicion-menu/edicion-menu.component';
 import { MenuComponent } from './features/menu/menu.component';
 import { ReactiveFormsModule} from '@angular/forms';
+import { PedidosComponent } from './features/pedidos/pedidos.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ReactiveFormsModule} from '@angular/forms';
     FooterComponent,
     EdicionAdicionComponent,
     EdicionMenuComponent,
-    MenuComponent
+    MenuComponent,
+    PedidosComponent
   ],
   imports: [
     BrowserModule,

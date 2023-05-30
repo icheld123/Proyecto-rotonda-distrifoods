@@ -1,7 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Sucursal } from 'src/app/models/sucursal';
-import { Restaurante } from 'src/app/models/restaurante';
 import { environment } from 'src/environments/environment';
 import { TipoProducto } from 'src/app/models/tipoProducto';
 import { Producto, ProductoType2 } from 'src/app/models/producto';

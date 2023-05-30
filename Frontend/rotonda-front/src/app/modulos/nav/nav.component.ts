@@ -23,7 +23,9 @@ export class NavComponent implements OnInit{
     {nombre: 'Administrar menú',
     url:'/administrar-menu'},
     {nombre: 'Administrar adiciones',
-    url:'/administrar-adicion'}
+    url:'/administrar-adicion'},
+    {nombre: 'Administrar pedidos',
+    url:'/pedidos'}
   ];
 
   constructor(private router: Router){

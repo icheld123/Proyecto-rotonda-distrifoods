@@ -1,4 +1,7 @@
-import { ProductoAdicionType2 } from "./producto";
+import { ClienteCompleto } from "./cliente";
+import { Estado } from "./estado";
+import { MetodoPago } from "./metodoPago";
+import { ProductoAdicionType2, ProductoCompleto } from "./producto";
 
 export class Pedido {
   idCliente:  number;
@@ -16,4 +19,15 @@ export class Pedido {
     this.precio = precio;
     this.idsPedidos = idsPedidos;
   }
+}
+
+
+export interface PedidoCompleto {
+  id: number;
+  cliente: ClienteCompleto;
+  metodoPago: MetodoPago;
+  fecha: Date;
+  estado: Estado;
+  precio: number;
+  productos: ProductoCompleto[];
 }

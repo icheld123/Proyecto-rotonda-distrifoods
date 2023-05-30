@@ -29,6 +29,10 @@ public class DetallePedidoService {
         return repository.getAll();
     }
     
+    public List<DetallePedido> getAllByIdPedido(int id) {
+        return repository.getAllByIdPedido(id);
+    }
+    
     public Optional<DetallePedido> getDetallePedido(int id) {
         return repository.getDetallePedido(id);
     }

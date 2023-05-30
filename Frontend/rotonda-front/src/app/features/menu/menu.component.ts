@@ -43,25 +43,23 @@ export class MenuComponent {
     })
   }
 
-  public addToCart(producto:Producto) {
+  public addToCart(producto:Producto, id:number) {
     console.log(this.adicion.value.adiciones);
-    let productoConAdicion = {
-      id: producto.id,
-      nombreRestaurante: producto.nombreRestaurante,
-      nombreProducto: producto.nombreProducto,
-      tipoProducto: producto.tipoProducto,
-      cantidad: producto.cantidad,
-      adiciones: this.adicion.value.adiciones,
-      descripcion: producto.descripcion,
-      imagen: producto.imagen,
-      precio: producto.precio
-    }
-    // if (!this.cartService.itemInCart(item)) {
-      // item.qtyTotal = 1;
-      this.cartService.addToCart(productoConAdicion); //add items in cart
-      this.items = [...this.cartService.getItems()];
+    // let productoConAdicion = {
+    //   id: producto.id,
+    //   nombreRestaurante: producto.nombreRestaurante,
+    //   nombreProducto: producto.nombreProducto,
+    //   tipoProducto: producto.tipoProducto,
+    //   cantidad: producto.cantidad,
+    //   adiciones: this.adicion.value.adiciones,
+    //   descripcion: producto.descripcion,
+    //   imagen: producto.imagen,
+    //   precio: producto.precio
     // }
-    alert("El producto fue agregado al carrito (id:"+ productoConAdicion.id +")")
+
+    // this.cartService.addToCart(productoConAdicion);
+    // this.items = [...this.cartService.getItems()];
+    // alert("El producto fue agregado al carrito (id:"+ productoConAdicion.id +")")
   }
 
   async llamarServicioGetAdiciones(){

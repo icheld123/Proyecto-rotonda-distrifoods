@@ -5,6 +5,7 @@
 package com.app.distrifoods.app.repository.crud;
 
 import com.app.distrifoods.app.entities.DetalleProducto;
+import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -13,4 +14,7 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface DetalleProductoCrudRepository extends CrudRepository<DetalleProducto, Integer>{
     
+    List<DetalleProducto> findAllByIdPedido(int id);
+    
+//    boolean existByIdPedido(int id);
 }

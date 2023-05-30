@@ -7,6 +7,7 @@ import { AdicionesComponent } from './features/adiciones/adiciones.component';
 import { EdicionAdicionComponent } from './features/edicion-adicion/edicion-adicion.component';
 import { EdicionMenuComponent } from './features/edicion-menu/edicion-menu.component';
 import { MenuComponent } from './features/menu/menu.component';
+import { PedidosComponent } from './features/pedidos/pedidos.component';
 
 const routes: Routes = [
   { path: '', component:InicioComponent},
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'adiciones', component:AdicionesComponent},
   { path: 'administrar-adicion', component: EdicionAdicionComponent },
   { path: 'administrar-menu', component: EdicionMenuComponent },
+  { path: 'pedidos', component: PedidosComponent },
   { path: 'restaurantes/menu', component: MenuComponent },
 ];
 

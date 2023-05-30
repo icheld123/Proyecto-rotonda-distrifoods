@@ -5,10 +5,9 @@
 package com.app.distrifoods.app.controllers;
 
 import com.app.distrifoods.app.entities.Pedido;
-import com.app.distrifoods.app.entities.Sucursal;
 import com.app.distrifoods.app.entities.dto.PedidoDto;
+import com.app.distrifoods.app.entities.dto.PedidoDto_Consulta;
 import com.app.distrifoods.app.services.PedidoService;
-import com.app.distrifoods.app.services.SucursalService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,8 +31,13 @@ public class PedidoController {
     @Autowired
     private PedidoService service;
     
+//    @GetMapping("/all")
+//    public List<Pedido> getAll(){
+//        return service.getAll();
+//    }
+    
     @GetMapping("/all")
-    public List<Pedido> getAll(){
+    public List<PedidoDto_Consulta> getAll(){
         return service.getAll();
     }
     

@@ -38,3 +38,8 @@ export interface ProductoAdicionType2 {
   id: number;
   adiciones: Adicion[];
 }
+
+export interface ProductoCompleto {
+  producto: ProductoType2;
+  adiciones: Adicion[];
+}

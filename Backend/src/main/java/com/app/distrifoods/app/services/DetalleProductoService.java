@@ -26,10 +26,17 @@ public class DetalleProductoService {
         return repository.getAll();
     }
     
+    public List<DetalleProducto> getAllByIdPedido(int id) {
+        return repository.getAllByIdPedido(id);
+    }
+    
     public Optional<DetalleProducto> getDetalleProducto(int id) {
         return repository.getDetalleProducto(id);
     }
-
+    
+//    public boolean existByIdPedido(int id){
+//        return repository.existByIdPedido(id);
+//    }
     
     public boolean existId(int id){
         return repository.existId(id);

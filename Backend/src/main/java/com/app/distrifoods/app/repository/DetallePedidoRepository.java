@@ -20,6 +20,10 @@ public class DetallePedidoRepository {
         return (List<DetallePedido>) detallePedidoCrudRepository.findAll();
     }
     
+    public List<DetallePedido> getAllByIdPedido(int id) {
+        return (List<DetallePedido>) detallePedidoCrudRepository.findAllByIdPedido(id);
+    }
+    
     public List<DetallePedido> saveAll(List<DetallePedido> detallePedido) {
         return (List<DetallePedido>) detallePedidoCrudRepository.saveAll(detallePedido);
     }

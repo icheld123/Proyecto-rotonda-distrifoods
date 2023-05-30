@@ -12,8 +12,8 @@
 
       <form [formGroup]="adicion">
         <div *ngIf="adicionesOrganizadas[i].length > 0">
-          <label for="adiciones">Adiciones</label> <br>
-          <select name="adiciones" id="adiciones" multiple formControlName="adiciones">
+          <label for="adiciones{{i}}">Adiciones</label> <br>
+          <select name="adiciones{{i}}" id="adiciones{{i}}" multiple formControlName="adiciones">
             <option *ngFor="let adicion of adicionesOrganizadas[i]" [value]="adicion">{{adicion.nombre + " - $" + adicion.precio}}</option>
           </select>
         </div>
@@ -24,13 +24,15 @@
           </div>
         </div> -->
 
-      <div class="botones">
-        <input type="submit" class="button" (click)="addToCart(producto)" value="Comprar">
-        <!-- <a class="button" (click)="addToCart(producto)">Comprar</a> -->
-      </div>
+        <div class="botones">
+          <input type="submit" class="button" (click)="addToCart(producto, i)" value="Comprar">
+          <!-- <a class="button" (click)="addToCart(producto)">Comprar</a> -->
+        </div>
       </form>
 
     </article>
   </div>
 
 </div>
+
+

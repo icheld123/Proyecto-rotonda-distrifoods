@@ -1,0 +1,41 @@
+<div class="contenedor">
+
+  <div >
+
+    <!-- <label for="restauranteFiltro">Restaurante: </label>
+    <select name="restauranteFiltro" id="restauranteFiltro">
+      <option value="">--Seleccione</option>
+      <option *ngFor="let restaurante of productos" value="{{restaurante.nombre}}">{{restaurante.nombre}}</option>
+    </select>
+    <button (click)="filtrar()">Filtrar</button> -->
+
+    <table class="styled-table">
+      <tr>
+        <th *ngFor="let title of cabecera">{{title}}</th>
+      </tr>
+      <tr *ngFor="let pedido of pedidos">
+        <td>{{pedido.id}}</td>
+        <td>{{pedido.cliente.usuario.identificacion}}</td>
+        <td>{{pedido.metodoPago.nombre}}</td>
+        <td>{{obtenerDatosFechaHora(pedido.fecha)}}</td>
+        <td>{{pedido.precio}}</td>
+        <td>
+          <ul *ngIf="pedido.productos.length > 0">
+            <li *ngFor="let producto of pedido.productos">{{producto.producto.nombre}} - Adiciones:
+              <small *ngFor="let adicion of producto.adiciones">{{adicion.nombre}}</small>
+            </li>
+          </ul>
+      </td>
+        <!-- <td>{{producto.imagen}}</td> -->
+        <td >{{pedido.estado.nombre}}</td>
+        <td>
+          <button class="btn btn-primary btn-block">Actualizar estado</button>
+          <!-- <button class="btn btn-primary btn-block">Eliminar</button> -->
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+
+</div>

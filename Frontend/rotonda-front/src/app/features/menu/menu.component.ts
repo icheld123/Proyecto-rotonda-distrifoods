@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Producto, ProductoAdicion } from '../../models/producto';
+import { Producto, ProductoCompleto } from '../../models/producto';
 import { MenuServicioService } from './service/menu.servicio.service';
 import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../shared/service/cart.service';
@@ -14,12 +14,14 @@ import { Restaurante } from 'src/app/models/restaurante';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent {
-  productos: Producto[] = [];
+  productos: ProductoCompleto[] = [];
   restauranteNombre: string = "";
   idRestaurante: string = "";
-  items: ProductoAdicion[] = [];
-  adicion: FormGroup;
+  items: ProductoCompleto[] = [];
+  adicionForm: FormGroup;
+  productoSelected: ProductoCompleto;
   adiciones: Adicion[];
+  public mostrarModal: boolean = false;
   adicionesOrganizadas: any[] = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]; //revisar para que no salga en consola invalido si no genero arreglos vacios
 
   constructor(private menuService: MenuServicioService,
@@ -43,23 +45,32 @@ export class MenuComponent {
     })
   }
 
-  public addToCart(producto:Producto, id:number) {
-    console.log(this.adicion.value.adiciones);
-    // let productoConAdicion = {
-    //   id: producto.id,
-    //   nombreRestaurante: producto.nombreRestaurante,
-    //   nombreProducto: producto.nombreProducto,
-    //   tipoProducto: producto.tipoProducto,
-    //   cantidad: producto.cantidad,
-    //   adiciones: this.adicion.value.adiciones,
-    //   descripcion: producto.descripcion,
-    //   imagen: producto.imagen,
-    //   precio: producto.precio
-    // }
+  public initAddToCart(producto:ProductoCompleto){
+    console.log("***********Adiciones seleccionadas************");
+    console.log(this.adicionForm.value.adiciones);
+    console.log("**********************************************");
+    this.productoSelected = producto;
+    this.abrirModal();
+  }
 
-    // this.cartService.addToCart(productoConAdicion);
-    // this.items = [...this.cartService.getItems()];
-    // alert("El producto fue agregado al carrito (id:"+ productoConAdicion.id +")")
+  public addToCart() {
+    console.log(this.adicionForm.value.adiciones);
+    let productoConAdicionSeleccionada = {
+      id: this.productoSelected.id,
+      restaurante: this.productoSelected.restaurante,
+      nombre: this.productoSelected.nombre,
+      tipoProducto: this.productoSelected.tipoProducto,
+      cantidad: this.productoSelected.cantidad,
+      descripcion: this.productoSelected.descripcion,
+      imagen: this.productoSelected.imagen,
+      precio: this.productoSelected.precio,
+      adiciones: this.adicionForm.value.adiciones
+    }
+
+    this.cartService.addToCart(productoConAdicionSeleccionada);
+    this.items = [...this.cartService.getItems()];
+    this.cerrarModal();
+    alert("El producto fue agregado al carrito (id:"+ productoConAdicionSeleccionada.id +")")
   }
 
   async llamarServicioGetAdiciones(){
@@ -83,13 +94,23 @@ export class MenuComponent {
   }
 
   public onSubmit(){
-    console.log(this.adicion.value);
+    console.log(this.adicionForm.value);
   }
 
   public construirFormulario(){
-    this.adicion = new FormGroup({
-      adiciones: new FormControl()
+    this.adicionForm = new FormGroup({
+      adiciones: new FormControl("")
     });
+  }
+
+  public abrirModal(){
+    this.mostrarModal = true;
+    //Se resetea el formulario para que se deseleccione las opciones que puedan existir
+    this.adicionForm.reset();
+  }
+
+  public cerrarModal(){
+    this.mostrarModal = false;
   }
 
   ngOnInit(): void {

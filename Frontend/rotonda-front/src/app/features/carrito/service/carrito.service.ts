@@ -4,7 +4,7 @@ import { Sucursal } from 'src/app/models/sucursal';
 import { Restaurante } from 'src/app/models/restaurante';
 import { environment } from 'src/environments/environment';
 import { TipoProducto } from 'src/app/models/tipoProducto';
-import { Producto, ProductoType2 } from 'src/app/models/producto';
+import { Producto} from 'src/app/models/producto';
 import { Usuario } from 'src/app/models/usuario';
 import { Cliente } from 'src/app/models/cliente';
 import { MetodoPago } from 'src/app/models/metodoPago';

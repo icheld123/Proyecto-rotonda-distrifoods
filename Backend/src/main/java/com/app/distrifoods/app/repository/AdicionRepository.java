@@ -5,7 +5,6 @@
 package com.app.distrifoods.app.repository;
 
 import com.app.distrifoods.app.entities.Adicion;
-import com.app.distrifoods.app.entities.dto.AdicionDto;
 import com.app.distrifoods.app.repository.crud.AdicionCrudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

@@ -21,7 +21,7 @@
         <td>{{pedido.precio}}</td>
         <td>
           <ul *ngIf="pedido.productos.length > 0">
-            <li *ngFor="let producto of pedido.productos">{{producto.producto.nombre}} - Adiciones:
+            <li *ngFor="let producto of pedido.productos">{{producto.nombre}} - Adiciones:
               <small *ngFor="let adicion of producto.adiciones">{{adicion.nombre}}</small>
             </li>
           </ul>

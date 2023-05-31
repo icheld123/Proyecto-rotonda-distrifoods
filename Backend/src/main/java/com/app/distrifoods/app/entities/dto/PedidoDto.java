@@ -21,6 +21,6 @@ public class PedidoDto implements Serializable {
     private Date fecha;
     private Integer idEstado;
     private Float precio;
-    private List<ProductoAdicionesDto> idsPedidos;
+    private List<ProductoCompletoDto> productos;
 }
 

@@ -9,6 +9,7 @@ import com.app.distrifoods.app.entities.Cliente;
 import com.app.distrifoods.app.entities.DetallePedido;
 import com.app.distrifoods.app.entities.Pedido;
 import com.app.distrifoods.app.entities.dto.ProductoAdicionesDto;
+import com.app.distrifoods.app.entities.dto.ProductoCompletoDto;
 import com.app.distrifoods.app.repository.DetallePedidoRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,14 +43,14 @@ public class DetallePedidoService {
         return repository.existId(id);
     }
     
-    public boolean save(List<ProductoAdicionesDto> idsProductos, int IdPedido) {
+    public boolean save(List<ProductoCompletoDto> productos, int IdPedido) {
         DetallePedido detallePedido;
         DetallePedido detallePedidoGuardado;
         int contadorProductos = 0;
         boolean validador = true;
         
-        if(!idsProductos.isEmpty()){
-            for(ProductoAdicionesDto producto :idsProductos) {
+        if(!productos.isEmpty()){
+            for(ProductoCompletoDto producto :productos) {
                 System.out.println(producto.getId());
                 detallePedido = new DetallePedido(null, IdPedido, producto.getId());
                 detallePedidoGuardado = repository.save(detallePedido);
@@ -69,10 +70,10 @@ public class DetallePedidoService {
         }
         
         System.out.println("*****************************");
-        System.out.println("cantidad productos: " + idsProductos.size());
+        System.out.println("cantidad productos: " + productos.size());
         System.out.println("cantidad detalles almacenados: " + contadorProductos);
         System.out.println("*****************************");
-        return (idsProductos.size() == contadorProductos && validador);
+        return (productos.size() == contadorProductos && validador);
     }
     
     

@@ -108,41 +108,24 @@ public class PedidoService {
     
     public Pedido save(PedidoDto pedidoDto) {
         Pedido pedido = new Pedido();
-//        System.out.println("*****************************");
-//        System.out.println(pedidoDto.getPrecio());
-//        System.out.println(pedidoDto.getFecha().toString());
-//        if(!pedidoDto.getIdsPedidos().isEmpty()){
-//            for(ProductoAdicionesDto producto :pedidoDto.getIdsPedidos()) {
-//                System.out.println(producto.getId());
-//                if(producto.getAdiciones() != null){
-//                    for(Adicion adicion :producto.getAdiciones()){
-//                        System.out.println(adicion.getNombre());
-//                    }    
-//                }
-//                
-//            }
-//        }
-//        
-//        System.out.println("*****************************");
-        
         boolean existeCliente = clienteService.existId(pedidoDto.getIdCliente());
         boolean existeMetodoPago = metodoPagoService.existId(pedidoDto.getIdMetodo());
         boolean existeEstado = estadoService.existId(pedidoDto.getIdEstado());
         boolean entradasCorrectas = !pedidoDto.getFecha().toString().isEmpty() && pedidoDto.getPrecio() > 0;
-//    
+
         if (existeCliente && existeMetodoPago && existeEstado && entradasCorrectas) {
             pedido = new Pedido(null, 
-                                        pedidoDto.getIdCliente(), 
-                                        pedidoDto.getIdMetodo(), 
-                                        pedidoDto.getFecha(), 
-                                        pedidoDto.getIdEstado(),
-                                        pedidoDto.getPrecio());
+                                pedidoDto.getIdCliente(), 
+                                pedidoDto.getIdMetodo(), 
+                                pedidoDto.getFecha(), 
+                                pedidoDto.getIdEstado(),
+                                pedidoDto.getPrecio());
             Pedido pedidoAlmacenado = repository.save(pedido);
             System.out.println("*****************************");
             System.out.println("id PedidoAlmacenado: " + pedidoAlmacenado.getId());
             System.out.println("*****************************");
             if(pedidoAlmacenado.getId() > 0){
-                if(detallePedidoService.save(pedidoDto.getIdsPedidos(), pedidoAlmacenado.getId())){
+                if(detallePedidoService.save(pedidoDto.getProductos(), pedidoAlmacenado.getId())){
                  
                     System.out.println("*****************************");
                     System.out.println("PROBLEMA ALMACENANDO DETALLES PEDIDO");
@@ -157,6 +140,7 @@ public class PedidoService {
             return pedido;
         }
     }
+    
     
     public Pedido update(Pedido pedido) {
         

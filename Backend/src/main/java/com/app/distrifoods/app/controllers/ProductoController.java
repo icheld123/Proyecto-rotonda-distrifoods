@@ -2,7 +2,7 @@
 package com.app.distrifoods.app.controllers;
 
 import com.app.distrifoods.app.entities.Producto;
-import com.app.distrifoods.app.entities.dto.ProductoDto;
+import com.app.distrifoods.app.entities.dto.ProductoCompletoDto;
 import com.app.distrifoods.app.services.ProductoService;
 import java.util.List;
 import java.util.Optional;
@@ -37,12 +37,17 @@ public class ProductoController {
     }
     
     @GetMapping("/all")
-    public List<ProductoDto> getAll(){
+    public List<ProductoCompletoDto> getAll(){
         return service.getAllMapeado();
     }
     
+    @GetMapping("/prueba")
+    public List<ProductoCompletoDto> prueba(){
+        return service.prueba();
+    }
+    
     @GetMapping("/all/byrestaurant/{id}")
-    public List<ProductoDto> getAllByRestaurant(@PathVariable("id")int id){
+    public List<ProductoCompletoDto> getAllByRestaurant(@PathVariable("id")int id){
         return service.getAllByRestaurant(id);
     }
     

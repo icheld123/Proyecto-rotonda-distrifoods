@@ -1,7 +1,7 @@
 import { ClienteCompleto } from "./cliente";
 import { Estado } from "./estado";
 import { MetodoPago } from "./metodoPago";
-import { ProductoAdicionType2, ProductoCompleto } from "./producto";
+import { ProductoCompleto } from "./producto";
 
 export class Pedido {
   idCliente:  number;
@@ -9,15 +9,15 @@ export class Pedido {
   fecha: Date;
   idEstado: number;
   precio: number;
-  idsPedidos: ProductoAdicionType2[];
+  productos: ProductoCompleto[];
 
-  constructor(idCliente:  number, idMetodo: number, fecha: Date, idEstado: number, precio: number, idsPedidos: ProductoAdicionType2[]){
+  constructor(idCliente:  number, idMetodo: number, fecha: Date, idEstado: number, precio: number, productos: ProductoCompleto[]){
     this.idCliente = idCliente;
     this.idMetodo = idMetodo;
     this.fecha = fecha;
     this.idEstado = idEstado;
     this.precio = precio;
-    this.idsPedidos = idsPedidos;
+    this.productos = productos;
   }
 }
 

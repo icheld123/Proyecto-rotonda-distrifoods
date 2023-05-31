@@ -12,7 +12,7 @@
     <label for="restauranteFiltro">Restaurante: </label>
     <select name="restauranteFiltro" id="restauranteFiltro">
       <option value="">--Seleccione</option>
-      <option *ngFor="let restaurante of restaurantes" value="{{restaurante.nombre}}">{{restaurante.nombre}}</option>
+      <option *ngFor="let restaurante of restaurantes" value="{{restaurante.id}}">{{restaurante.nombre}}</option>
     </select>
     <button (click)="filtrar()">Filtrar</button>
 
@@ -22,9 +22,9 @@
       </tr>
       <tr *ngFor="let producto of productosFiltrados">
         <td>{{producto.id}}</td>
-        <td>{{producto.nombreRestaurante}}</td>
-        <td>{{producto.nombreProducto}}</td>
-        <td>{{producto.tipoProducto}}</td>
+        <td>{{producto.restaurante.nombre}}</td>
+        <td>{{producto.nombre}}</td>
+        <td>{{producto.tipoProducto.nombre}}</td>
         <td>{{producto.cantidad}}</td>
         <td>{{producto.descripcion}}</td>
         <!-- <td>{{producto.imagen}}</td> -->

@@ -4,10 +4,13 @@ import { Restaurante } from 'src/app/models/restaurante';
 import { RestauranteService } from '../restaurantes/restaurante.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TipoProducto } from 'src/app/models/tipoProducto';
-import { HttpHeaders } from '@angular/common/http';
-import { Producto, ProductoType2 } from 'src/app/models/producto';
+import { HttpEventType, HttpHeaders } from '@angular/common/http';
+import { Producto, ProductoCompleto} from 'src/app/models/producto';
 import { EdicionMenuService } from './service/edicion-menu.service';
 
+
+const ACTUALIZACION_CORRECTA = "El producto fue actualizado satisfactoriamente.";
+const CREACION_CORRECTA = "El producto ha sido actualizado correctamente.";
 const CABECERA = ["ID", "RESTAURANTE", "PRODUCTO", "TIPO PRODUCTO", "CANTIDAD", "DESCRIPCIÓN", "PRECIO", "ACCION"];
 
 @Component({
@@ -25,9 +28,9 @@ export class EdicionMenuComponent {
   tipoproductos: TipoProducto[] = [];
   restaurantes: Restaurante[] = [];
   sucursales: Sucursal[] = [];
-  productos: Producto[] = [];
-  productoActual: ProductoType2;
-  productosFiltrados: Producto[] = [];
+  productos: ProductoCompleto[] = [];
+  productoActual: Producto;
+  productosFiltrados: ProductoCompleto[] = [];
   prodSelecconado: number = 0;
 
   constructor(private edicionMenuService: EdicionMenuService, private restauranteService: RestauranteService){}
@@ -54,12 +57,11 @@ export class EdicionMenuComponent {
 
 
   async filtrar(){
-    //await this.llamarServicioGetProductos();
     let valueSelect = document.getElementById("restauranteFiltro") as HTMLFormElement
     if (this.productos.length > 0 && valueSelect["value"] != ""){
       this.productosFiltrados = [];
       this.productos.forEach(producto => {
-        if (producto.nombreRestaurante.toLowerCase() == valueSelect["value"].toLowerCase()){
+        if (producto.restaurante.id == valueSelect["value"]){
           this.productosFiltrados.push(producto);
         }
       });
@@ -70,7 +72,6 @@ export class EdicionMenuComponent {
   async llamarServicioGetTiposProductos(){
     this.edicionMenuService.getTiposProductos().subscribe(respuesta => {
       this.tipoproductos = respuesta;
-      // console.log(this.tipoproductos);
     })
   }
 
@@ -78,14 +79,12 @@ export class EdicionMenuComponent {
     this.edicionMenuService.getProductos().subscribe(respuesta => {
       this.productos = respuesta;
       this.productosFiltrados = this.productos;
-      // console.log(this.productosFiltrados);
     })
   }
 
   async llamarServicioGetProductoById(id: number){
     this.edicionMenuService.getProductosById(id).subscribe(respuesta => {
       this.productoActual = respuesta;
-      // console.log(this.productoActual);
       this.setearFormProducto();
     })
   }
@@ -93,19 +92,20 @@ export class EdicionMenuComponent {
   async llamarServicioGetRestaurantes(){
     this.restauranteService.getRestaurantes().subscribe(respuesta => {
         this.restaurantes = respuesta;
-        // console.log(this.restaurantes);
       });
   }
 
   public llamarServicioDeleteProducto(id: number){
-    // let eliminar = confirm("¿Está seguro de eliminar el producto (id:"+ id +")?");
-    // console.log(eliminar)
     if (confirm("¿Está seguro de eliminar el producto (id:"+ id +")?")) {
       this.edicionMenuService.deleteProducto(id).subscribe(respuesta => {
         console.log(respuesta);
         this.llamarServicioGetProductos();
       });
     }
+  }
+
+  public mostrarMensaje(mensaje: string){
+    alert(mensaje);
   }
 
   public llamarServicioPostProducto(){
@@ -118,14 +118,17 @@ export class EdicionMenuComponent {
         )
       };
       try {
-        this.edicionMenuService.crearProducto(this.formProducto.value, options).subscribe({
-          next: data => {
-            console.log(data);
-          },
-          error: error =>{
+        this.edicionMenuService.crearProducto(this.formProducto.value, options).subscribe(
+          (response: any) =>{
+            if (response.id > 0){
+              this.mostrarMensaje(CREACION_CORRECTA);
+              this.mostrarProductos();
+
+            }
+          }),
+          (error: any) => {
             console.log(error);
           }
-        })
       } catch (error) {
         console.log(error);
       }
@@ -142,15 +145,16 @@ export class EdicionMenuComponent {
         )
       };
       try {
-        this.edicionMenuService.actualizarProducto(this.formProductoAct.value, options).subscribe({
-          next: data => {
-            console.log(data);
-            this.llamarServicioGetProductos();
-          },
-          error: error =>{
+        this.edicionMenuService.actualizarProducto(this.formProductoAct.value, options).subscribe(
+          (response: any) =>{
+            if (response.id > 0){ //NECESARIO REVISAR Y AJUSTAR VALIDACIÓN
+              this.mostrarMensaje(ACTUALIZACION_CORRECTA);
+              this.mostrarProductos();
+            }
+          }),
+          (error: any) => {
             console.log(error);
           }
-        })
       } catch (error) {
         console.log(error);
       }

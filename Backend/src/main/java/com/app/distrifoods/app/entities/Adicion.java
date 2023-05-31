@@ -4,6 +4,7 @@
  */
 package com.app.distrifoods.app.entities;
 
+import java.io.Serializable;
 import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name="adiciones")
-public class Adicion {
+public class Adicion implements Serializable{
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id_adicion")

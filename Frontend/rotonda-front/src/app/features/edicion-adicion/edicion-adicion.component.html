@@ -2,8 +2,8 @@
   <!-- <p>Seleccione el producto que quiere editar:</p> -->
 
   <div>
-    <button (click)="mostrarProductos()">Ver adiciones</button>
-    <button (click)="mostrarCrearProductos()">Crear adición</button>
+    <button (click)="mostrarAdiciones()">Ver adiciones</button>
+    <button (click)="mostrarCrearAdiciones()">Crear adición</button>
   </div>
 
 
@@ -16,7 +16,7 @@
     </select>
     <select name="productoFiltro" id="productoFiltro">
       <option value="">--Seleccione</option>
-      <option *ngFor="let producto of productosPorRestaurante" value="{{producto.id}}">{{producto.nombreProducto}}</option>
+      <option *ngFor="let producto of productosPorRestaurante" value="{{producto.id}}">{{producto.nombre}}</option>
     </select>
     <button (click)="filtrar()">Filtrar</button>
 
@@ -29,7 +29,6 @@
         <td>{{adicion.nombreProducto}}</td>
         <td>{{adicion.nombreRestaurante}}</td>
         <td>{{adicion.nombre}}</td>
-        <!-- <td>{{producto.imagen}}</td> -->
         <td>{{adicion.precio}}</td>
         <td>
           <button class="btn btn-primary btn-block" (click)="IniciarUpdateAdicion(adicion.id)">Actualizar</button>
@@ -57,7 +56,7 @@
               <label for="idProducto">Producto de la adición: </label><br>
               <select name="idProducto" id="idProducto" formControlName="idProducto">
                 <option value="">--Seleccione</option>
-                <option *ngFor="let producto of productosPorRestaurante" value="{{producto.id}}">{{producto.nombreProducto}}</option>
+                <option *ngFor="let producto of productosPorRestaurante" value="{{producto.id}}">{{producto.nombre}}</option>
               </select>
             </div>
 
@@ -102,7 +101,7 @@
               <label for="idProducto">Producto de la adición: </label><br>
               <select name="idProducto" id="idProducto" formControlName="idProducto">
                 <option value="">--Seleccione</option>
-                <option *ngFor="let producto of productosPorRestaurante" value="{{producto.id}}">{{producto.nombreProducto}}</option>
+                <option *ngFor="let producto of productosPorRestaurante" value="{{producto.id}}">{{producto.nombre}}</option>
               </select>
             </div>
 

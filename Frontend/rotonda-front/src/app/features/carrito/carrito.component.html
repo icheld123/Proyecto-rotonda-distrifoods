@@ -4,9 +4,9 @@
     <div class="col-12 " *ngFor="let item of items; let i = index ">
       <div class="row" id="{{ item.id}}">
         <div class="col-6">
-          <small class=" ">{{ item.nombreRestaurante }}</small>
+          <small class=" ">{{ item.restaurante.nombre }}</small>
           <div class=" ">
-              {{ item.nombreProducto }}
+              {{ item.nombre }}
               <small>( {{ item.precio | currency }} ) </small>
           </div>
           <div *ngIf="item.adiciones != null">

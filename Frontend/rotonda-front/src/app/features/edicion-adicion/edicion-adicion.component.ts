@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Adicion, AdicionType2 } from 'src/app/models/adicion';
-import { Producto } from 'src/app/models/producto';
+import { Producto, ProductoCompleto } from 'src/app/models/producto';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RestauranteService } from '../restaurantes/restaurante.service';
 import { EdicionAdicionServicioService } from './service/edicion-adicion.servicio.service';
@@ -9,6 +9,8 @@ import { MenuServicioService } from '../menu/service/menu.servicio.service';
 import { HttpHeaders } from '@angular/common/http';
 import { EdicionMenuService } from '../edicion-menu/service/edicion-menu.service';
 
+const ACTUALIZACION_CORRECTA = "El producto fue actualizado satisfactoriamente.";
+const CREACION_CORRECTA = "El producto ha sido actualizado correctamente.";
 const CABECERA = ["ID", "PRODUCTO", "RESTAURANTE", "NOMBRE ADICION", "PRECIO", "ACCION"];
 
 @Component({
@@ -24,7 +26,7 @@ export class EdicionAdicionComponent {
   public crearProductos: boolean = false;
   public actualizarProductos: boolean = false;
   public cabecera: string[] = CABECERA;
-  productosPorRestaurante: Producto[] = [];
+  productosPorRestaurante: ProductoCompleto[] = [];
   restaurantes: Restaurante[] = [];
   // sucursales: Sucursal[] = [];
   adiciones: AdicionType2[] = [];
@@ -41,20 +43,20 @@ export class EdicionAdicionComponent {
               private edicionMenuService: EdicionMenuService){}
 
 
-  public mostrarProductos(){
+  public mostrarAdiciones(){
     this.listarProductos = true;
     this.crearProductos = false;
     this.actualizarProductos = false;
     this.llamarServicioGetAdiciones();
   }
 
-  public mostrarCrearProductos(){
+  public mostrarCrearAdiciones(){
     this.listarProductos = false;
     this.crearProductos = true;
     this.actualizarProductos = false;
   }
 
-  public mostrarActProductos(){
+  public mostrarActAdiciones(){
     this.listarProductos = false;
     this.crearProductos = false;
     this.actualizarProductos = true;
@@ -62,27 +64,40 @@ export class EdicionAdicionComponent {
 
 
   async filtrar(){
-    //await this.llamarServicioGetProductos();
+    // let selectedRestaurante = document.getElementById("restauranteFiltro") as HTMLFormElement
+    // let selectedProducto = document.getElementById("productoFiltro") as HTMLFormElement
+    // if (this.adiciones.length > 0 && selectedRestaurante["value"] != "" && selectedProducto["value"] != ""){
+    //   this.adicionesFiltrados = [];
+    //   for (let index = 0; index < this.adicionesSinMapear.length; index++) {
+    //     const adicion = this.adicionesSinMapear[index];
+    //     if (adicion.idProducto == selectedProducto["value"]){
+    //       this.adicionesFiltrados.push(this.adiciones[index]);
+    //     }
+    //   }
+    // }
     let selectedRestaurante = document.getElementById("restauranteFiltro") as HTMLFormElement
     let selectedProducto = document.getElementById("productoFiltro") as HTMLFormElement
-    if (this.adiciones.length > 0 && selectedRestaurante["value"] != "" && selectedProducto["value"] != ""){
+    if (selectedRestaurante["value"] != "" && selectedProducto["value"] != ""){
       this.adicionesFiltrados = [];
-      for (let index = 0; index < this.adicionesSinMapear.length; index++) {
-        const adicion = this.adicionesSinMapear[index];
-        if (adicion.idProducto == selectedProducto["value"]){
-          this.adicionesFiltrados.push(this.adiciones[index]);
-        }
-      }
+      this.productosPorRestaurante.forEach(producto => {
+          producto.adiciones.forEach(adicion => {
+            if(adicion.idProducto == selectedProducto["value"]){
+              this.adicionesFiltrados.push({id: adicion.id,
+                                            nombreProducto: producto.nombre,
+                                            nombreRestaurante: producto.restaurante.nombre,
+                                            nombre: adicion.nombre,
+                                            precio: adicion.precio});
+            }
+          });
+      });
     }
+    console.log(this.adicionesFiltrados);
 
   }
 
-  // async llamarServicioGetTiposProductos(){
-  //   this.edicionMenuService.getTiposProductos().subscribe(respuesta => {
-  //     this.tipoproductos = respuesta;
-  //     // console.log(this.tipoproductos);
-  //   })
-  // }
+  public mostrarMensaje(mensaje: string){
+    alert(mensaje);
+  }
 
   async llamarServicioGetAdiciones(){
     this.edicionAdicionService.getAdicionesMapeadas().subscribe(respuesta => {
@@ -121,7 +136,6 @@ export class EdicionAdicionComponent {
   async llamarServicioGetRestaurantes(){
     this.restauranteService.getRestaurantes().subscribe(respuesta => {
         this.restaurantes = respuesta;
-        // console.log(this.restaurantes);
       });
   }
 
@@ -133,6 +147,7 @@ export class EdicionAdicionComponent {
   async llamarServicioGetAdicion(id: string, llamarSeteo: boolean){
     this.menuServicioService.getProductos(id).subscribe(respuesta => {
       this.productosPorRestaurante = respuesta;
+      console.log(this.productosPorRestaurante)
       if (llamarSeteo){
         this.setearFormProducto();
       }
@@ -140,8 +155,6 @@ export class EdicionAdicionComponent {
   }
 
   public llamarServicioDeleteAdicion(id: number){
-    // let eliminar = confirm("¿Está seguro de eliminar el producto (id:"+ id +")?");
-    // console.log(eliminar)
     if (confirm("¿Está seguro de eliminar la adición (id:"+ id +")?")) {
       this.edicionAdicionService.deleteAdicion(id).subscribe(respuesta => {
         console.log(respuesta);
@@ -160,14 +173,17 @@ export class EdicionAdicionComponent {
         )
       };
       try {
-        this.edicionAdicionService.crearAdicion(this.formAdicion.value, options).subscribe({
-          next: data => {
-            console.log(data);
-          },
-          error: error =>{
+        this.edicionAdicionService.crearAdicion(this.formAdicion.value, options).subscribe(
+          (response: any) =>{
+            if (response.id > 0){
+              this.mostrarMensaje(CREACION_CORRECTA);
+              this.mostrarAdiciones();
+
+            }
+          }),
+          (error: any) => {
             console.log(error);
           }
-        })
       } catch (error) {
         console.log(error);
       }
@@ -184,15 +200,16 @@ export class EdicionAdicionComponent {
         )
       };
       try {
-        this.edicionAdicionService.actualizarAdicion(this.formAdicionAct.value, options).subscribe({
-          next: data => {
-            console.log(data);
-            this.llamarServicioGetAdiciones();
-          },
-          error: error =>{
+        this.edicionAdicionService.actualizarAdicion(this.formAdicionAct.value, options).subscribe(
+          (response: any) =>{
+            if (response.id > 0){ //NECESARIO REVISAR Y AJUSTAR VALIDACIÓN
+              this.mostrarMensaje(ACTUALIZACION_CORRECTA);
+              this.mostrarAdiciones();
+            }
+          }),
+          (error: any) => {
             console.log(error);
           }
-        })
       } catch (error) {
         console.log(error);
       }
@@ -200,16 +217,8 @@ export class EdicionAdicionComponent {
   }
 
   public async IniciarUpdateAdicion(id: number){
-    this.mostrarActProductos();
+    this.mostrarActAdiciones();
     await this.llamarServicioGetAdicionById(id);
-  }
-
-  async llamarServicioGetAdicion2(){
-    this.menuServicioService.getProductos(this.formSelect.value.restauranteUpdate).subscribe(respuesta => {
-      console.log(respuesta)
-      this.productosPorRestaurante = respuesta;
-    });
-
   }
 
   public setearFormProducto(){

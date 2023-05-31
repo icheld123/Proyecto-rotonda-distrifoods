@@ -5,32 +5,46 @@
       <div class="imagen-producto">
         <img src="{{producto.imagen}}" alt="" >
       </div>
-      <h4>{{producto.nombreProducto}}</h4>
-      <p><strong>Tipo: </strong>{{producto.tipoProducto}}</p>
+      <h4>{{producto.nombre}}</h4>
+      <p><strong>Tipo: </strong>{{producto.tipoProducto.nombre}}</p>
       <p><strong>Descripción: </strong>{{producto.descripcion}}</p>
       <p><strong>Precio: </strong>${{producto.precio}}</p>
+      <div class="botones">
+        <!-- <input type="submit" class="button" (click)="initAddToCart(producto, i)" value="Comprar"> -->
+        <a class="button" (click)="initAddToCart(producto)">Comprar</a>
+      </div>
+    </article>
+  </div>
 
-      <form [formGroup]="adicion">
-        <div *ngIf="adicionesOrganizadas[i].length > 0">
-          <label for="adiciones{{i}}">Adiciones</label> <br>
-          <select name="adiciones{{i}}" id="adiciones{{i}}" multiple formControlName="adiciones">
-            <option *ngFor="let adicion of adicionesOrganizadas[i]" [value]="adicion">{{adicion.nombre + " - $" + adicion.precio}}</option>
+</div>
+
+<div id="myModal" class="modal"  [style]="(mostrarModal)?'display: block':'display: none'" >
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Agregar adiciones</h3>
+      <span class="close" (click)="cerrarModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+
+      <form [formGroup]="adicionForm">
+        <div *ngIf="productoSelected != null && productoSelected.adiciones.length > 0">
+          <label for="adiciones">Adiciones</label> <br>
+          <select name="adiciones" id="adiciones" multiple formControlName="adiciones">
+            <option *ngFor="let adicion of productoSelected.adiciones" [value]="adicion">{{adicion.nombre + " - $" + adicion.precio}}</option>
           </select>
         </div>
-
-        <!-- <div *ngFor="let adicion of adiciones;">
-          <div *ngIf="adicion.idProducto == producto.id">
-            <input type="checkbox" name="adiciones" [value]="adicion.id">{{adicion.nombre}}
-          </div>
-        </div> -->
-
+        <div *ngIf="productoSelected != null && productoSelected.adiciones.length == 0">
+          <p>Este producto no tiene adiciones</p>
+        </div>
         <div class="botones">
-          <input type="submit" class="button" (click)="addToCart(producto, i)" value="Comprar">
-          <!-- <a class="button" (click)="addToCart(producto)">Comprar</a> -->
+          <input type="submit" class="button" (click)="addToCart()" value="Continuar">
         </div>
       </form>
-
-    </article>
+    </div>
+    <!-- <div class="modal-footer">
+      <h3>Modal Footer</h3>
+    </div> -->
   </div>
 
 </div>

@@ -4,15 +4,27 @@
  */
 package com.app.distrifoods.app.services;
 
+import com.app.distrifoods.app.entities.Adicion;
 import com.app.distrifoods.app.entities.Producto;
 import com.app.distrifoods.app.entities.Restaurante;
 import com.app.distrifoods.app.entities.TipoProducto;
+import com.app.distrifoods.app.entities.dto.ProductoCompletoDto;
 import com.app.distrifoods.app.entities.dto.ProductoDto;
 import com.app.distrifoods.app.repository.ProductoRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,9 +43,14 @@ public class ProductoService {
         return repository.getAll();
     }
     
-    public List<ProductoDto> getAllMapeado() {
+    public List<ProductoCompletoDto> getAllMapeado() {
         List<Producto> respuesta = repository.getAll();
-        return mapearProducto(respuesta);
+        return mapearProductoCompleto(respuesta);
+    }
+    
+    public List<ProductoCompletoDto> prueba() {
+        List<Producto> respuesta = repository.getAll();
+        return mapearProductoCompleto(respuesta);
     }
     
     public List<ProductoDto> mapearProducto(List<Producto> listaProductos){
@@ -55,17 +72,51 @@ public class ProductoService {
         return respuestaMapeada;
     }
     
+    public List<ProductoCompletoDto> getAllByRestaurant(int id){
+        List<Producto> respuesta = repository.getByRestaurant(id);
+        return mapearProductoCompleto(respuesta);
+    }
+    
+    public List<ProductoCompletoDto> mapearProductoCompleto(List<Producto> listaProductos){
+        List<ProductoCompletoDto> respuestaMapeada = new ArrayList<>();
+        for (Producto producto : listaProductos) {
+            Optional<Restaurante> restaurante = restauranteService.getRestaurante(producto.getIdRestaurante());
+            Optional<TipoProducto> tipoProducto = tipoProductoService.getTipoProducto(producto.getIdTipoProducto());
+//            List<Adicion> adiciones = new ArrayList<>();
+            String urlString = "http://localhost:8080/api/adicion/all/byproducto/" + producto.getId();            
+            String respuesta = consumirApiRest(urlString);
+            System.out.println("/////////////////////////////");
+            System.out.println(respuesta);
+            System.out.println("/////////////////////////////");
+            ObjectMapper mapper = new ObjectMapper();
+            List<Adicion> adiciones = new ArrayList<>();
+            try {
+                adiciones = mapper.readValue(respuesta, new TypeReference<List<Adicion>>(){});
+            } catch (JsonProcessingException ex) {
+                Logger.getLogger(ProductoService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            ProductoCompletoDto productoCompletoDto = new ProductoCompletoDto(producto.getId(), 
+                                                      restaurante.get(),
+                                                      producto.getNombre(),
+                                                      tipoProducto.get(),
+                                                      producto.getCantidad(),
+                                                      producto.getDescripcion(),
+                                                      adiciones,
+                                                      producto.getImagen(),
+                                                      producto.getPrecio());
+            respuestaMapeada.add(productoCompletoDto);
+           
+        }
+        return respuestaMapeada;
+    }
+    
     public Optional<Producto> getProducto(int id) {
         return repository.getProducto(id);
     }
     
      public boolean existId(int id){
         return repository.existId(id);
-    }
-    
-    public List<ProductoDto> getAllByRestaurant(int id){
-        List<Producto> respuesta = repository.getByRestaurant(id);
-        return mapearProducto(respuesta);
     }
     
     public Producto save(Producto producto) {
@@ -144,4 +195,45 @@ public class ProductoService {
         }).orElse(false);
         return aBoolean;
     }
+    
+    public String consumirApiRest(String urlString){
+        try {
+                // Crea la URL de la API REST que deseas consumir
+                URL url = new URL(urlString);
+
+                // Abre una conexion HTTP
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                // Configura el metodo HTTP y otros encabezados
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("Content-Type", "application/json");
+
+                // Obtiene la respuesta de la API
+                int responseCode = connection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    // Lee la respuesta de la API
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String line;
+                    StringBuilder response = new StringBuilder();
+
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    reader.close();
+                    
+                    // Cierra la conexion
+                    connection.disconnect();
+                    
+                    return response.toString();
+                     
+                } else {
+                    System.out.println("Error al consumir la API. Codigo de respuesta: " + responseCode);
+                    connection.disconnect();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        return null;
+    }    
 }

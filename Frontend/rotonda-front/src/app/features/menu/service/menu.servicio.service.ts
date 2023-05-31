@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Adicion } from 'src/app/models/adicion';
-import { Producto } from 'src/app/models/producto';
+import { Producto, ProductoCompleto } from 'src/app/models/producto';
 import { Restaurante } from 'src/app/models/restaurante';
 import { environment } from 'src/environments/environment';
 
@@ -17,7 +17,7 @@ export class MenuServicioService {
   constructor(private httpClient: HttpClient) { }
 
   getProductos(id: string){
-    return this.httpClient.get<Producto[]>(environment.endpoint + this.endpoint_productos + id);
+    return this.httpClient.get<ProductoCompleto[]>(environment.endpoint + this.endpoint_productos + id);
   }
 
   getRestauranteById(id: string){

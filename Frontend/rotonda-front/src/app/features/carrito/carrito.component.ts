@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Producto, ProductoAdicion, ProductoAdicionType2 } from 'src/app/models/producto';
+import { Producto, ProductoCompleto } from 'src/app/models/producto';
 import { CartService } from '../shared/service/cart.service';
 import { CarritoService } from './service/carrito.service';
 import { Usuario } from 'src/app/models/usuario';
@@ -10,6 +10,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Adicion } from 'src/app/models/adicion';
 
 
+const CREACION_CORRECTA = "El pedido se ha creado exitosamente.";
 const ESTADO_INICIAL_EN_PROCESO:number = 1;
 
 @Component({
@@ -18,7 +19,7 @@ const ESTADO_INICIAL_EN_PROCESO:number = 1;
   styleUrls: ['./carrito.component.css']
 })
 export class CarritoComponent implements OnInit{
-  items:ProductoAdicion[] = [];
+  items:ProductoCompleto[] = [];
   total:number = 0;
   buttonPedir: boolean = false;
   existeCliente: boolean = false;
@@ -29,13 +30,13 @@ export class CarritoComponent implements OnInit{
   constructor(public cartService: CartService, public carritoService: CarritoService){
   }
 
-  removeFromCart(item: ProductoAdicion) {
+  removeFromCart(item: ProductoCompleto) {
     this.cartService.removeItem(item);
     this.items = this.cartService.getItems();
     this.calcularTotal();
   }
 
-  clearCart(items: ProductoAdicion[]) {
+  clearCart(items: ProductoCompleto[]) {
     // this.items.forEach((item, index) => this.cartService.removeItem(index));
     this.cartService.clearCart(items);
     this.items = [...this.cartService.getItems()];
@@ -95,8 +96,8 @@ export class CarritoComponent implements OnInit{
     });
   }
 
-  llamarServicioPostMetodoPago(idProductos: ProductoAdicionType2[], metodoPago: number){
-    let pedido: Pedido = new Pedido(this.cliente.id, metodoPago, new Date(), ESTADO_INICIAL_EN_PROCESO, this.total, idProductos)
+  llamarServicioPostMetodoPago(productos: ProductoCompleto[], metodoPago: number){
+    let pedido: Pedido = new Pedido(this.cliente.id, metodoPago, new Date(), ESTADO_INICIAL_EN_PROCESO, this.total, productos)
     console.log(pedido);
     let options = {
       headers: new HttpHeaders().set(
@@ -105,15 +106,16 @@ export class CarritoComponent implements OnInit{
       )
     };
     try {
-      this.carritoService.crearPedido(pedido, options).subscribe({
-        next: data => {
-          console.log(data);
-          this.clearCart(this.items);
-        },
-        error: error =>{
-          console.log(error);
-        }
-      })
+      this.carritoService.crearPedido(pedido, options).subscribe(
+          (response: any) =>{
+            if (response.id > 0){
+              this.mostrarMensaje(CREACION_CORRECTA);
+              this.clearCart(this.items);
+            }
+          }),
+          (error: any) => {
+            console.log(error);
+          }
     } catch (error) {
       console.log(error);
     }
@@ -122,20 +124,15 @@ export class CarritoComponent implements OnInit{
 
   iniciarPedido(){
     let metodoPago = document.getElementById("metodo") as HTMLFormElement;
-    let productos = this.cartService.getItems();
-    let idProductos: ProductoAdicionType2[] = [];
+    let productos: ProductoCompleto[] = this.cartService.getItems();
 
     if (metodoPago["value"] > 0 && this.cliente != null && this.cliente.id > 0 && this.total > 0 && productos.length > 0){
-      productos.forEach(producto => {
-        let prodAux = {
-          id: producto.id,
-          adiciones: producto.adiciones
-        };
-
-        idProductos.push(prodAux);
-      });
-      this.llamarServicioPostMetodoPago(idProductos, metodoPago["value"]);
+      this.llamarServicioPostMetodoPago(productos, metodoPago["value"]);
     }
+  }
+
+  public mostrarMensaje(mensaje: string){
+    alert(mensaje);
   }
 
   ngOnInit(): void {

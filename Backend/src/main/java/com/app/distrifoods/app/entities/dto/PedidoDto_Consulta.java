@@ -23,5 +23,5 @@ public class PedidoDto_Consulta implements Serializable{
     private Date fecha;
     private Estado estado;
     private Float precio;
-    private List<Producto_AdicionesDto> productos;
+    private List<ProductoCompletoDto> productos;
 }

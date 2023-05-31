@@ -53,24 +53,24 @@ public class ProductoService {
         return mapearProductoCompleto(respuesta);
     }
     
-    public List<ProductoDto> mapearProducto(List<Producto> listaProductos){
-        List<ProductoDto> respuestaMapeada = new ArrayList<>();
-        for (Producto producto : listaProductos) {
-            Optional<Restaurante> restaurante = restauranteService.getRestaurante(producto.getIdRestaurante());
-            Optional<TipoProducto> tipoProducto = tipoProductoService.getTipoProducto(producto.getIdTipoProducto());
-            
-            ProductoDto productoDto = new ProductoDto(producto.getId(), 
-                                                      restaurante.get().getNombre(),
-                                                      producto.getNombre(),
-                                                      tipoProducto.get().getNombre(),
-                                                      producto.getCantidad(),
-                                                      producto.getDescripcion(),
-                                                      producto.getImagen(),
-                                                      producto.getPrecio());
-            respuestaMapeada.add(productoDto);
-        }
-        return respuestaMapeada;
-    }
+//    public List<ProductoDto> mapearProducto(List<Producto> listaProductos){
+//        List<ProductoDto> respuestaMapeada = new ArrayList<>();
+//        for (Producto producto : listaProductos) {
+//            Optional<Restaurante> restaurante = restauranteService.getRestaurante(producto.getIdRestaurante());
+//            Optional<TipoProducto> tipoProducto = tipoProductoService.getTipoProducto(producto.getIdTipoProducto());
+//            
+//            ProductoDto productoDto = new ProductoDto(producto.getId(), 
+//                                                      restaurante.get().getNombre(),
+//                                                      producto.getNombre(),
+//                                                      tipoProducto.get().getNombre(),
+//                                                      producto.getCantidad(),
+//                                                      producto.getDescripcion(),
+//                                                      producto.getImagen(),
+//                                                      producto.getPrecio());
+//            respuestaMapeada.add(productoDto);
+//        }
+//        return respuestaMapeada;
+//    }
     
     public List<ProductoCompletoDto> getAllByRestaurant(int id){
         List<Producto> respuesta = repository.getByRestaurant(id);
@@ -109,6 +109,25 @@ public class ProductoService {
            
         }
         return respuestaMapeada;
+    }
+    
+    public ProductoDto mapearProductoSinAdiciones(Producto producto){
+        Optional<Restaurante> restaurante = restauranteService.getRestaurante(producto.getIdRestaurante());
+        Optional<TipoProducto> tipoProducto = tipoProductoService.getTipoProducto(producto.getIdTipoProducto());
+        ProductoDto productoDto = new ProductoDto(producto.getId(), 
+                                                      restaurante.get(),
+                                                      producto.getNombre(),
+                                                      tipoProducto.get(),
+                                                      producto.getCantidad(),
+                                                      producto.getDescripcion(),
+                                                      producto.getImagen(),
+                                                      producto.getPrecio());
+        return productoDto;
+    }
+    
+    public ProductoDto getProductoMapeado(int id) {
+        Optional<Producto> producto = repository.getProducto(id);
+        return mapearProductoSinAdiciones(producto.get());
     }
     
     public Optional<Producto> getProducto(int id) {

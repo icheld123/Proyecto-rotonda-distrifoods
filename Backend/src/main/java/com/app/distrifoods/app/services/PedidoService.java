@@ -16,6 +16,8 @@ import com.app.distrifoods.app.entities.Usuario;
 import com.app.distrifoods.app.entities.dto.ClienteDto;
 import com.app.distrifoods.app.entities.dto.PedidoDto;
 import com.app.distrifoods.app.entities.dto.PedidoDto_Consulta;
+import com.app.distrifoods.app.entities.dto.ProductoCompletoDto;
+import com.app.distrifoods.app.entities.dto.ProductoDto;
 import com.app.distrifoods.app.entities.dto.Producto_AdicionesDto;
 import com.app.distrifoods.app.repository.PedidoRepository;
 import java.util.ArrayList;
@@ -67,10 +69,10 @@ public class PedidoService {
             System.out.println("****************");
             System.out.println(detallePedido.size());
             System.out.println("****************");
-            List<Producto_AdicionesDto> productos_adicionesDto = new ArrayList<>();
+            List<ProductoCompletoDto> productosCompletoDto = new ArrayList<>();
             for(DetallePedido detPedido :detallePedido) {
 //                Producto_AdicionesDto producto_adicionesDto = new Producto_AdicionesDto();
-                Optional<Producto> producto = productoService.getProducto(detPedido.getIdProducto());
+                ProductoDto productoDto = productoService.getProductoMapeado(detPedido.getIdProducto());
                 List<DetalleProducto> detalleProducto = detalleProductoService.getAllByIdPedido(detPedido.getId());
                 List<Adicion> adiciones = new ArrayList<>();
                 if(detalleProducto != null && !detalleProducto.isEmpty()){
@@ -79,9 +81,17 @@ public class PedidoService {
                         adiciones.add(adicion.get());
                     }
                 }
-                Producto_AdicionesDto producto_adicionesDto = new Producto_AdicionesDto(producto.get(), adiciones);
-                if(producto_adicionesDto.getProducto() != null){
-                     productos_adicionesDto.add(producto_adicionesDto);
+                ProductoCompletoDto productoCompletoDto = new ProductoCompletoDto(productoDto.getId(),
+                                                                                    productoDto.getRestaurante(),
+                                                                                    productoDto.getNombre(),
+                                                                                    productoDto.getTipoProducto(),
+                                                                                    productoDto.getCantidad(),
+                                                                                    productoDto.getDescripcion(),
+                                                                                    adiciones,
+                                                                                    productoDto.getImagen(),
+                                                                                    productoDto.getPrecio());
+                if(productoCompletoDto.getId() > 0){
+                     productosCompletoDto.add(productoCompletoDto);
                 }
             }
             
@@ -93,7 +103,7 @@ public class PedidoService {
             pedidoDto_Consulta.setMetodoPago(metodoPago.get());
             pedidoDto_Consulta.setEstado(estado.get());
             pedidoDto_Consulta.setPrecio(pedido.getPrecio());
-            pedidoDto_Consulta.setProductos(productos_adicionesDto);
+            pedidoDto_Consulta.setProductos(productosCompletoDto);
             
             pedidosDto_Consulta.add(pedidoDto_Consulta);
         }

@@ -17,25 +17,49 @@
         <td>{{pedido.id}}</td>
         <td>{{pedido.cliente.usuario.identificacion}}</td>
         <td>{{pedido.metodoPago.nombre}}</td>
-        <td>{{obtenerDatosFechaHora(pedido.fecha)}}</td>
-        <td>{{pedido.precio}}</td>
+        <td>{{obtenerDatosFecha(pedido.fecha)}}</td>
+        <td>{{obtenerDatosHora(pedido.fecha)}}</td>
         <td>
           <ul *ngIf="pedido.productos.length > 0">
-            <li *ngFor="let producto of pedido.productos">{{producto.nombre}} - Adiciones:
-              <small *ngFor="let adicion of producto.adiciones">{{adicion.nombre}}</small>
+            <li *ngFor="let producto of pedido.productos">{{producto.nombre}}
+              <small *ngFor="let adicion of producto.adiciones">({{adicion.nombre}})</small>
             </li>
           </ul>
-      </td>
-        <!-- <td>{{producto.imagen}}</td> -->
+        </td>
+        <td>{{pedido.precio}}</td>
+        <td>{{pedido.cliente.direccion}} - {{pedido.cliente.telefono}}</td>
         <td >{{pedido.estado.nombre}}</td>
         <td>
-          <button class="btn btn-primary btn-block">Actualizar estado</button>
+          <button class="btn btn-primary btn-block" (click)="iniciarActualizacionEstado(pedido)">Actualizar estado</button>
           <!-- <button class="btn btn-primary btn-block">Eliminar</button> -->
         </td>
       </tr>
     </table>
   </div>
+</div>
 
-
-
+<div id="myModal" class="modal"  [style]="(mostrarModal)?'display: block':'display: none'" >
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Agregar adiciones</h3>
+      <span class="close" (click)="cerrarModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="pedidoSelected != null">
+        <p>Id Pedido: {{pedidoSelected.id}}</p>
+        <p>CC Cliente: {{pedidoSelected.cliente.usuario.identificacion}}</p>
+        <p>Total: {{pedidoSelected.precio}}</p>
+        <form [formGroup]="formEstado" #myForm="ngForm">
+          <label for="estado">Estado: </label>
+          <select name="estado" id="estado" formControlName="estado">
+            <option *ngFor="let estado of estados" value={{estado.id}}>{{estado.nombre}}</option>
+          </select>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary btn-block" (click)="llamarServicioUpdateEstadoPedido()">Guardar</button>
+    </div>
+  </div>
 </div>

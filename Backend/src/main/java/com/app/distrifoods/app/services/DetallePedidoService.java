@@ -5,6 +5,7 @@
 package com.app.distrifoods.app.services;
 
 import com.app.distrifoods.app.entities.DetallePedido;
+import com.app.distrifoods.app.entities.Producto;
 import com.app.distrifoods.app.entities.dto.ProductoCompletoDto;
 import com.app.distrifoods.app.repository.DetallePedidoRepository;
 import java.util.List;
@@ -16,8 +17,10 @@ import org.springframework.stereotype.Service;
 public class DetallePedidoService {
     @Autowired
     private DetallePedidoRepository repository;
-     @Autowired
+    @Autowired
     private DetalleProductoService detalleProductoService;
+    @Autowired
+    private ProductoService productoService;
     
     public final int TAMANO_TELEFONO = 10; 
     
@@ -48,6 +51,9 @@ public class DetallePedidoService {
             for(ProductoCompletoDto producto :productos) {
                 System.out.println(producto.getId());
                 detallePedido = new DetallePedido(null, IdPedido, producto.getId());
+                Optional<Producto> productoConsultado = productoService.getProducto(producto.getId());
+                productoConsultado.get().setCantidad(productoConsultado.get().getCantidad()-1);
+                productoService.update(productoConsultado.get());
                 detallePedidoGuardado = repository.save(detallePedido);
                 if (detallePedidoGuardado.getId()> 0){
                     contadorProductos++;

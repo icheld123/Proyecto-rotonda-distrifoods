@@ -60,7 +60,20 @@ export class CartService {
     }
   }
 
+  removeItemById(id: number) {
+    const index = this.items.findIndex(o => o.id === id);
+
+    if (index > -1) {
+      this.items.splice(index, 1);
+      this.saveCart();
+    }
+  }
+
   itemInCart(item: ProductoCompleto): boolean {
     return this.items.findIndex(o => o.id === item.id) > -1;
+  }
+
+  itemInCartById(id: number): boolean {
+    return this.items.findIndex(o => o.id === id) > -1;
   }
 }

@@ -10,7 +10,9 @@ import { HttpHeaders } from '@angular/common/http';
 import { Adicion } from 'src/app/models/adicion';
 
 
+const MENSAJE_PRODUCTOS_INSUFICIENTES = "En su carrito tiene productos que no tienen stock, desea retirarlos?";
 const CREACION_CORRECTA = "El pedido se ha creado exitosamente.";
+const CREACION_INCORRECTA = "No fue posible crear el pedido, probablemente hay productos sin stock. Recargue la página y retire los productos repetidos";
 const ESTADO_INICIAL_EN_PROCESO:number = 1;
 
 @Component({
@@ -96,7 +98,39 @@ export class CarritoComponent implements OnInit{
     });
   }
 
-  llamarServicioPostMetodoPago(productos: ProductoCompleto[], metodoPago: number){
+  llamarServicioPostValidarProductos(){
+    let options = {
+      headers: new HttpHeaders().set(
+        'Content-Type',
+        'application/json'
+      )
+    };
+    try {
+      this.carritoService.validarProductos(this.items, options).subscribe(
+          (response: any) =>{
+            if(response.length > 0){
+              if(confirm(MENSAJE_PRODUCTOS_INSUFICIENTES)){
+                this.removerListaProductos(response);
+              }
+            }
+          }),
+          (error: any) => {
+            console.log(error);
+          }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  removerListaProductos(producto: Producto[]){
+    producto.forEach(element => {
+      while(this.cartService.itemInCartById(element.id)){
+        this.cartService.removeItemById(element.id);
+      }
+    });
+  }
+
+  llamarServicioPostPedido(productos: ProductoCompleto[], metodoPago: number){
     let pedido: Pedido = new Pedido(this.cliente.id, metodoPago, new Date(), ESTADO_INICIAL_EN_PROCESO, this.total, productos)
     console.log(pedido);
     let options = {
@@ -111,6 +145,9 @@ export class CarritoComponent implements OnInit{
             if (response.id > 0){
               this.mostrarMensaje(CREACION_CORRECTA);
               this.clearCart(this.items);
+            }
+            else{
+              this.mostrarMensaje(CREACION_INCORRECTA);
             }
           }),
           (error: any) => {
@@ -127,7 +164,7 @@ export class CarritoComponent implements OnInit{
     let productos: ProductoCompleto[] = this.cartService.getItems();
 
     if (metodoPago["value"] > 0 && this.cliente != null && this.cliente.id > 0 && this.total > 0 && productos.length > 0){
-      this.llamarServicioPostMetodoPago(productos, metodoPago["value"]);
+      this.llamarServicioPostPedido(productos, metodoPago["value"]);
     }
   }
 
@@ -141,6 +178,7 @@ export class CarritoComponent implements OnInit{
     console.log(this.items);
     this.calcularTotal();
     this.llamarServicioGetMetodoPago();
+    this.llamarServicioPostValidarProductos();
   }
 
 }

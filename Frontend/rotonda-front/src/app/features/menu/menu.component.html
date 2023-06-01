@@ -1,9 +1,11 @@
 <div class="contenedor">
   <h2>Productos disponibles - {{restauranteNombre}}</h2>
   <div class="contenedor-restaurante">
-    <article class="restaurantes" *ngFor="let producto of productos; let i = index ">
+    <article class="restaurantes" *ngFor="let producto of productos; let i = index "
+    [style]="(producto.cantidad == 0)?'background-color: #f3f3f3; color: #bbbbbb':'background-color: #E4DCCF; color: black;'">
       <div class="imagen-producto">
-        <img src="{{producto.imagen}}" alt="" >
+        <img src="{{producto.imagen}}" alt=""
+        [style]="(producto.cantidad == 0)?'filter: grayscale(1)':'filter: none'">
       </div>
       <h4>{{producto.nombre}}</h4>
       <p><strong>Tipo: </strong>{{producto.tipoProducto.nombre}}</p>

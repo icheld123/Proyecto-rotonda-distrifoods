@@ -5,8 +5,10 @@
 package com.app.distrifoods.app.controllers;
 
 import com.app.distrifoods.app.entities.Pedido;
+import com.app.distrifoods.app.entities.Producto;
 import com.app.distrifoods.app.entities.dto.PedidoDto;
 import com.app.distrifoods.app.entities.dto.PedidoDto_Consulta;
+import com.app.distrifoods.app.entities.dto.ProductoCompletoDto;
 import com.app.distrifoods.app.services.PedidoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,12 @@ public class PedidoController {
     @GetMapping("/all")
     public List<PedidoDto_Consulta> getAll(){
         return service.getAll();
+    }
+    
+    @PostMapping("/validar")
+    @ResponseStatus(HttpStatus.CREATED) //Anotacion que retorna el status
+    public List<Producto> save(@RequestBody List<ProductoCompletoDto> productoCompletoDto){
+         return service.validarDisponibilidadProductos(productoCompletoDto);
     }
     
     @PostMapping("/save")

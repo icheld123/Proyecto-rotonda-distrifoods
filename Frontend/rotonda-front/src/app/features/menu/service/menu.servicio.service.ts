@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Adicion } from 'src/app/models/adicion';
-import { Producto, ProductoCompleto } from 'src/app/models/producto';
+import { ProductoCompleto } from 'src/app/models/producto';
 import { Restaurante } from 'src/app/models/restaurante';
 import { environment } from 'src/environments/environment';
 
@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 export class MenuServicioService {
 
   public endpoint_productos: string = "producto/all/byrestaurant/";
+  public endpoint_producto: string = "producto/";
   public endpoint_restaurante: string = "restaurante/";
   public endpoint_adiciones_byproducto: string = "/all/byproducto/";
 
@@ -18,6 +19,10 @@ export class MenuServicioService {
 
   getProductos(id: string){
     return this.httpClient.get<ProductoCompleto[]>(environment.endpoint + this.endpoint_productos + id);
+  }
+
+  getProductoById(id: string){
+    return this.httpClient.get<ProductoCompleto>(environment.endpoint + this.endpoint_producto + id);
   }
 
   getRestauranteById(id: string){

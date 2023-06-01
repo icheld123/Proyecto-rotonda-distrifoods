@@ -145,7 +145,7 @@ public class ProductoService {
         boolean existeTipoProducto = tipoProductoService.existId(producto.getIdTipoProducto());
         boolean existeRestaurante = restauranteService.existId(producto.getIdRestaurante());
         boolean entradasCorrectas = !producto.getNombre().isEmpty() && !producto.getDescripcion().isEmpty()
-                && !producto.getImagen().isEmpty() && producto.getPrecio() > 0.0 && producto.getCantidad() > 0;
+                && !producto.getImagen().isEmpty() && producto.getPrecio() >= 0.0 && producto.getCantidad() >= 0;
         
         if (producto.getId() == null && existeTipoProducto && existeRestaurante && entradasCorrectas) {
             return repository.save(producto);
@@ -181,7 +181,7 @@ public class ProductoService {
                         resultado.get().setIdRestaurante(producto.getIdRestaurante());
                     }
                 }
-                if (producto.getCantidad() != null && producto.getCantidad() > 0) {
+                if (producto.getCantidad() != null && producto.getCantidad() >= 0) {
                     resultado.get().setCantidad(producto.getCantidad());
                 }
                 if (producto.getDescripcion() != null && !producto.getDescripcion().isEmpty()) {
@@ -190,7 +190,7 @@ public class ProductoService {
                 if (producto.getImagen() != null && !producto.getImagen().isEmpty()) {
                     resultado.get().setImagen(producto.getImagen());
                 }
-                if (producto.getPrecio() != null && producto.getPrecio() > 0.0) {
+                if (producto.getPrecio() != null && producto.getPrecio() >= 0.0) {
                     resultado.get().setPrecio(producto.getPrecio());
                 }
                 repository.save(resultado.get());

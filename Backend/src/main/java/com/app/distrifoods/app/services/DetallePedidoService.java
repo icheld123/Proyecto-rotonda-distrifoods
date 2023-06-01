@@ -4,14 +4,9 @@
  */
 package com.app.distrifoods.app.services;
 
-import com.app.distrifoods.app.entities.Adicion;
-import com.app.distrifoods.app.entities.Cliente;
 import com.app.distrifoods.app.entities.DetallePedido;
-import com.app.distrifoods.app.entities.Pedido;
-import com.app.distrifoods.app.entities.dto.ProductoAdicionesDto;
 import com.app.distrifoods.app.entities.dto.ProductoCompletoDto;
 import com.app.distrifoods.app.repository.DetallePedidoRepository;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

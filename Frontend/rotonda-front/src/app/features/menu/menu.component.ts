@@ -8,6 +8,8 @@ import { EdicionAdicionServicioService } from '../edicion-adicion/service/edicio
 import { Adicion } from 'src/app/models/adicion';
 import { Restaurante } from 'src/app/models/restaurante';
 
+const MENSAJE_PRODUCTO_AGOTADO: string = "El producto que desea comprar se encuentra agotado";
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -19,6 +21,7 @@ export class MenuComponent {
   idRestaurante: string = "";
   items: ProductoCompleto[] = [];
   adicionForm: FormGroup;
+  productoConsulta: ProductoCompleto;
   productoSelected: ProductoCompleto;
   adiciones: Adicion[];
   public mostrarModal: boolean = false;
@@ -45,12 +48,25 @@ export class MenuComponent {
     })
   }
 
+  async llamarServicioGetproductoById(id: string){
+    this.menuService.getProductoById(id).subscribe(respuesta => {
+      this.productoConsulta = respuesta;
+      console.log(this.productoConsulta);
+      if (this.productoConsulta.cantidad > 0){
+        this.abrirModal();
+      }
+      else {
+        alert(MENSAJE_PRODUCTO_AGOTADO);
+      }
+    })
+  }
+
   public initAddToCart(producto:ProductoCompleto){
     console.log("***********Adiciones seleccionadas************");
     console.log(this.adicionForm.value.adiciones);
     console.log("**********************************************");
     this.productoSelected = producto;
-    this.abrirModal();
+    this.llamarServicioGetproductoById(this.productoSelected.id.toString());
   }
 
   public addToCart() {

@@ -21,7 +21,9 @@ import com.app.distrifoods.app.entities.dto.ProductoDto;
 import com.app.distrifoods.app.entities.dto.Producto_AdicionesDto;
 import com.app.distrifoods.app.repository.PedidoRepository;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,10 +50,14 @@ public class PedidoService {
     @Autowired
     private ProductoService productoService;
     
-    
+    final int ID_ESTADO_INICIAL = 1;
 //    public List<Pedido> getAll() {
 //        return repository.getAll();
 //    }
+    
+    public Optional<Pedido> getPedido(int id) {
+        return repository.getPedido(id);
+    }
     
     public List<PedidoDto_Consulta> getAll() {
         
@@ -62,7 +68,10 @@ public class PedidoService {
         for(Pedido pedido :pedidos) {
             Optional<Cliente> cliente = clienteService.getCliente(pedido.getIdCliente());
             Optional<Usuario> usuario = usuarioService.getUsuario(cliente.get().getIdUsuario());
-            ClienteDto clienteDto = new ClienteDto(cliente.get().getId(), usuario.get(), cliente.get().getDireccion(), cliente.get().getTelefono());
+            ClienteDto clienteDto = new ClienteDto( cliente.get().getId(), 
+                                                    usuario.get(),
+                                                    cliente.get().getDireccion(),
+                                                    cliente.get().getTelefono());
             Optional<MetodoPago> metodoPago = metodoPagoService.getMetodoPago(pedido.getIdMetodo());
             Optional<Estado> estado = estadoService.getEstado(pedido.getIdEstado());
             List<DetallePedido> detallePedido = detallePedidoService.getAllByIdPedido(pedido.getId());
@@ -71,7 +80,6 @@ public class PedidoService {
             System.out.println("****************");
             List<ProductoCompletoDto> productosCompletoDto = new ArrayList<>();
             for(DetallePedido detPedido :detallePedido) {
-//                Producto_AdicionesDto producto_adicionesDto = new Producto_AdicionesDto();
                 ProductoDto productoDto = productoService.getProductoMapeado(detPedido.getIdProducto());
                 List<DetalleProducto> detalleProducto = detalleProductoService.getAllByIdPedido(detPedido.getId());
                 List<Adicion> adiciones = new ArrayList<>();
@@ -112,9 +120,6 @@ public class PedidoService {
         return pedidosDto_Consulta;
     }
     
-    public Optional<Pedido> getPedido(int id) {
-        return repository.getPedido(id);
-    }
     
     public Pedido save(PedidoDto pedidoDto) {
         Pedido pedido = new Pedido();
@@ -128,27 +133,58 @@ public class PedidoService {
                                 pedidoDto.getIdCliente(), 
                                 pedidoDto.getIdMetodo(), 
                                 pedidoDto.getFecha(), 
-                                pedidoDto.getIdEstado(),
+                                ID_ESTADO_INICIAL,
                                 pedidoDto.getPrecio());
-            Pedido pedidoAlmacenado = repository.save(pedido);
-            System.out.println("*****************************");
-            System.out.println("id PedidoAlmacenado: " + pedidoAlmacenado.getId());
-            System.out.println("*****************************");
-            if(pedidoAlmacenado.getId() > 0){
-                if(detallePedidoService.save(pedidoDto.getProductos(), pedidoAlmacenado.getId())){
-                 
-                    System.out.println("*****************************");
-                    System.out.println("PROBLEMA ALMACENANDO DETALLES PEDIDO");
-                    System.out.println("*****************************");
-                    
+            
+            if (validarDisponibilidadProductos(pedidoDto.getProductos()).isEmpty()) {
+                Pedido pedidoAlmacenado = repository.save(pedido);
+                System.out.println("*****************************");
+                System.out.println("id PedidoAlmacenado: " + pedidoAlmacenado.getId());
+                System.out.println("*****************************");
+                if(pedidoAlmacenado.getId() > 0){
+                    if(detallePedidoService.save(pedidoDto.getProductos(), pedidoAlmacenado.getId())){
+
+                        System.out.println("*****************************");
+                        System.out.println("PROBLEMA ALMACENANDO DETALLES PEDIDO");
+                        System.out.println("*****************************");
+
+                    }
                 }
+            
+                return pedidoAlmacenado;
+            }
+            else{
+                return pedido;
             }
             
-            return pedidoAlmacenado;
         } 
         else {
             return pedido;
         }
+    }
+    
+    
+    public List<Producto> validarDisponibilidadProductos(List<ProductoCompletoDto> productos){
+        Map<Integer, Integer> frecuencias = new HashMap<>();  // idProducto, frecuencia
+        List<Producto> productosRepetidos = new ArrayList<>();
+        
+        for(ProductoCompletoDto producto :productos) {
+            if (frecuencias.containsKey(producto.getId())) {
+                frecuencias.put(producto.getId(), frecuencias.get(producto.getId()) + 1);
+            } else {
+                frecuencias.put(producto.getId(), 1);
+            }
+        }
+        
+        for (Map.Entry<Integer, Integer> entry : frecuencias.entrySet()) {
+            int idProducto = entry.getKey();
+            int frecuencia = entry.getValue();
+            Optional<Producto> producto = productoService.getProducto(idProducto);
+            if (frecuencia > producto.get().getCantidad()){
+                productosRepetidos.add(producto.get());
+            }
+        }
+        return productosRepetidos;
     }
     
     

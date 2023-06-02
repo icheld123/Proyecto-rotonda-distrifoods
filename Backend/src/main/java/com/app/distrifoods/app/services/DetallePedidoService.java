@@ -6,7 +6,7 @@ package com.app.distrifoods.app.services;
 
 import com.app.distrifoods.app.entities.DetallePedido;
 import com.app.distrifoods.app.entities.Producto;
-import com.app.distrifoods.app.entities.dto.ProductoCompletoDto;
+import com.app.distrifoods.app.dto.ProductoCompletoDto;
 import com.app.distrifoods.app.repository.DetallePedidoRepository;
 import java.util.List;
 import java.util.Optional;

@@ -4,6 +4,7 @@ import { PedidoCompleto } from 'src/app/models/pedido';
 import { Estado } from 'src/app/models/estado';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpHeaders } from '@angular/common/http';
+import { SesionService } from '../shared/service/sesion.service';
 
 const ACTUALIZACION_CORRECTA = "El estado del pedido fue actualizado satisfactoriamente.";
 const CABECERA = ["Id", "Cliente", "Método de pago", "Fecha(M/D/Y)","Hora", "Productos", "Total", "Datos cliente","Estado", "Acción"];
@@ -22,7 +23,8 @@ export class PedidosComponent {
   public cabecera = CABECERA;
   public mostrarModal: boolean = false;
 
-  constructor(private pedidoService: PedidosService ){}
+  constructor(private pedidoService: PedidosService,
+              private sesionService: SesionService){}
 
   async llamarServicioGetPedidos(){
     this.pedidoService.getPedidos().subscribe(respuesta => {
@@ -44,15 +46,8 @@ export class PedidosComponent {
   async llamarServicioUpdateEstadoPedido(){
     if (this.formEstado.valid) {
       let valueSelectEstado = this.formEstado.value.estado;
-      console.log(valueSelectEstado);
-      let options = {
-        headers: new HttpHeaders().set(
-          'Content-Type',
-          'application/json'
-        )
-      };
       try {
-        this.pedidoService.actualizarPedido({id: this.pedidoSelected.id, idEstado: valueSelectEstado}, options).subscribe(
+        this.pedidoService.actualizarPedido({id: this.pedidoSelected.id, idEstado: valueSelectEstado}).subscribe(
           (response: any) =>{
             console.log(response);
             if (response.id > 0 && response.idEstado == valueSelectEstado){ //NECESARIO REVISAR Y AJUSTAR VALIDACIÓN

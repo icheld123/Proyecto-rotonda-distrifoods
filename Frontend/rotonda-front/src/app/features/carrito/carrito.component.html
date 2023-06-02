@@ -39,15 +39,26 @@
       <div>
             Total de la orden:
             <span class="font-weight-bold">{{total | currency}}</span><hr>
-            <button class="btn btn-primary" (click)="clearCart(items)"> Vaciar carrito</button>
 
+            <div *ngIf="existeUnaSesionCliente">
+              <label for="metodo">Metodo de pago: </label>
+              <select name="metodo" id="metodo">
+                <option value="">--Seleccione</option>
+                <option *ngFor="let metodo of metodosPago" value="{{metodo.id}}">{{metodo.nombre}}</option>
+              </select><hr>
+            </div>
+
+
+            <button class="btn btn-primary" (click)="clearCart(items)"> Vaciar carrito</button>
+            <button class="btn btn-primary" (click)="iniciarPedido()"> Pedir</button>
       </div>
     </div>
+
   </div>
 
   <hr>
 
-  <label for="identificacion">Identificación cliente (CC)</label>
+  <!-- <label for="identificacion">Identificación cliente (CC)</label>
   <input type="text" name="identificacion" id="identificacion" value="">
   <button class="btn btn-primary" (click)="validarCliente()"> Validar cliente</button>
   <button *ngIf="buttonPedir" class="btn btn-primary" (click)="iniciarPedido()"> Pedir</button>
@@ -59,7 +70,7 @@
       <option value="">--Seleccione</option>
       <option *ngFor="let metodo of metodosPago" value="{{metodo.id}}">{{metodo.nombre}}</option>
     </select>
-  </div>
+  </div> -->
 
 
 

@@ -2,7 +2,7 @@
 package com.app.distrifoods.app.controllers;
 
 import com.app.distrifoods.app.entities.Producto;
-import com.app.distrifoods.app.entities.dto.ProductoCompletoDto;
+import com.app.distrifoods.app.dto.ProductoCompletoDto;
 import com.app.distrifoods.app.services.ProductoService;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +31,7 @@ public class ProductoController {
 //        return service.getAll();
 //    }
     
-    @GetMapping("/{id}")
+    @GetMapping("/byId/{id}")
     public Optional<Producto> getById(@PathVariable("id")int id){
         return service.getProducto(id);
     }

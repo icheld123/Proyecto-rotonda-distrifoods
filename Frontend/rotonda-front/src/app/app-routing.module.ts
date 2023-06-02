@@ -8,6 +8,7 @@ import { EdicionAdicionComponent } from './features/edicion-adicion/edicion-adic
 import { EdicionMenuComponent } from './features/edicion-menu/edicion-menu.component';
 import { MenuComponent } from './features/menu/menu.component';
 import { PedidosComponent } from './features/pedidos/pedidos.component';
+import { IniciosesionComponent } from './features/iniciosesion/iniciosesion.component';
 
 const routes: Routes = [
   { path: '', component:InicioComponent},
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'administrar-menu', component: EdicionMenuComponent },
   { path: 'pedidos', component: PedidosComponent },
   { path: 'restaurantes/menu', component: MenuComponent },
+  { path: 'login', component: IniciosesionComponent },
 ];
 
 @NgModule({

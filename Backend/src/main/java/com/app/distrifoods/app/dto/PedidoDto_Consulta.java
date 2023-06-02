@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.app.distrifoods.app.entities.dto;
+package com.app.distrifoods.app.dto;
 
 import com.app.distrifoods.app.entities.Estado;
 import com.app.distrifoods.app.entities.MetodoPago;

@@ -14,6 +14,7 @@ import { EdicionMenuComponent } from './features/edicion-menu/edicion-menu.compo
 import { MenuComponent } from './features/menu/menu.component';
 import { ReactiveFormsModule} from '@angular/forms';
 import { PedidosComponent } from './features/pedidos/pedidos.component';
+import { IniciosesionComponent } from './features/iniciosesion/iniciosesion.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { PedidosComponent } from './features/pedidos/pedidos.component';
     EdicionAdicionComponent,
     EdicionMenuComponent,
     MenuComponent,
-    PedidosComponent
+    PedidosComponent,
+    IniciosesionComponent
   ],
   imports: [
     BrowserModule,

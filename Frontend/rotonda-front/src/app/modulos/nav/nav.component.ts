@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
+import { SesionService } from 'src/app/features/shared/service/sesion.service';
+import { UsuarioLogueadoResponse } from 'src/app/models/usuario';
 
 @Component({
   selector: 'app-nav',
@@ -7,6 +9,11 @@ import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit{
+
+  public existeUnaSesion: boolean;
+  public sesionData: UsuarioLogueadoResponse;
+  public esAdmin: boolean;
+
   cantidadItems: number = 0;
   logo = 'assets/img/logo.png';
   menu = [
@@ -17,7 +24,7 @@ export class NavComponent implements OnInit{
     {nombre: 'Registrarme',
     url:'registro'},
     {nombre: 'Iniciar sesión',
-    url:'iniciosesion'}
+    url:'login'}
   ];
   submenu = [
     {nombre: 'Administrar menú',
@@ -28,11 +35,27 @@ export class NavComponent implements OnInit{
     url:'/pedidos'}
   ];
 
-  constructor(private router: Router){
+  constructor(private router: Router, public sesionService: SesionService){
     router.events.subscribe(s => {
       this.recontarItems();
+      this.validarExistenciaSesion();
     });
   }
+
+  public validarExistenciaSesion(){
+    this.sesionData = this.sesionService.getSesionData();
+    this.existeUnaSesion = (this.sesionData != null && this.sesionData.identificacion > 0) ? true : false;
+    // console.log("Existe sesion: " + this.existeUnaSesion);
+
+    if (this.existeUnaSesion && this.sesionData.cliente == null){
+      this.esAdmin = true;
+    }
+    else {
+      this.esAdmin = false;
+    }
+    // console.log("Es admin: " + this.esAdmin);
+  }
+
 
   recontarItems(){
     let contenidoLocalStorage = localStorage.getItem("cart_items");
@@ -44,6 +67,7 @@ export class NavComponent implements OnInit{
 
   ngOnInit(): void {
     this.recontarItems();
+    this.validarExistenciaSesion();
   }
 
 }

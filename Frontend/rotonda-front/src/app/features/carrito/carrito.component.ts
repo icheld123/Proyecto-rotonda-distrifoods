@@ -2,14 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { Producto, ProductoCompleto } from 'src/app/models/producto';
 import { CartService } from '../shared/service/cart.service';
 import { CarritoService } from './service/carrito.service';
-import { Usuario } from 'src/app/models/usuario';
+import { Usuario, UsuarioLogueadoResponse } from 'src/app/models/usuario';
 import { Cliente } from 'src/app/models/cliente';
 import { MetodoPago } from 'src/app/models/metodoPago';
 import { Pedido } from 'src/app/models/pedido';
 import { HttpHeaders } from '@angular/common/http';
 import { Adicion } from 'src/app/models/adicion';
+import { credencialesAnonimo } from 'src/environments/environment';
+import { Router } from '@angular/router';
+import { SesionService } from '../shared/service/sesion.service';
 
 
+const INCONSISTENCIAS_PEDIDO = "Hay inconsistencias en el pedido, por favor asegúrese de tener productos en el carrito y haber elegido el metodo de pago.";
+const NO_ES_CLIENTE = "Por favor inicie sesión o registrese para poder realizar la compra.";
 const MENSAJE_PRODUCTOS_INSUFICIENTES = "En su carrito tiene productos que no tienen stock, desea retirarlos?";
 const CREACION_CORRECTA = "El pedido se ha creado exitosamente.";
 const CREACION_INCORRECTA = "No fue posible crear el pedido, probablemente hay productos sin stock. Recargue la página y retire los productos repetidos";
@@ -28,8 +33,13 @@ export class CarritoComponent implements OnInit{
   usuario: Usuario;
   cliente: Cliente;
   metodosPago: MetodoPago[];
+  public existeUnaSesionCliente: boolean;
+  public sesionData: UsuarioLogueadoResponse;
+  public esCliente: boolean = false;
 
-  constructor(public cartService: CartService, public carritoService: CarritoService){
+  constructor(public cartService: CartService,
+              public carritoService: CarritoService,
+              public sesionService: SesionService){
   }
 
   removeFromCart(item: ProductoCompleto) {
@@ -100,11 +110,12 @@ export class CarritoComponent implements OnInit{
 
   llamarServicioPostValidarProductos(){
     let options = {
-      headers: new HttpHeaders().set(
-        'Content-Type',
-        'application/json'
-      )
+      headers: new HttpHeaders({
+        'Content-Type':'application/json',
+        'Authorization': 'Basic ' + btoa(credencialesAnonimo.usuario + ":" + credencialesAnonimo.contrasena)
+      })
     };
+    // console.log(options);
     try {
       this.carritoService.validarProductos(this.items, options).subscribe(
           (response: any) =>{
@@ -131,7 +142,7 @@ export class CarritoComponent implements OnInit{
   }
 
   llamarServicioPostPedido(productos: ProductoCompleto[], metodoPago: number){
-    let pedido: Pedido = new Pedido(this.cliente.id, metodoPago, new Date(), ESTADO_INICIAL_EN_PROCESO, this.total, productos)
+    let pedido: Pedido = new Pedido(this.sesionData.cliente.id, metodoPago, new Date(), ESTADO_INICIAL_EN_PROCESO, this.total, productos)
     console.log(pedido);
     let options = {
       headers: new HttpHeaders().set(
@@ -156,16 +167,29 @@ export class CarritoComponent implements OnInit{
     } catch (error) {
       console.log(error);
     }
-    console.log(pedido);
   }
 
   iniciarPedido(){
-    let metodoPago = document.getElementById("metodo") as HTMLFormElement;
-    let productos: ProductoCompleto[] = this.cartService.getItems();
+    if (this.validarExistenciaSesionCliente()){
+      let metodoPago = document.getElementById("metodo") as HTMLFormElement;
+      let productos: ProductoCompleto[] = this.cartService.getItems();
 
-    if (metodoPago["value"] > 0 && this.cliente != null && this.cliente.id > 0 && this.total > 0 && productos.length > 0){
-      this.llamarServicioPostPedido(productos, metodoPago["value"]);
+      if (metodoPago["value"] > 0 && this.sesionData.cliente != null && this.sesionData.cliente.id > 0 && this.total > 0 && productos.length > 0){
+        this.llamarServicioPostPedido(productos, metodoPago["value"]);
+      }
+      else {
+        this.mostrarMensaje(INCONSISTENCIAS_PEDIDO);
+      }
     }
+    else{
+      this.mostrarMensaje(NO_ES_CLIENTE);
+    }
+
+  }
+
+  public validarExistenciaSesionCliente(): boolean{
+    this.sesionData = this.sesionService.getSesionData();
+    return (this.sesionData != null && this.sesionData.cliente != null && this.sesionData.identificacion > 0) ? true : false;
   }
 
   public mostrarMensaje(mensaje: string){
@@ -175,10 +199,10 @@ export class CarritoComponent implements OnInit{
   ngOnInit(): void {
     this.cartService.loadCart();
     this.items = this.cartService.getItems();
-    console.log(this.items);
     this.calcularTotal();
     this.llamarServicioGetMetodoPago();
     this.llamarServicioPostValidarProductos();
+    this.existeUnaSesionCliente = this.validarExistenciaSesionCliente();
   }
 
 }

@@ -4,6 +4,7 @@
  */
 package com.app.distrifoods.app.services;
 
+import com.app.distrifoods.app.dto.LoginRequest;
 import com.app.distrifoods.app.entities.Usuario;
 import com.app.distrifoods.app.repository.UsuarioRepository;
 import java.util.List;
@@ -97,4 +98,5 @@ public class UsuarioService {
         }).orElse(false);
         return aBoolean;
     }
+
 }

@@ -7,6 +7,7 @@ import { TipoProducto } from 'src/app/models/tipoProducto';
 import { HttpEventType, HttpHeaders } from '@angular/common/http';
 import { Producto, ProductoCompleto} from 'src/app/models/producto';
 import { EdicionMenuService } from './service/edicion-menu.service';
+import { SesionService } from '../shared/service/sesion.service';
 
 
 const ACTUALIZACION_CORRECTA = "El producto fue actualizado satisfactoriamente.";
@@ -33,7 +34,9 @@ export class EdicionMenuComponent {
   productosFiltrados: ProductoCompleto[] = [];
   prodSelecconado: number = 0;
 
-  constructor(private edicionMenuService: EdicionMenuService, private restauranteService: RestauranteService){}
+  constructor(private edicionMenuService: EdicionMenuService,
+              private restauranteService: RestauranteService,
+              private sesionService: SesionService){}
 
 
   public mostrarProductos(){
@@ -111,14 +114,8 @@ export class EdicionMenuComponent {
   public llamarServicioPostProducto(){
     console.log(this.formProducto.value);
     if (this.formProducto.valid) {
-      let options = {
-        headers: new HttpHeaders().set(
-          'Content-Type',
-          'application/json'
-        )
-      };
       try {
-        this.edicionMenuService.crearProducto(this.formProducto.value, options).subscribe(
+        this.edicionMenuService.crearProducto(this.formProducto.value).subscribe(
           (response: any) =>{
             if (response.id > 0){
               this.mostrarMensaje(CREACION_CORRECTA);
@@ -138,10 +135,12 @@ export class EdicionMenuComponent {
   public llamarServicioUpdateProducto(){
     if (this.formProductoAct.valid) {
       console.log(this.formProductoAct.value);
+      let sesionData = this.sesionService.getSesionData();
       let options = {
-        headers: new HttpHeaders().set(
-          'Content-Type',
-          'application/json'
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + btoa(sesionData.usuario + ":" + sesionData.contrasena)
+        }
         )
       };
       try {

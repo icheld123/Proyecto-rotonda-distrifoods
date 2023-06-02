@@ -2,9 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.app.distrifoods.app.entities.dto;
+package com.app.distrifoods.app.dto;
 
+import com.app.distrifoods.app.entities.Usuario;
 import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,10 +14,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class AdicionDto implements Serializable{
+public class ClienteDto implements Serializable{
     private Integer id;
-    private String nombreProducto;
-    private String nombreRestaurante;
-    private String nombre;
-    private Float precio;
+    private Usuario usuario;
+    private String direccion;
+    private Long telefono;
 }

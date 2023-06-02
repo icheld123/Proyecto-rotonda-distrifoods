@@ -37,7 +37,7 @@ public class RestauranteController {
         return service.getAll();
     }
     
-    @GetMapping("/{id}")
+    @GetMapping("/byId/{id}")
     public Optional<Restaurante> getRestaurante(@PathVariable("id")int id){
         return service.getRestaurante(id);
     }

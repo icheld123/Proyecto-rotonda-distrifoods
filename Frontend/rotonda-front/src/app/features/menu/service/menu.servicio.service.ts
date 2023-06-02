@@ -11,8 +11,8 @@ import { environment } from 'src/environments/environment';
 export class MenuServicioService {
 
   public endpoint_productos: string = "producto/all/byrestaurant/";
-  public endpoint_producto: string = "producto/";
-  public endpoint_restaurante: string = "restaurante/";
+  public endpoint_producto: string = "producto/byId/";
+  public endpoint_restaurante: string = "restaurante/byId/";
   public endpoint_adiciones_byproducto: string = "/all/byproducto/";
 
   constructor(private httpClient: HttpClient) { }
@@ -27,10 +27,6 @@ export class MenuServicioService {
 
   getRestauranteById(id: string){
     return this.httpClient.get<Restaurante>(environment.endpoint + this.endpoint_restaurante + id);
-  }
-
-  getAdicionesByProducto(id: string){
-    return this.httpClient.get<Adicion[]>(environment.endpoint + this.endpoint_adiciones_byproducto + id);
   }
 
 }

@@ -6,13 +6,14 @@ package com.app.distrifoods.app.controllers;
 
 import com.app.distrifoods.app.entities.Pedido;
 import com.app.distrifoods.app.entities.Producto;
-import com.app.distrifoods.app.entities.dto.PedidoDto;
-import com.app.distrifoods.app.entities.dto.PedidoDto_Consulta;
-import com.app.distrifoods.app.entities.dto.ProductoCompletoDto;
+import com.app.distrifoods.app.dto.PedidoDto;
+import com.app.distrifoods.app.dto.PedidoDto_Consulta;
+import com.app.distrifoods.app.dto.ProductoCompletoDto;
 import com.app.distrifoods.app.services.PedidoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

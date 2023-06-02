@@ -1,0 +1,33 @@
+<div class="contenedor">
+
+  <div class="row" *ngIf="!existeUnaSesion">
+    <div class="col-sm-6 offset-md-3">
+      <div class="card card-body">
+        <form [formGroup]="formLogin" #myForm="ngForm" (ngSubmit)="llamarServicioPostLogin()">
+        <!-- <form > -->
+
+          <div class="form-group">
+            <label for="identificacion">Identificacion:</label>
+            <input type="text" name="identificacion" class="form-control" formControlName="identificacion">
+          </div>
+
+          <div class="form-group">
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" name="contrasena" class="form-control" formControlName="contrasena">
+          </div>
+
+        <input type="submit" class="btn btn-primary btn-block" value="Iniciar sesión">
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="existeUnaSesion">
+    <p>
+      Hola {{sesionData.nombre}}.
+    </p>
+    <button class="btn btn-primary btn-block" (click)="cerrarSesion()">Cerrar sesión</button>
+  </div>
+
+</div>

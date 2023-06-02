@@ -4,7 +4,10 @@
  */
 package com.app.distrifoods.app.controllers;
 
+import com.app.distrifoods.app.dto.LoginRequest;
+import com.app.distrifoods.app.dto.LoginResponse;
 import com.app.distrifoods.app.entities.Usuario;
+import com.app.distrifoods.app.services.AuthService;
 import com.app.distrifoods.app.services.UsuarioService;
 import java.util.List;
 import java.util.Optional;

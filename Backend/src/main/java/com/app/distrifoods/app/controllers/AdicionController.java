@@ -2,7 +2,7 @@
 package com.app.distrifoods.app.controllers;
 
 import com.app.distrifoods.app.entities.Adicion;
-import com.app.distrifoods.app.entities.dto.AdicionDto;
+import com.app.distrifoods.app.dto.AdicionDto;
 import com.app.distrifoods.app.services.AdicionService;
 import java.util.List;
 import java.util.Optional;
@@ -31,12 +31,12 @@ public class AdicionController {
         return service.getAll();
     }
     
-    @GetMapping("/{id}")
+    @GetMapping("/byId/{id}")
     public Optional<Adicion> getById(@PathVariable("id")int id){
         return service.getAdicion(id);
     }
     
-    @GetMapping("/allmapeado")
+    @GetMapping("/all/mapeado")
     public List<AdicionDto> getAllMapeado(){
         return service.getAllMapeado();
     }

@@ -8,6 +8,7 @@ import { Restaurante } from 'src/app/models/restaurante';
 import { MenuServicioService } from '../menu/service/menu.servicio.service';
 import { HttpHeaders } from '@angular/common/http';
 import { EdicionMenuService } from '../edicion-menu/service/edicion-menu.service';
+import { SesionService } from '../shared/service/sesion.service';
 
 const ACTUALIZACION_CORRECTA = "El producto fue actualizado satisfactoriamente.";
 const CREACION_CORRECTA = "El producto ha sido actualizado correctamente.";
@@ -40,7 +41,8 @@ export class EdicionAdicionComponent {
   constructor(private edicionAdicionService: EdicionAdicionServicioService,
               private restauranteService: RestauranteService,
               private menuServicioService: MenuServicioService,
-              private edicionMenuService: EdicionMenuService){}
+              private edicionMenuService: EdicionMenuService,
+              private sesionService: SesionService){}
 
 
   public mostrarAdiciones(){
@@ -166,10 +168,12 @@ export class EdicionAdicionComponent {
   public llamarServicioPostAdicion(){
     console.log(this.formAdicion.value);
     if (this.formAdicion.valid) {
+      let sesionData = this.sesionService.getSesionData();
       let options = {
-        headers: new HttpHeaders().set(
-          'Content-Type',
-          'application/json'
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + btoa(sesionData.usuario + ":" + sesionData.contrasena)
+        }
         )
       };
       try {
@@ -193,10 +197,12 @@ export class EdicionAdicionComponent {
   public llamarServicioUpdateAdicion(){
     if (this.formAdicionAct.valid) {
       console.log(this.formAdicionAct.value);
+      let sesionData = this.sesionService.getSesionData();
       let options = {
-        headers: new HttpHeaders().set(
-          'Content-Type',
-          'application/json'
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + btoa(sesionData.usuario + ":" + sesionData.contrasena)
+        }
         )
       };
       try {

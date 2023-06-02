@@ -10,6 +10,7 @@ import { Sucursal } from '../../models/sucursal';
 })
 export class RestaurantesComponent {
   restaurantes: Restaurante[] = [];
+  restauranteSelected: Restaurante;
   sucursales: Sucursal[] = [];
   sucursalesMostrar: Sucursal[] = [];
   public mostrarModal: boolean = false;
@@ -21,26 +22,27 @@ export class RestaurantesComponent {
   async llamarServicioGetRestaurantes(){
     this.restService.getRestaurantes().subscribe(respuesta => {
         this.restaurantes = respuesta;
-        console.log(this.restaurantes);
+        // console.log(this.restaurantes);
       })
   }
 
   async llamarServicioGetSucursales(){
     this.restService.getSucursales().subscribe(respuesta => {
       this.sucursales = respuesta;
-      console.log(this.sucursales);
+      // console.log(this.sucursales);
     })
   }
 
-  public abrirModal(idRestaurante: number){
-    this.definirSucursalesMostrar(idRestaurante);
+  public abrirModal(restaurante: Restaurante){
+    this.definirSucursalesMostrar(restaurante);
     this.mostrarModal = true;
   }
 
-  public definirSucursalesMostrar(idRestaurante: number){
+  public definirSucursalesMostrar(restaurante: Restaurante){
+    this.restauranteSelected = restaurante
     this.sucursalesMostrar = [];
     this.sucursales.forEach(sucursal => {
-      if (sucursal.id_restaurante == idRestaurante){
+      if (sucursal.id_restaurante == this.restauranteSelected.id){
         this.sucursalesMostrar.push(sucursal);
       }
     });

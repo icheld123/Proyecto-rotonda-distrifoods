@@ -6,7 +6,7 @@
       <h5>{{restaurante.nombre}}</h5>
       <p><strong>Sucursales:</strong></p>
       <div class="direccion">
-        <div class="fa-contenedor" (click)="abrirModal(restaurante.id)">
+        <div class="fa-contenedor" (click)="abrirModal(restaurante)">
           <i class="fa fa-location-arrow" aria-hidden="true"></i>
         </div>
       </div>
@@ -21,7 +21,7 @@
   <!-- Modal content -->
   <div class="modal-content">
     <div class="modal-header">
-      <h3>Agregar adiciones</h3>
+      <h3>Sucursales restaurante {{(restauranteSelected != null ) ? restauranteSelected.nombre : ""}}</h3>
       <span class="close" (click)="cerrarModal()">&times;</span>
     </div>
     <div class="modal-body">

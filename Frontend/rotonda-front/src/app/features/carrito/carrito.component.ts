@@ -11,13 +11,14 @@ import { Adicion } from 'src/app/models/adicion';
 import { credencialesAnonimo } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { SesionService } from '../shared/service/sesion.service';
+import { Credito } from 'src/app/models/credito';
 
 
 const INCONSISTENCIAS_PEDIDO = "Hay inconsistencias en el pedido, por favor asegúrese de tener productos en el carrito y haber elegido el metodo de pago.";
 const NO_ES_CLIENTE = "Por favor inicie sesión o registrese para poder realizar la compra.";
 const MENSAJE_PRODUCTOS_INSUFICIENTES = "En su carrito tiene productos que no tienen stock, desea retirarlos?";
 const CREACION_CORRECTA = "El pedido se ha creado exitosamente.";
-const CREACION_INCORRECTA = "No fue posible crear el pedido, probablemente hay productos sin stock. Recargue la página y retire los productos repetidos";
+const CREACION_INCORRECTA = "No fue posible crear el pedido, revise que no hayan productos sin stock. De ser así, recargue la página y acepte retirar los productos repetidos. Asegúrese tambien de contar con créditos, si su método de pagó será este.";
 const ESTADO_INICIAL_EN_PROCESO:number = 1;
 
 @Component({
@@ -32,6 +33,7 @@ export class CarritoComponent implements OnInit{
   existeCliente: boolean = false;
   usuario: Usuario;
   cliente: Cliente;
+  credito: Credito;
   metodosPago: MetodoPago[];
   public existeUnaSesionCliente: boolean;
   public sesionData: UsuarioLogueadoResponse;
@@ -108,6 +110,12 @@ export class CarritoComponent implements OnInit{
     });
   }
 
+  llamarServicioGetCreditos(){
+    this.carritoService.getCreditoByIdCliente(this.sesionData.cliente.id).subscribe(respuesta => {
+      this.credito = respuesta;
+    });
+  }
+
   llamarServicioPostValidarProductos(){
     let options = {
       headers: new HttpHeaders({
@@ -156,6 +164,7 @@ export class CarritoComponent implements OnInit{
             if (response.id > 0){
               this.mostrarMensaje(CREACION_CORRECTA);
               this.clearCart(this.items);
+              this.llamarServicioGetCreditos();
             }
             else{
               this.mostrarMensaje(CREACION_INCORRECTA);
@@ -203,6 +212,10 @@ export class CarritoComponent implements OnInit{
     this.llamarServicioGetMetodoPago();
     this.llamarServicioPostValidarProductos();
     this.existeUnaSesionCliente = this.validarExistenciaSesionCliente();
+    console.log(this.existeUnaSesionCliente);
+    if (this.existeUnaSesionCliente){
+      this.llamarServicioGetCreditos();
+    }
   }
 
 }

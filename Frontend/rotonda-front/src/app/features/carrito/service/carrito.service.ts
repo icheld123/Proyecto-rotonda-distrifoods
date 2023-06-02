@@ -10,6 +10,7 @@ import { Cliente } from 'src/app/models/cliente';
 import { MetodoPago } from 'src/app/models/metodoPago';
 import { Pedido } from 'src/app/models/pedido';
 import { SesionService } from '../../shared/service/sesion.service';
+import { Credito } from 'src/app/models/credito';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class CarritoService {
   public endpoint_pedido_guardar: string = "pedido/save";
   public endpoint_productos_validar: string = "pedido/validar";
   public endpoint_usuario_por_identificacion: string = "usuario/all/byidentificacion/";
-  public endpoint_producto_por_idusuario: string = "cliente/all/byidusuario/";
+  public endpoint_producto_por_idusuario: string = "cliente/byidusuario/";
+  public endpoint_credito_por_idcliente: string = "credito/byidcliente/";
   public endpoint_metodo_pago: string = "metodopago/all/";
 
   constructor(private httpClient: HttpClient, private sesionService: SesionService) { }
@@ -32,6 +34,10 @@ export class CarritoService {
 
   getClientByIdUsuario(id: number){
     return this.httpClient.get<Cliente>(environment.endpoint + this.endpoint_producto_por_idusuario + id, this.crearHeader());
+  }
+
+  getCreditoByIdCliente(id: number){
+    return this.httpClient.get<Credito>(environment.endpoint + this.endpoint_credito_por_idcliente + id, this.crearHeader());
   }
 
   getMetodoPago(){

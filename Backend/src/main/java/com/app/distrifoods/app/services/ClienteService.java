@@ -5,6 +5,7 @@
 package com.app.distrifoods.app.services;
 
 import com.app.distrifoods.app.entities.Cliente;
+import com.app.distrifoods.app.entities.Credito;
 import com.app.distrifoods.app.repository.ClienteRepository;
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +18,11 @@ public class ClienteService {
     private ClienteRepository repository;
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private CreditoService creditoService;
     
-    public final int TAMANO_TELEFONO = 10; 
+    public final int TAMANO_TELEFONO = 10;
+    public final float CREDITOS_REGALO = 30000;
     
     public List<Cliente> getAll() {
         return repository.getAll();
@@ -32,23 +36,34 @@ public class ClienteService {
         return repository.getClienteByIdUsuario(id);
     }
     
+    public Optional<Cliente> getClienteById(int id) {
+        return repository.getCliente(id);
+    }
+    
     public boolean existId(int id){
         return repository.existId(id);
     }
     
     public Cliente save(Cliente cliente) {
+        Cliente clienteGuardado = new Cliente();
+        Credito credito = new Credito();
         boolean existeUsuario = usuarioService.existId(cliente.getIdUsuario());
         boolean entradasCorrectas = !cliente.getDireccion().isEmpty() && !cliente.getTelefono().toString().isEmpty()
                 && cliente.getTelefono() > 0 && cliente.getTelefono().toString().length() == TAMANO_TELEFONO;
         
         if (cliente.getId() == null && entradasCorrectas && existeUsuario) {
-            return repository.save(cliente);
+            clienteGuardado = repository.save(cliente);
+            credito.setIdCliente(clienteGuardado.getId());
+            credito.setCantidad(CREDITOS_REGALO);
+            creditoService.save(credito);
+            return clienteGuardado;
         } 
         else if (cliente.getId() != null && entradasCorrectas && existeUsuario){
             if (repository.existId(cliente.getId())) {
                 return cliente;
             } else {
-                return repository.save(cliente);
+                clienteGuardado = repository.save(cliente);
+                return clienteGuardado;
             }
         }
         else {

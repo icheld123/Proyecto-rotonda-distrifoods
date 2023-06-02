@@ -41,6 +41,10 @@
             <span class="font-weight-bold">{{total | currency}}</span><hr>
 
             <div *ngIf="existeUnaSesionCliente">
+              <div *ngIf="credito != null">
+                Tu crédito:
+                <span class="font-weight-bold">{{credito.cantidad | currency}}</span><hr>
+              </div>
               <label for="metodo">Metodo de pago: </label>
               <select name="metodo" id="metodo">
                 <option value="">--Seleccione</option>

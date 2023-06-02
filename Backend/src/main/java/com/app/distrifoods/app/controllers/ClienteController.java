@@ -34,9 +34,14 @@ public class ClienteController {
         return service.getAll();
     }
     
-    @GetMapping("/all/byidusuario/{id}")
+    @GetMapping("/byidusuario/{id}")
     public Optional<Cliente> getClienteByIdUsuario(@PathVariable("id")int id){
         return service.getClienteByIdUsuario(id);
+    }
+    
+    @GetMapping("/byid/{id}")
+    public Optional<Cliente> getClienteById(@PathVariable("id")int id){
+        return service.getClienteById(id);
     }
     
     @PostMapping("/save")

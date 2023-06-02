@@ -44,6 +44,7 @@ public class UsuarioController {
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED) //Anotacion que retorna el status
     public Usuario save(@RequestBody Usuario usuario){
+        System.out.println("ENTRE AL CONTROLLER");
         return service.save(usuario);
     }
     

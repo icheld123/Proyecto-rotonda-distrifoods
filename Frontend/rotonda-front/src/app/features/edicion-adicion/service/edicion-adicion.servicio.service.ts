@@ -13,7 +13,7 @@ export class EdicionAdicionServicioService {
   public endpoint_adicion_listarMapeado: string = "adicion/all/mapeado/";
   public endpoint_adicion_guardar: string = "adicion/save";
   public endpoint_adicion: string = "adicion/";
-  public endpoint_adicion_byId: string = "adicion/byId/";
+  public endpoint_adicion_byId: string = "adicion/byid/";
   public endpoint_adicion_actualizar: string = "adicion/update/";
 
   constructor(private httpClient: HttpClient, private sesionService: SesionService) { }

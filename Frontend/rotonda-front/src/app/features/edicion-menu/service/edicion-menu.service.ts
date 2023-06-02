@@ -13,7 +13,7 @@ export class EdicionMenuService {
   public endpoint_tipoproducto_listar: string = "tipoproducto/all/";
   public endpoint_producto_listar: string = "producto/all/";
   public endpoint_producto_guardar: string = "producto/save";
-  public endpoint_producto_byId: string = "producto/byId/";
+  public endpoint_producto_byId: string = "producto/byid/";
   public endpoint_producto: string = "producto/";
   public endpoint_producto_por_restaurante: string = "producto/allByRestaurant/";
   public endpoint_producto_actualizar: string = "producto/update/";

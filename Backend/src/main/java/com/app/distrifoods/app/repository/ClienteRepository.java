@@ -5,9 +5,7 @@
 package com.app.distrifoods.app.repository;
 
 import com.app.distrifoods.app.entities.Cliente;
-import com.app.distrifoods.app.entities.Usuario;
 import com.app.distrifoods.app.repository.crud.ClienteCrudRepository;
-import com.app.distrifoods.app.repository.crud.UsuarioCrudRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

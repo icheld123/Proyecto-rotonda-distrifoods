@@ -18,7 +18,7 @@ import com.app.distrifoods.app.dto.PedidoDto;
 import com.app.distrifoods.app.dto.PedidoDto_Consulta;
 import com.app.distrifoods.app.dto.ProductoCompletoDto;
 import com.app.distrifoods.app.dto.ProductoDto;
-import com.app.distrifoods.app.dto.Producto_AdicionesDto;
+import com.app.distrifoods.app.entities.Credito;
 import com.app.distrifoods.app.repository.PedidoRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,8 +49,11 @@ public class PedidoService {
     private DetalleProductoService detalleProductoService;
     @Autowired
     private ProductoService productoService;
+    @Autowired
+    private CreditoService creditoService;
     
     final int ID_ESTADO_INICIAL = 1;
+    final int ID_CREDITO = 2;
 //    public List<Pedido> getAll() {
 //        return repository.getAll();
 //    }
@@ -136,8 +139,18 @@ public class PedidoService {
                                 ID_ESTADO_INICIAL,
                                 pedidoDto.getPrecio());
             
+            Optional<Credito> credito = creditoService.getByIdCliente(pedidoDto.getIdCliente());
+            if (credito.get() != null && pedidoDto.getIdMetodo() == ID_CREDITO 
+                    && credito.get().getCantidad() <= pedidoDto.getPrecio()){
+                return pedido;
+            }
+            
             if (validarDisponibilidadProductos(pedidoDto.getProductos()).isEmpty()) {
                 Pedido pedidoAlmacenado = repository.save(pedido);
+                if (pedidoAlmacenado.getIdMetodo() == ID_CREDITO){
+                    credito.get().setCantidad(credito.get().getCantidad() - pedidoAlmacenado.getPrecio());
+                    creditoService.update(credito.get());
+                }
                 System.out.println("*****************************");
                 System.out.println("id PedidoAlmacenado: " + pedidoAlmacenado.getId());
                 System.out.println("*****************************");

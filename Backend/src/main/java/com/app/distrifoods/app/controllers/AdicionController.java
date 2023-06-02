@@ -31,7 +31,7 @@ public class AdicionController {
         return service.getAll();
     }
     
-    @GetMapping("/byId/{id}")
+    @GetMapping("/byid/{id}")
     public Optional<Adicion> getById(@PathVariable("id")int id){
         return service.getAdicion(id);
     }

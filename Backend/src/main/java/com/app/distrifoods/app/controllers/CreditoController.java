@@ -1,9 +1,11 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.app.distrifoods.app.controllers;
 
-import com.app.distrifoods.app.entities.Producto;
-import com.app.distrifoods.app.dto.ProductoCompletoDto;
-import com.app.distrifoods.app.services.ProductoService;
+import com.app.distrifoods.app.entities.Credito;
+import com.app.distrifoods.app.services.CreditoService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,53 +21,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
-@RequestMapping("producto")
+@RequestMapping("credito")
 @CrossOrigin(origins = "*")
-public class ProductoController {
+public class CreditoController {
     @Autowired
-    private ProductoService service;
-    
-//    @GetMapping("/all")
-//    public List<Producto> getAll(){
-//        return service.getAll();
-//    }
-    
-    @GetMapping("/byid/{id}")
-    public Optional<Producto> getById(@PathVariable("id")int id){
-        return service.getProducto(id);
-    }
+    private CreditoService service;
     
     @GetMapping("/all")
-    public List<ProductoCompletoDto> getAll(){
-        return service.getAllMapeado();
+    public List<Credito> getAll(){
+        return service.getAll();
     }
     
-    @GetMapping("/prueba")
-    public List<ProductoCompletoDto> prueba(){
-        return service.prueba();
+    @GetMapping("/byidcliente/{id}")
+    public Optional<Credito> getCreditoByIdClient(@PathVariable("id")int id){
+        return service.getByIdCliente(id);
     }
     
-    @GetMapping("/all/byrestaurant/{id}")
-    public List<ProductoCompletoDto> getAllByRestaurant(@PathVariable("id")int id){
-        return service.getAllByRestaurant(id);
+    @GetMapping("/byid/{id}")
+    public Optional<Credito> getCredito(@PathVariable("id")int id){
+        return service.getCredito(id);
     }
     
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED) //Anotacion que retorna el status
-    public Producto save(@RequestBody Producto producto){
-        return service.save(producto);
+    public Credito save(@RequestBody Credito credito){
+        return service.save(credito);
     }
     
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED) //Anotacion que retorna el status
-    public Producto update(@RequestBody Producto producto){
-        return service.update(producto);
+    public Credito update(@RequestBody Credito credito){
+        return service.update(credito);
     }
     
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT) //Anotacion que retorna el status
     public boolean delete(@PathVariable("id")int id){
-        return service.deleteProducto(id);
+        return service.delete(id);
     }
 }

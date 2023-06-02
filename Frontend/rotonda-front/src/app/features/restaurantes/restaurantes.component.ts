@@ -11,6 +11,8 @@ import { Sucursal } from '../../models/sucursal';
 export class RestaurantesComponent {
   restaurantes: Restaurante[] = [];
   sucursales: Sucursal[] = [];
+  sucursalesMostrar: Sucursal[] = [];
+  public mostrarModal: boolean = false;
 
   constructor(private restService: RestauranteService){
 
@@ -30,11 +32,22 @@ export class RestaurantesComponent {
     })
   }
 
-  private mapearRestaurantes(restaurantes: Restaurante[]){
-    return restaurantes;
+  public abrirModal(idRestaurante: number){
+    this.definirSucursalesMostrar(idRestaurante);
+    this.mostrarModal = true;
   }
-  private mapearSucursales(sucursales: Sucursal[]){
-    return sucursales;
+
+  public definirSucursalesMostrar(idRestaurante: number){
+    this.sucursalesMostrar = [];
+    this.sucursales.forEach(sucursal => {
+      if (sucursal.id_restaurante == idRestaurante){
+        this.sucursalesMostrar.push(sucursal);
+      }
+    });
+  }
+
+  public cerrarModal(){
+    this.mostrarModal = false;
   }
 
   ngOnInit(): void {

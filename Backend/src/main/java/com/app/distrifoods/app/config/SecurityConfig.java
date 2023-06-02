@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             .disable()
             .authorizeRequests()
                 .antMatchers("/validar**").permitAll()
+               .antMatchers("/registro**").permitAll()
                 .antMatchers("/save**").hasRole("ADMIN")
                 .antMatchers("/update**").hasRole("ADMIN")
                 .antMatchers("/delete**").hasRole("ADMIN")

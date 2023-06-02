@@ -15,6 +15,7 @@ import { MenuComponent } from './features/menu/menu.component';
 import { ReactiveFormsModule} from '@angular/forms';
 import { PedidosComponent } from './features/pedidos/pedidos.component';
 import { IniciosesionComponent } from './features/iniciosesion/iniciosesion.component';
+import { RegistroComponent } from './features/registro/registro.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { IniciosesionComponent } from './features/iniciosesion/iniciosesion.comp
     EdicionMenuComponent,
     MenuComponent,
     PedidosComponent,
-    IniciosesionComponent
+    IniciosesionComponent,
+    RegistroComponent
   ],
   imports: [
     BrowserModule,

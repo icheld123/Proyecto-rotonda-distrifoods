@@ -13,6 +13,7 @@ export class NavComponent implements OnInit{
   public existeUnaSesion: boolean;
   public sesionData: UsuarioLogueadoResponse;
   public esAdmin: boolean;
+  public mostrarRegistrar: boolean;
 
   cantidadItems: number = 0;
   logo = 'assets/img/logo.png';
@@ -22,9 +23,9 @@ export class NavComponent implements OnInit{
     {nombre: 'Carrito',
     url:'/carrito'},
     {nombre: 'Registrarme',
-    url:'registro'},
+    url:'/registro'},
     {nombre: 'Iniciar sesión',
-    url:'login'}
+    url:'/login'}
   ];
   submenu = [
     {nombre: 'Administrar menú',
@@ -49,11 +50,16 @@ export class NavComponent implements OnInit{
 
     if (this.existeUnaSesion && this.sesionData.cliente == null){
       this.esAdmin = true;
+      this.mostrarRegistrar = true;
     }
-    else {
+    else if (this.existeUnaSesion && this.sesionData.cliente != null){
       this.esAdmin = false;
+      this.mostrarRegistrar = false;
     }
-    // console.log("Es admin: " + this.esAdmin);
+    else{
+      this.esAdmin = false;
+      this.mostrarRegistrar = true;
+    }
   }
 
 

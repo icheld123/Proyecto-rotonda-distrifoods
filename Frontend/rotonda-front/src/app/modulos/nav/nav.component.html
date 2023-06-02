@@ -13,7 +13,7 @@
                   </li>
                 </ul>
               </li>
-              <li *ngFor="let item of menu">
+              <li *ngFor="let item of menu" [hidden]="item.nombre=='Registrarme' && !mostrarRegistrar">
                 <a [routerLink]=item.url>
                   {{item.nombre + ((item.nombre=='Carrito') ? ' [' + this.cantidadItems + ']' : '')}}
                 </a>

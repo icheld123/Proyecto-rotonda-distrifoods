@@ -4,6 +4,7 @@
  */
 package com.app.distrifoods.app.controllers;
 
+import com.app.distrifoods.app.dto.ClienteDto;
 import com.app.distrifoods.app.entities.Cliente;
 import com.app.distrifoods.app.services.ClienteService;
 import java.util.List;
@@ -48,6 +49,12 @@ public class ClienteController {
     @ResponseStatus(HttpStatus.CREATED) //Anotacion que retorna el status
     public Cliente save(@RequestBody Cliente cliente){
         return service.save(cliente);
+    }
+    
+    @PostMapping("/registro")
+    @ResponseStatus(HttpStatus.CREATED) //Anotacion que retorna el status
+    public Cliente registro(@RequestBody ClienteDto clienteDto){
+        return service.registro(clienteDto);
     }
     
     @PutMapping("/update")

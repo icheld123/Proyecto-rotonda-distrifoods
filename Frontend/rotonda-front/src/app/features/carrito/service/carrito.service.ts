@@ -17,24 +17,12 @@ import { Credito } from 'src/app/models/credito';
 })
 export class CarritoService {
 
-  // public endpoint_tipoproducto_listar: string = "tipoproducto/all/";
-  // public endpoint_producto_listar: string = "producto/all/";
   public endpoint_pedido_guardar: string = "pedido/save";
   public endpoint_productos_validar: string = "pedido/validar";
-  public endpoint_usuario_por_identificacion: string = "usuario/all/byidentificacion/";
-  public endpoint_producto_por_idusuario: string = "cliente/byidusuario/";
   public endpoint_credito_por_idcliente: string = "credito/byidcliente/";
   public endpoint_metodo_pago: string = "metodopago/all/";
 
   constructor(private httpClient: HttpClient, private sesionService: SesionService) { }
-
-  getUsuarioByIdentificacion(id: number){
-    return this.httpClient.get<Usuario>(environment.endpoint + this.endpoint_usuario_por_identificacion + id, this.crearHeader());
-  }
-
-  getClientByIdUsuario(id: number){
-    return this.httpClient.get<Cliente>(environment.endpoint + this.endpoint_producto_por_idusuario + id, this.crearHeader());
-  }
 
   getCreditoByIdCliente(id: number){
     return this.httpClient.get<Credito>(environment.endpoint + this.endpoint_credito_por_idcliente + id, this.crearHeader());

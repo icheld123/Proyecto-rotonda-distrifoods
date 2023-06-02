@@ -4,8 +4,10 @@
  */
 package com.app.distrifoods.app.services;
 
+import com.app.distrifoods.app.dto.ClienteDto;
 import com.app.distrifoods.app.entities.Cliente;
 import com.app.distrifoods.app.entities.Credito;
+import com.app.distrifoods.app.entities.Usuario;
 import com.app.distrifoods.app.repository.ClienteRepository;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +44,33 @@ public class ClienteService {
     
     public boolean existId(int id){
         return repository.existId(id);
+    }
+    
+    public Cliente registro(ClienteDto clienteDto) {
+        Cliente clienteGuardado = new Cliente();
+        Credito credito = new Credito();
+        Cliente clienteAuxiliar = new Cliente();
+        Usuario usuario = usuarioService.save(clienteDto.getUsuario());
+        if (usuario.getId() > 0){
+            boolean entradasCorrectas = !clienteDto.getDireccion().isEmpty() && !clienteDto.getTelefono().toString().isEmpty()
+                && clienteDto.getTelefono() > 0 && clienteDto.getTelefono().toString().length() == TAMANO_TELEFONO;
+        
+            if (entradasCorrectas) {
+                clienteAuxiliar.setId(null);
+                clienteAuxiliar.setIdUsuario(usuario.getId());
+                clienteAuxiliar.setDireccion(clienteDto.getDireccion());
+                clienteAuxiliar.setTelefono(clienteDto.getTelefono());
+                clienteGuardado = repository.save(clienteAuxiliar);
+                credito.setIdCliente(clienteGuardado.getId());
+                credito.setCantidad(CREDITOS_REGALO);
+                creditoService.save(credito);
+                return clienteGuardado;
+            } 
+            else {
+                return clienteAuxiliar;
+            }
+        }
+        return clienteAuxiliar;
     }
     
     public Cliente save(Cliente cliente) {

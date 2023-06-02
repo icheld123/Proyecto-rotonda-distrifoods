@@ -9,6 +9,7 @@ import { EdicionMenuComponent } from './features/edicion-menu/edicion-menu.compo
 import { MenuComponent } from './features/menu/menu.component';
 import { PedidosComponent } from './features/pedidos/pedidos.component';
 import { IniciosesionComponent } from './features/iniciosesion/iniciosesion.component';
+import { RegistroComponent } from './features/registro/registro.component';
 
 const routes: Routes = [
   { path: '', component:InicioComponent},
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'pedidos', component: PedidosComponent },
   { path: 'restaurantes/menu', component: MenuComponent },
   { path: 'login', component: IniciosesionComponent },
+  { path: 'registro', component: RegistroComponent },
 ];
 
 @NgModule({

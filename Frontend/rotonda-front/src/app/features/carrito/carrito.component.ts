@@ -82,25 +82,6 @@ export class CarritoComponent implements OnInit{
   validarCliente(){
     this.existeCliente = false;
     this.buttonPedir = false;
-    let inputIdentificacion = document.getElementById("identificacion") as HTMLFormElement
-    if (inputIdentificacion["value"] != ""){
-      this.llamarServicioGetUsuarioByIdentificacion(inputIdentificacion["value"]);
-    }
-  }
-
-  llamarServicioGetUsuarioByIdentificacion(id: number){
-    this.carritoService.getUsuarioByIdentificacion(id).subscribe(respuesta => {
-      this.usuario = respuesta;
-      this.llamarServicioGetClientByIdUsuario(this.usuario.id);
-    });
-  }
-
-  llamarServicioGetClientByIdUsuario(id: number){
-    this.carritoService.getClientByIdUsuario(id).subscribe(respuesta => {
-      this.cliente = respuesta
-      this.existeCliente = true;
-      this.buttonPedir = true;
-    });
   }
 
   llamarServicioGetMetodoPago(){
